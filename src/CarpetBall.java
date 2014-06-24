@@ -1,4 +1,5 @@
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -14,11 +15,14 @@ public class CarpetBall {
         CarpetBallFrame frame = new CarpetBallFrame(state);
 		CarpetBallComponent component = new CarpetBallComponent(state);
 
-		frame.add(component);
+        frame.setLayout(new BorderLayout());
+		frame.add(component, BorderLayout.CENTER);
+        frame.pack();
+        frame.setResizable(false);
+
 		component.addMouseListener(controlHandler);
 		component.addKeyListener(controlHandler);
 
-		frame.setSize(400, 900);
 		frame.setVisible(true);
 
         Timer timer = new Timer(1000/60, new ActionListener() {
