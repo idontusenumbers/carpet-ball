@@ -3,6 +3,7 @@ public class CarpetBall {
 
 		GameState state = new GameState();
 		ControlHandler controlHandler = new ControlHandler(state);
+		NetworkHandler networkHandler = new NetworkHandler(state);
 		CarpetBallFrame frame = new CarpetBallFrame(state);
 		CarpetBallComponent component = new CarpetBallComponent(state);
 
