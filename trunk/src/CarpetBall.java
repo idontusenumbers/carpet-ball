@@ -3,5 +3,8 @@ public class CarpetBall {
 		CarpetBallFrame frame = new CarpetBallFrame();
 		frame.setSize(400, 900);
 		frame.setVisible(true);
+
+
+
 	}
 }
