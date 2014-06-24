@@ -1,6 +1,15 @@
 public class CarpetBall {
 	public static void main(String[] args) {
-		CarpetBallFrame frame = new CarpetBallFrame();
+
+		GameState state = new GameState();
+		ControlHandler controlHandler = new ControlHandler(state);
+		CarpetBallFrame frame = new CarpetBallFrame(state);
+		CarpetBallComponent component = new CarpetBallComponent(state);
+
+		frame.add(component);
+		component.addMouseListener(controlHandler);
+		component.addKeyListener(controlHandler);
+
 		frame.setSize(400, 900);
 		frame.setVisible(true);
 
