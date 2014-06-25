@@ -10,6 +10,7 @@ public class GameState {
 	private Ball[] theirBalls;
     private Ball cueBall;
     private boolean myTurn;
+    private boolean settingUp;
 
 
     public GameState() {
@@ -33,10 +34,13 @@ public class GameState {
         for (int i = 0; i < theirBalls.length; i++) {
             Color c = new Color((float)Math.random(), (float)Math.random(), (float)Math.random());
             Point2D.Float location = new Point2D.Float(table.width-( i*2* r + r), r);
-            myBalls[i] = new Ball(number, c, location);
+            theirBalls[i] = new Ball(number, c, location);
         }
     }
 
+    public Ball getCueBall() {
+        return cueBall;
+    }
     public Ball[] getMyBalls() {
         return myBalls;
     }
@@ -49,17 +53,12 @@ public class GameState {
         return myTurn;
     }
 
-    private boolean settingUp;
     public boolean isSettingUp() {
         return settingUp;
     }
+
+
     public void setSettingUp(boolean settingUp) {
         this.settingUp = settingUp;
-    }
-    public Ball getCueBall() {
-        return cueBall;
-    }
-    public void setCueBall(Ball cueBall) {
-        this.cueBall = cueBall;
     }
 }
