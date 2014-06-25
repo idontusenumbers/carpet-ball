@@ -1,9 +1,8 @@
 import java.awt.*;
 import java.awt.event.*;
+import java.awt.geom.Point2D;
 public class ControlHandler implements MouseListener, KeyListener {
     private GameState state;
-    final Rectangle carpetBall = new Rectangle(75, 75, 10, 10);
-    Rectangle border = new Rectangle(50, 50, 100, 100);
     double velocity = 0;
     float rotation = 0;
     public ControlHandler(GameState state) {
@@ -28,8 +27,8 @@ public class ControlHandler implements MouseListener, KeyListener {
     public void mousePressed(MouseEvent e) {
     }
     public void mouseReleased(MouseEvent e) {
-        state.getMyBalls()[0].setVelocity((float) velocity);
-        state.getMyBalls()[0].setRotation(rotation);
+        state.getCueBall().setVelocity((float) velocity);
+        state.getCueBall().setRotation(rotation);
     }
     public void mouseEntered(MouseEvent e) {
     }
@@ -37,13 +36,18 @@ public class ControlHandler implements MouseListener, KeyListener {
     }
     public void mouseMoved(MouseEvent e) {
         if (e.getX() > 50 && e.getX() < 150 && e.getY() > 50 && e.getY() < 150) {
-            carpetBall.setLocation(e.getX(), e.getY());
+            state.getCueBall().setLocation(new Point2D.Float(e.getX(), e.getY()));
         }
     }
     public void mouseDragged(MouseEvent e) {
         if (e.getX() > 50 && e.getX() < 150 && e.getY() > 50 && e.getY() < 150) {
             if (state.isSettingUp()) {
-                carpetBall.setLocation(e.getX(), e.getY());
+                for (int i = 0; i < GameState.NUMBER_OF_BALLS_PER_PLAYER; i ++) {
+                    double distance = Point2D.distance(state.getMyBalls()[i].getLocation().getX(), state.getMyBalls()[i].getLocation().getY(), e.getX(), e.getY());
+                    if (distance < Ball.BALL_RADIUS) {
+                        state.getMyBalls()[i].setLocation(new Point2D.Float (e.getX(), e.getY()));
+                    }
+                }
             } else {
                 float mouseX = e.getX();
                 float mouseY = e.getY();
@@ -53,11 +57,3 @@ public class ControlHandler implements MouseListener, KeyListener {
         }
     }
 }
-/*
-1. Drag the balls into wanted position. (mouseDragged)
-2. Enter "Ready" state. (keyTyped "Enter")
-3. Choose position from where you want to throw the cue ball. (mouseMoved)
-4. Set velocity and angle to shoot the ball at. (mouseDragged)
-5. Throw the ball. (mouseReleased)
-6. Sacrifice balls. (mouseClicked)
-*/
