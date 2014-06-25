@@ -1,7 +1,7 @@
 import java.awt.*;
 import java.awt.event.*;
 import java.awt.geom.Point2D;
-public class ControlHandler implements MouseListener, KeyListener {
+public class ControlHandler extends MouseAdapter implements KeyListener {
     private GameState state;
     double velocity = 0;
     float rotation = 0;
