@@ -2,9 +2,10 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 
 public class CarpetBall {
-	public static void main(String[] args) {
+	public static void main(String[] args) throws IOException {
 
 		Table table =  new Table(700f,300f,200f,50f);
         GameState state = new GameState();
@@ -15,7 +16,7 @@ public class CarpetBall {
 		final Engine engine = new Engine(state);
 
         CarpetBallFrame frame = new CarpetBallFrame(state);
-		CarpetBallComponent component = new CarpetBallComponent(table, state);
+		final CarpetBallComponent component = new CarpetBallComponent(table, state);
 
         frame.setLayout(new BorderLayout());
 		frame.add(component, BorderLayout.CENTER);
@@ -31,6 +32,7 @@ public class CarpetBall {
             @Override
             public void actionPerformed(ActionEvent e) {
                 engine.tick();
+                component.repaint();
             }
         });
 
