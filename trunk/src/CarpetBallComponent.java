@@ -19,9 +19,8 @@ public class CarpetBallComponent extends JComponent {
         setPreferredSize(new Dimension((int)table.getWidth(),(int)table.getHeight()));
 		this.state = state;
         for (int x = 0; x < balls.length; x++){
-            int num = 1;
-            balls[x] = getBufferedImage(new File(num + "Ball.png"));
-            num++;
+
+            balls[x] = getBufferedImage(new File(x + "Ball.png"));
         }
 
 	}
