@@ -24,17 +24,28 @@ public class GameState {
         myBalls = new Ball[NUMBER_OF_BALLS_PER_PLAYER];
         theirBalls = new Ball[NUMBER_OF_BALLS_PER_PLAYER];
 
-        int number = 1;
+        int number = 0;
+
+        Color c;
+        Point2D.Float location;
+
+        c = new Color((float)Math.random(), (float)Math.random(), (float)Math.random());
+        location = new Point2D.Float(table.getWidth()/2, table.height/2);
+        cueBall = new Ball(number, c, location);
+        number++;
+
         for (int i = 0; i < myBalls.length; i++) {
-            Color c = new Color((float)Math.random(), (float)Math.random(), (float)Math.random());
-            Point2D.Float location = new Point2D.Float(i * 2 * r + r, table.height - r);
+            c = new Color((float)Math.random(), (float)Math.random(), (float)Math.random());
+            location = new Point2D.Float(i * 2 * r + r, table.height - r);
             myBalls[i] = new Ball(number, c, location);
+            number++;
         }
 
         for (int i = 0; i < theirBalls.length; i++) {
-            Color c = new Color((float)Math.random(), (float)Math.random(), (float)Math.random());
-            Point2D.Float location = new Point2D.Float(table.width-( i*2* r + r), r);
+            c = new Color((float)Math.random(), (float)Math.random(), (float)Math.random());
+            location = new Point2D.Float(table.width-( i*2* r + r), r);
             theirBalls[i] = new Ball(number, c, location);
+            number++;
         }
     }
 
