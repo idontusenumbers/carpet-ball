@@ -15,7 +15,7 @@ public class CarpetBall {
 		final Engine engine = new Engine(state);
 
         CarpetBallFrame frame = new CarpetBallFrame(state);
-		CarpetBallComponent component = new CarpetBallComponent(state);
+		CarpetBallComponent component = new CarpetBallComponent(table, state);
 
         frame.setLayout(new BorderLayout());
 		frame.add(component, BorderLayout.CENTER);
