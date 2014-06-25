@@ -1,6 +1,3 @@
-import sun.nio.ch.SocketOpts;
-
-import sun.security.krb5.internal.UDPClient;
 import java.io.*;
 import java.io.IOException;
 import java.net.*;
@@ -9,7 +6,7 @@ public class NetworkHandler {
 
     public static final int BROADCAST_PORT = 666;
     public static final int TCP_PORT = 123;
-    InetAddress group = InetAddress.getByName("203.0.157.0");
+    InetAddress group = InetAddress.getByName("224.6.6.6");
 	private GameState state;
     MulticastSocket mcs;
 
