@@ -4,8 +4,8 @@ import java.net.*;
 
 public class NetworkHandler {
 
-    public static final int BROADCAST_PORT = 666;
-    public static final int TCP_PORT = 123;
+    public static final int BROADCAST_PORT = 6666;
+    public static final int TCP_PORT = 6667;
     InetAddress group = InetAddress.getByName("224.6.6.6");
 	private GameState state;
     MulticastSocket mcs;
