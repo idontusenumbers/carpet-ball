@@ -1,10 +1,11 @@
 import java.awt.Color;
 import java.awt.Point;
+import java.awt.geom.Point2D;
 
 public class Ball {
     private int number;
     private Color color;
-    private Point location;
+    private Point2D location;
     private float rotation;
     private float velocity;
 
@@ -22,7 +23,7 @@ public class Ball {
         return color;
     }
 
-    public Point getLocation() {
+    public Point2D getLocation() {
         return location;
     }
 
