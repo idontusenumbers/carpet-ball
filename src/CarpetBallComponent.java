@@ -12,7 +12,7 @@ public class CarpetBallComponent extends JComponent {
 
 	private GameState state;
     private Table table;
-    BufferedImage[] balls = new BufferedImage[6];
+    BufferedImage[] balls = new BufferedImage[13];
 
     public CarpetBallComponent(Table table, GameState state) {
         this.table = table;
@@ -39,13 +39,15 @@ public class CarpetBallComponent extends JComponent {
         g.setColor(new Color(200, 165, 80));
         g.fillRect(0, (int) table.getBarDistance(), (int) table.getWidth(), 5);
         g.fillRect(0, (int)table.getHeight() - (int)table.getBarDistance() - 10, (int)table.getWidth(), 5);
+
+
         for (Ball ball : state.getMyBalls()) {
             drawBall(g2, ball);
         }
         for (Ball ball : state.getTheirBalls()){
             drawBall(g2, ball);
         }
-
+        drawBall(g2, state.getCueBall());
 
     }
     private BufferedImage getBufferedImage(File input){
@@ -54,7 +56,7 @@ public class CarpetBallComponent extends JComponent {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return new BufferedImage(0,0,BufferedImage.TYPE_INT_ARGB);
+        return new BufferedImage(1,1,BufferedImage.TYPE_INT_ARGB);
     }
     private void drawBall(Graphics g, Ball b){
         Point2D loc = b.getLocation();
