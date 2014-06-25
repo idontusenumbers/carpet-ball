@@ -3,13 +3,14 @@ import java.awt.Point;
 import java.awt.geom.Point2D;
 
 public class Ball {
+    public static final int BALL_RADIUS = 8;
     private int number;
     private Color color;
     private Point2D location;
     private float rotation;
     private float velocity;
 
-    public Ball(int number, Color color, Point location) {
+    public Ball(int number, Color color, Point2D location) {
         this.number = number;
         this.color = color;
         this.location = location;
@@ -27,7 +28,7 @@ public class Ball {
         return location;
     }
 
-    public void setLocation(Point location) {
+    public void setLocation(Point2D location) {
         this.location = location;
     }
 

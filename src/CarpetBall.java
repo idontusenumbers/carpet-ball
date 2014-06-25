@@ -6,7 +6,9 @@ import java.awt.event.ActionListener;
 public class CarpetBall {
 	public static void main(String[] args) {
 
-		GameState state = new GameState();
+		Table table =  new Table(16f,4f,2f,.25f);
+        GameState state = new GameState();
+        state.reset(table);
 
         ControlHandler controlHandler = new ControlHandler(state);
 		NetworkHandler networkHandler = new NetworkHandler(state);
