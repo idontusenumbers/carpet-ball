@@ -15,6 +15,7 @@ public class CarpetBallComponent extends JComponent {
     BufferedImage[] balls = new BufferedImage[13];
 
     public CarpetBallComponent(Table table, GameState state) {
+        setFocusable(true);
         this.table = table;
         setPreferredSize(new Dimension((int)table.getWidth(),(int)table.getHeight()));
 		this.state = state;

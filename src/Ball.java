@@ -3,7 +3,7 @@ import java.awt.Point;
 import java.awt.geom.Point2D;
 
 public class Ball {
-    public static final int BALL_RADIUS = 8;
+    public static final int BALL_RADIUS = 12;
     private int number;
     private Color color;
     private Point2D location;
