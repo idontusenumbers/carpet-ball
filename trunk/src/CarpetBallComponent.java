@@ -5,7 +5,10 @@ public class CarpetBallComponent extends JComponent {
 
 
 	private GameState state;
-	public CarpetBallComponent(GameState state) {
+    private Table table;
+
+    public CarpetBallComponent(Table table, GameState state) {
+        this.table = table;
         setPreferredSize(new Dimension(300,650));
 		this.state = state;
 	}
