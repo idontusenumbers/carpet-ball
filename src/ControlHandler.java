@@ -1,6 +1,6 @@
 import java.awt.event.*;
 import java.awt.geom.Point2D;
-public class ControlHandler extends MouseAdapter implements KeyListener {
+public class ControlHandler implements MouseListener, MouseMotionListener, KeyListener {
     private GameState state;
     private BallListener ballListener;
     double velocity = 0;

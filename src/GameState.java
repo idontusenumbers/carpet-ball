@@ -6,12 +6,6 @@ public class GameState {
 	private Ball[] theirBalls;
     private Ball cueBall;
     private boolean myTurn;
-    public Ball[] getMyBalls() {
-        return myBalls;
-    }
-	public Ball[] getTheirBalls() {
-		return theirBalls;
-	}
     public GameState() {
 
     }
@@ -60,5 +54,11 @@ public class GameState {
     }
     public void setCueBall(Ball cueBall) {
         this.cueBall = cueBall;
+    }
+    public Ball[] getMyBalls() {
+        return myBalls;
+    }
+    public Ball[] getTheirBalls() {
+        return theirBalls;
     }
 }
