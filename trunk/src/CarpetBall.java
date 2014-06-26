@@ -11,9 +11,20 @@ public class CarpetBall {
         GameState state = new GameState();
         state.reset(table);
 
-        ControlHandler controlHandler = new ControlHandler(state);
-		NetworkHandler networkHandler = new NetworkHandler(state);
-		final Engine engine = new Engine(state);
+        final Engine engine = new Engine(state);
+
+        final NetworkHandler networkHandler = new NetworkHandler(state, new BallListener(){
+            public void ballMoved(Ball b, float speed, float angle) {
+                engine.ballMoved(b,speed,angle);
+            }
+        });
+
+        ControlHandler controlHandler = new ControlHandler(state, new BallListener() {
+            public void ballMoved(Ball b, float speed, float angle) {
+                engine.ballMoved(b,speed,angle);
+                networkHandler.ballMoved(b,speed,angle);
+            }
+        });
 
         CarpetBallFrame frame = new CarpetBallFrame(state);
 		final CarpetBallComponent component = new CarpetBallComponent(table, state);

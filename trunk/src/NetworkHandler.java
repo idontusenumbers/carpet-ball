@@ -2,16 +2,18 @@ import java.io.*;
 import java.io.IOException;
 import java.net.*;
 
-public class NetworkHandler {
+public class NetworkHandler implements BallListener{
 
     public static final int BROADCAST_PORT = 6666;
     public static final int TCP_PORT = 6667;
     InetAddress group = InetAddress.getByName("224.6.6.6");
 	private GameState state;
+    private BallListener ballListener;
     MulticastSocket mcs;
 
-	public NetworkHandler(GameState state) throws IOException {
+	public NetworkHandler(GameState state, BallListener ballListener) throws IOException {
 		this.state = state;
+        this.ballListener = ballListener;
 
 
         ServerSocket ss = new ServerSocket();
@@ -50,6 +52,12 @@ public class NetworkHandler {
         Socket tcpConecetion = tcpsocketListne.accept();
 
 
+
+    }
+
+    // BallListener implementation
+
+    public void ballMoved(Ball b, float speed, float angle) {
 
     }
 }

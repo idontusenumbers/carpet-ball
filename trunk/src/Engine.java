@@ -1,6 +1,6 @@
 import java.awt.geom.Point2D;
 
-public class Engine {
+public class Engine implements BallListener{
     private GameState state;
     public Engine(GameState state)
 	{
@@ -43,6 +43,14 @@ public class Engine {
 		return wall;
 	}
 
+
+    // BallListener implementation
+
+
+    @Override
+    public void ballMoved(Ball b, float speed, float angle) {
+
+    }
 }
 /*
 What happens when the cue ball hits the carpet balls.
