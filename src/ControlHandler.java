@@ -3,10 +3,13 @@ import java.awt.event.*;
 import java.awt.geom.Point2D;
 public class ControlHandler extends MouseAdapter implements KeyListener {
     private GameState state;
+    private BallListener ballListener;
     double velocity = 0;
     float rotation = 0;
-    public ControlHandler(GameState state) {
+    public ControlHandler(GameState state, BallListener ballListener) {
+
         this.state = state;
+        this.ballListener = ballListener;
     }
     public void keyTyped(KeyEvent e) {
         if (e.getKeyCode() == KeyEvent.VK_ENTER) {
