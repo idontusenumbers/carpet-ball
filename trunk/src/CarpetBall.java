@@ -59,6 +59,7 @@ public class CarpetBall {
         frame.setResizable(false);
 
 		component.addMouseListener(controlHandler);
+        component.addMouseMotionListener(controlHandler);
 		component.addKeyListener(controlHandler);
         
 		frame.setVisible(true);
