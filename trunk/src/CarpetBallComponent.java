@@ -52,10 +52,15 @@ public class CarpetBallComponent extends JComponent implements BallListener {
             drawBall(g2, ball);
         }
         drawBall(g2, state.getCueBall());
-        if (state.isMyTurn()){
+        if (state.isMyTurn() && !state.isSettingUp()){
             g.setColor(Color.RED);
             g.drawString("YOUR", 95, (barTwo - (int)table.getBarDistance()) / 2 + (int)table.getBarDistance());
             g.drawString("TURN", 175, (barTwo - (int)table.getBarDistance()) / 2 + (int)table.getBarDistance());
+        }
+        if (state.isSettingUp()){
+            g.setColor(Color.RED);
+            g.drawString("SET", 95, (barTwo - (int)table.getBarDistance()) / 2 + (int)table.getBarDistance());
+            g.drawString("UP", 175, (barTwo - (int)table.getBarDistance()) / 2 + (int)table.getBarDistance());
         }
     }
     private BufferedImage getBufferedImage(File input){
