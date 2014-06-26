@@ -15,6 +15,7 @@ public class CarpetBallComponent extends JComponent {
     public CarpetBallComponent(Table table, GameState state) {
         setFocusable(true);
         this.table = table;
+        state.setSettingUp(true);
         setPreferredSize(new Dimension((int)table.getWidth(),(int)table.getHeight()));
 		this.state = state;
 		for (int x = 0; x < balls.length; x++){
