@@ -37,7 +37,9 @@ public class ControlHandler implements MouseListener, MouseMotionListener, KeyLi
     public void mouseExited(MouseEvent e) {
     }
     public void mouseMoved(MouseEvent e) {
-        state.getCueBall().setLocation(new Point2D.Float(e.getX(), e.getY()));
+        if (e.getY() > 500f) {
+            state.getCueBall().setLocation(new Point2D.Float(e.getX(), e.getY()));
+        }
     }
     public void mouseDragged(MouseEvent e) {
         //    if (e.getX() > 50 && e.getX() < 150 && e.getY() > 50 && e.getY() < 150) {
