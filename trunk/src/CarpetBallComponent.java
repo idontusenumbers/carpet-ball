@@ -7,7 +7,7 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.Buffer;
 
-public class CarpetBallComponent extends JComponent {
+public class CarpetBallComponent extends JComponent implements BallListener {
 	private GameState state;
     private Table table;
     BufferedImage[] balls = new BufferedImage[13];
@@ -65,6 +65,18 @@ public class CarpetBallComponent extends JComponent {
     private void drawBall(Graphics g, Ball b){
         Point2D loc = b.getLocation();
         int size = Ball.BALL_RADIUS;
-        g.drawImage(balls[b.getNumber()], (int)loc.getX() - size, (int)loc.getY() - size, size * 2, size * 2, null);
+        g.drawImage(balls[b.getNumber()], (int) loc.getX() - size, (int) loc.getY() - size, size * 2, size * 2, null);
+    }
+
+
+    // BallListener Implementation
+    public void ballSentIntoMotion(Ball b, float speed, float angle) {
+
+    }
+    public void ballRelocated(Ball b, Point p) {
+
+    }
+    public void ballImpacted(Ball a, Ball b, Point impactPoint) {
+
     }
 }

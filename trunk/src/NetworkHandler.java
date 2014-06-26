@@ -1,3 +1,4 @@
+import java.awt.*;
 import java.io.*;
 import java.io.IOException;
 import java.net.*;
@@ -54,10 +55,21 @@ public class NetworkHandler implements BallListener{
 
 
     }
+    public void shutdown() {
+
+    }
 
     // BallListener implementation
 
-    public void ballMoved(Ball b, float speed, float angle) {
+    public void ballSentIntoMotion(Ball b, float speed, float angle) {
 
     }
+    public void ballRelocated(Ball b, Point p) {
+
+    }
+    public void ballImpacted(Ball a, Ball b, Point impactPoint) {
+
+    }
+
+
 }

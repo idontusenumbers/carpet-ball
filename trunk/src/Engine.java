@@ -1,3 +1,4 @@
+import java.awt.*;
 import java.awt.geom.Point2D;
 
 public class Engine implements BallListener{
@@ -46,9 +47,13 @@ public class Engine implements BallListener{
 
     // BallListener implementation
 
+    public void ballSentIntoMotion(Ball b, float speed, float angle) {
 
-    @Override
-    public void ballMoved(Ball b, float speed, float angle) {
+    }
+    public void ballRelocated(Ball b, Point p) {
+
+    }
+    public void ballImpacted(Ball a, Ball b, Point impactPoint) {
 
     }
 }
