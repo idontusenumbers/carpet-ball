@@ -32,6 +32,7 @@ public class CarpetBallComponent extends JComponent implements BallListener {
         g2.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_DEFAULT);
         g2.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BILINEAR);
         g2.setRenderingHint(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY);
+        int barTwo = (int)table.getHeight() - (int)table.getBarDistance() - 10;
 //        g.setColor(new Color(200, 165, 80));
 //        g.fillRect(0, 0, (int) table.getWidth(), (int) table.getHeight());
         g.setColor(Color.BLACK);
@@ -41,7 +42,7 @@ public class CarpetBallComponent extends JComponent implements BallListener {
         g.fillRect(0, (int)table.getGutterDepth(), (int)table.getWidth(), (int)table.getHeight() - (int)table.getGutterDepth() * 2);
         g.setColor(new Color(200, 165, 80));
         g.fillRect(0, (int) table.getBarDistance(), (int) table.getWidth(), 5);
-        g.fillRect(0, (int)table.getHeight() - (int)table.getBarDistance() - 10, (int)table.getWidth(), 5);
+        g.fillRect(0, barTwo, (int)table.getWidth(), 5);
 
 
         for (Ball ball : state.getMyBalls()) {
@@ -51,7 +52,11 @@ public class CarpetBallComponent extends JComponent implements BallListener {
             drawBall(g2, ball);
         }
         drawBall(g2, state.getCueBall());
-
+        if (state.isMyTurn()){
+            g.setColor(Color.RED);
+            g.drawString("YOUR", 95, (barTwo - (int)table.getBarDistance()) / 2 + (int)table.getBarDistance());
+            g.drawString("TURN", 175, (barTwo - (int)table.getBarDistance()) / 2 + (int)table.getBarDistance());
+        }
     }
     private BufferedImage getBufferedImage(File input){
         try {
