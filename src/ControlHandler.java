@@ -19,8 +19,9 @@ public class ControlHandler extends MouseAdapter implements KeyListener {
     }
     public void mouseClicked(MouseEvent e) {
         for (int i = 0; i < 6; i++) {
-            if (state.getMyBalls()[i].getLocation().getX() == e.getX() && state.getMyBalls()[i].getLocation().getY() == e.getY()) {
+            if (Point2D.distance(state.getMyBalls()[i].getLocation().getX(), state.getMyBalls()[i].getLocation().getY(), e.getX(), e.getY()) < Ball.BALL_RADIUS) {
                 state.getMyBalls()[i] = null;
+                break;
             }
         }
     }
@@ -40,7 +41,7 @@ public class ControlHandler extends MouseAdapter implements KeyListener {
         }
     }
     public void mouseDragged(MouseEvent e) {
-        if (e.getX() > 50 && e.getX() < 150 && e.getY() > 50 && e.getY() < 150) {
+    //    if (e.getX() > 50 && e.getX() < 150 && e.getY() > 50 && e.getY() < 150) {
             if (state.isSettingUp()) {
                 for (int i = 0; i < GameState.NUMBER_OF_BALLS_PER_PLAYER; i ++) {
                     double distance = Point2D.distance(state.getMyBalls()[i].getLocation().getX(), state.getMyBalls()[i].getLocation().getY(), e.getX(), e.getY());
@@ -55,5 +56,5 @@ public class ControlHandler extends MouseAdapter implements KeyListener {
                 rotation = (float)Math.atan((state.getCueBall().getLocation().getX() - mouseX) / (state.getCueBall().getLocation().getY() - mouseY));
             }
         }
-    }
+    //}
 }
