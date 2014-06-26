@@ -23,8 +23,8 @@ public class ControlHandler extends MouseAdapter implements KeyListener {
     public void mouseClicked(MouseEvent e) {
         for (int i = 0; i < 6; i++) {
             if (Point2D.distance(state.getMyBalls()[i].getLocation().getX(), state.getMyBalls()[i].getLocation().getY(), e.getX(), e.getY()) < Ball.BALL_RADIUS) {
-                state.getMyBalls()[i] = null;
-                break;
+                state.getMyBalls()[i].setLocation(new Point2D.Float(-100, -100));
+				break;
             }
         }
     }
@@ -39,9 +39,9 @@ public class ControlHandler extends MouseAdapter implements KeyListener {
     public void mouseExited(MouseEvent e) {
     }
     public void mouseMoved(MouseEvent e) {
-        if (e.getX() > 50 && e.getX() < 150 && e.getY() > 50 && e.getY() < 150) {
+        //if (e.getX() > 50 && e.getX() < 150 && e.getY() > 50 && e.getY() < 150) {
             state.getCueBall().setLocation(new Point2D.Float(e.getX(), e.getY()));
-        }
+        //}
     }
     public void mouseDragged(MouseEvent e) {
     //    if (e.getX() > 50 && e.getX() < 150 && e.getY() > 50 && e.getY() < 150) {

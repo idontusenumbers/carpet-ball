@@ -47,4 +47,9 @@ public class Ball {
     public void setVelocity(float velocity) {
         this.velocity = velocity;
     }
+
+	public boolean isOnBall(Point2D ballPos, Point2D otherPos) {
+		ballPos.setLocation(ballPos.getX() + Ball.BALL_RADIUS, ballPos.getY() + Ball.BALL_RADIUS);
+		return Point2D.distance(ballPos.getX(), ballPos.getY(), otherPos.getX(), otherPos.getY()) < Ball.BALL_RADIUS;
+	}
 }
