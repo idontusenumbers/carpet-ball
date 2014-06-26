@@ -29,13 +29,13 @@ public class GameState {
 
         c = new Color((float)Math.random(), (float)Math.random(), (float)Math.random());
         location = new Point2D.Float(table.getWidth()/2, table.height/2);
-        cueBall = new Ball(number, c, location);
+        cueBall = new Ball(number, location);
         number++;
 
         for (int i = 0; i < myBalls.length; i++) {
             c = new Color((float)Math.random(), (float)Math.random(), (float)Math.random());
             location = new Point2D.Float(i * 2 * r + r, table.height - r);
-            myBalls[i] = new Ball(number, c, location);
+            myBalls[i] = new Ball(number, location);
             number++;
         }
 
@@ -44,7 +44,7 @@ public class GameState {
         for (int i = 0; i < theirBalls.length; i++) {
             c = new Color((float)Math.random(), (float)Math.random(), (float)Math.random());
             location = new Point2D.Float(table.width-( i*2* r + r), r);
-            theirBalls[i] = new Ball(number, c, location);
+            theirBalls[i] = new Ball(number, location);
             number++;
         }
     }
