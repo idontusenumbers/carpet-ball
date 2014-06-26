@@ -1,6 +1,3 @@
-/**
- * Created by Charlie Hayes on 6/25/2014.
- */
 public class Table {
     float height;
     float width;
