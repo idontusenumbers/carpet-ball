@@ -10,9 +10,9 @@ public class Ball {
     private float rotation;
     private float velocity;
 
-    public Ball(int number, Color color, Point2D location) {
+    public Ball(int number, Point2D location) {
         this.number = number;
-        this.color = color;
+
         this.location = location;
     }
 
@@ -20,9 +20,7 @@ public class Ball {
         return number;
     }
 
-    public Color getColor() {
-        return color;
-    }
+
 
     public Point2D getLocation() {
         return location;

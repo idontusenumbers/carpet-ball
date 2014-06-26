@@ -1,5 +1,5 @@
 import javax.swing.JFrame;
-import java.awt.HeadlessException;
+import java.awt.*;
 
 public class CarpetBallFrame extends JFrame {
 	private GameState state;

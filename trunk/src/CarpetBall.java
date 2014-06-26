@@ -29,9 +29,10 @@ public class CarpetBall {
         CarpetBallFrame frame = new CarpetBallFrame(state);
 		final CarpetBallComponent component = new CarpetBallComponent(table, state);
 
-        frame.setLayout(new BorderLayout());
-		frame.add(component, BorderLayout.CENTER);
+        frame.setLayout(new GridBagLayout());
+		frame.add(component, new GridBagConstraints(0, 0, 1, 1, 1, 1,GridBagConstraints.CENTER, GridBagConstraints.BOTH, new Insets(10, 10, 1, 1), 1, 1));
         frame.pack();
+        frame.getContentPane().setBackground(new Color (200, 165, 80));
         frame.setResizable(false);
 
 		component.addMouseListener(controlHandler);
@@ -46,7 +47,7 @@ public class CarpetBall {
                 component.repaint();
             }
         });
-		timer.start();
+        timer.start();
 
 	}
 }
