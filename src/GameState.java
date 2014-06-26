@@ -5,7 +5,7 @@ public class GameState {
 	private Ball[] myBalls;
 	private Ball[] theirBalls;
     private Ball cueBall;
-    private boolean myTurn;
+    private boolean myTurn = true;
 
     public GameState() {
 
