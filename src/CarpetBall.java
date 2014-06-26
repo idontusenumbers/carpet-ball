@@ -61,7 +61,6 @@ public class CarpetBall {
 		component.addMouseListener(controlHandler);
         component.addMouseMotionListener(controlHandler);
 		component.addKeyListener(controlHandler);
-        
 		frame.setVisible(true);
 
         Timer timer = new Timer(1000/60, new ActionListener() {
