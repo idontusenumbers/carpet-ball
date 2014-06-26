@@ -39,10 +39,12 @@ public class GameState {
             number++;
         }
 
+
+
         for (int i = 0; i < theirBalls.length; i++) {
             c = new Color((float)Math.random(), (float)Math.random(), (float)Math.random());
             location = new Point2D.Float(table.width-( i*2* r + r), r);
-            myBalls[i] = new Ball(number, c, location);
+            theirBalls[i] = new Ball(number, c, location);
             number++;
         }
     }
