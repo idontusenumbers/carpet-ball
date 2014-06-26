@@ -42,6 +42,7 @@ public class ControlHandler extends MouseAdapter implements KeyListener {
             state.getCueBall().setLocation(new Point2D.Float(e.getX(), e.getY()));
         }
     }
+
     public void mouseDragged(MouseEvent e) {
     //    if (e.getX() > 50 && e.getX() < 150 && e.getY() > 50 && e.getY() < 150) {
             if (state.isSettingUp()) {
