@@ -48,6 +48,5 @@ public class CarpetBall {
             }
         });
         timer.start();
-
 	}
 }
