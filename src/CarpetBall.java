@@ -46,7 +46,7 @@ public class CarpetBall {
                 component.repaint();
             }
         });
-
+		timer.start();
 
 	}
 }
