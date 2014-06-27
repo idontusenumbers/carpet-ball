@@ -9,13 +9,36 @@ import java.awt.geom.Point2D;
 
     public void tick()
 	{
-
+		for (Ball Balls: state.getMyBalls()){
+			speed(Balls);
+		}
+		for (Ball balls: state.getTheirBalls()){
+			speed(balls);
+		}
+		speed(state.getCueBall());
     }
 	public void speed(Ball regballs)
 	{
 		float newX = (float)regballs.getLocation().getX();
 		float newY = (float)regballs.getLocation().getY() + regballs.getSpeed();
 		regballs.setLocation(wall((int) regballs.getSpeed(), (int) regballs.getAngle(), regballs.getLocation()));
+		for (Ball Balls: state.getMyBalls()){
+			if (state.getCueBall().getLocation().getY() < 700 - 50 || state.getCueBall().getLocation().getY() > 700)
+			{
+				Balls.setSpeed(0);
+			}
+		}
+		for (Ball balls: state.getTheirBalls()){
+			if (state.getCueBall().getLocation().getY() < 700 - 50 || state.getCueBall().getLocation().getY() > 700)
+			{
+				balls.setSpeed(0);
+			}
+		}
+		if (state.getCueBall().getLocation().getY() < 700 - 50 || state.getCueBall().getLocation().getY() > 700)
+		{
+				state.getCueBall().setSpeed(0);
+		}
+
 	}
 	public Point2D wall(int rise, int run, Point2D location)
 	{
