@@ -27,7 +27,7 @@ public class GameState {
         number++;
 
         for (int i = 0; i < myBalls.length; i++) {
-            location = new Point2D.Float(i * 2 * r + r, table.height - r);
+            location = new Point2D.Float(i * 2 * r + r, table.height - r - table.gutterDepth);
             myBalls[i] = new Ball(number, location);
             number++;
         }
@@ -35,7 +35,7 @@ public class GameState {
 
 
         for (int i = 0; i < theirBalls.length; i++) {
-            location = new Point2D.Float(table.width-( i*2* r + r), r);
+            location = new Point2D.Float(table.width-( i*2* r + r), r + table.gutterDepth);
             theirBalls[i] = new Ball(number, location);
             number++;
         }
