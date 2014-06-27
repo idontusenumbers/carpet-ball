@@ -1,4 +1,6 @@
 import javax.imageio.ImageIO;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
 import javax.swing.JComponent;
 import java.awt.*;
 import java.awt.geom.Point2D;
@@ -10,6 +12,7 @@ public class CarpetBallComponent extends JComponent implements BallListener {
 	private GameState state;
     private Table table;
     BufferedImage[] balls = new BufferedImage[13];
+
 
     public CarpetBallComponent(Table table, GameState state) {
         setFocusable(true);
@@ -51,7 +54,7 @@ public class CarpetBallComponent extends JComponent implements BallListener {
             drawBall(g2, ball);
         }
         drawBall(g2, state.getCueBall());
-        if (!state.isInGame()){
+        if (!state.isConnected()){
             g.setColor(Color.RED);
             g.drawString("WAITING FOR PLAYER 2", 85, (barTwo - (int)table.getBarDistance()) / 2 + (int)table.getBarDistance() - 20);
         }
@@ -99,5 +102,14 @@ public class CarpetBallComponent extends JComponent implements BallListener {
     }
     public void ballImpacted(Ball a, Ball b, Point2D impactPoint) {
 
+    }
+    public void  play(String filename){
+        try{
+            Clip clip = AudioSystem.getClip();
+            clip.open(AudioSystem.getAudioInputStream(new File (filename)));
+        }
+        catch (Exception exc){
+            exc.printStackTrace(System.out);
+        }
     }
 }

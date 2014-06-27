@@ -7,6 +7,10 @@ public class GameState {
     private boolean myTurn = true;
     private boolean inGame = false;
 
+
+
+    boolean connected = false;
+
     public GameState() {
 
     }
@@ -87,5 +91,12 @@ public class GameState {
 
     public void setInGame(boolean inGame) {
         this.inGame = inGame;
+    }
+    public boolean isConnected() {
+        return connected;
+    }
+
+    public void setConnected(boolean connected) {
+        this.connected = connected;
     }
 }
