@@ -38,8 +38,8 @@ public class ControlHandler implements MouseListener, MouseMotionListener, KeyLi
             if (state.isSettingUp()) {
                 activeBall = null;
             } else {
-                state.getCueBall().setyVelocity((float) velocity);
-                state.getCueBall().setRotation(rotation);
+                state.getCueBall().setSpeed((float) velocity);
+                state.getCueBall().setAngle(rotation);
                 ballListener.ballSentIntoMotion(state.getCueBall(), (float) velocity, rotation);
             }
         }
