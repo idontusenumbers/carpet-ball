@@ -7,7 +7,8 @@ public class Ball {
     private Color color;
     private Point2D location;
     private float rotation;
-    private float velocity;
+    private float yVelocity;
+	private float xVelocity;
     private boolean isHovered;
 
     public Ball(int number, Point2D location) {
@@ -41,12 +42,12 @@ public class Ball {
         this.rotation = rotation;
     }
 
-    public float getVelocity() {
-        return velocity;
+    public float getyVelocity() {
+        return yVelocity;
     }
 
-    public void setVelocity(float velocity) {
-        this.velocity = velocity;
+    public void setyVelocity(float yVelocity) {
+        this.yVelocity = yVelocity;
     }
 
 	/**
@@ -55,9 +56,9 @@ public class Ball {
 	 * @return 1 if A is faster than B, -1 if B is faster than A, and 0 if they are the same
 	 */
 	public int compareSpeedTo(Ball b) {
-		if (getVelocity() > b.getVelocity())
+		if (getyVelocity() > b.getyVelocity())
 			return 1;
-		else if (getVelocity() < b.getVelocity())
+		else if (getyVelocity() < b.getyVelocity())
 			return -1;
 		else
 			return 0;
@@ -74,4 +75,12 @@ public class Ball {
     public void setHovered(boolean isHovered) {
         this.isHovered = isHovered;
     }
+
+	public float getxVelocity() {
+		return xVelocity;
+	}
+
+	public void setxVelocity(float xVelocity) {
+		this.xVelocity = xVelocity;
+	}
 }
