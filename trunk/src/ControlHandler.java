@@ -35,6 +35,7 @@ public class ControlHandler implements MouseListener, MouseMotionListener, KeyLi
         } else {
             state.getCueBall().setVelocity((float) velocity);
             state.getCueBall().setRotation(rotation);
+            ballListener.ballSentIntoMotion(state.getCueBall(), (float)velocity, rotation);
         }
     }
     public void mouseEntered(MouseEvent e) {
@@ -57,6 +58,7 @@ public class ControlHandler implements MouseListener, MouseMotionListener, KeyLi
                 } else if (activeBall != null && e.getY() > 500f) {
                     activeBall.setLocation(new Point2D.Float(e.getX(), e.getY()));
                 }
+                ballListener.ballRelocated(state.getCueBall(), new Point2D.Float(e.getX(),e.getY()));
             }
         } else {
             float mouseX = e.getX();
