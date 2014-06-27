@@ -6,6 +6,7 @@ public class GameState {
 	private Ball[] theirBalls;
     private Ball cueBall;
     private boolean myTurn = true;
+    private boolean inGame = false;
 
     public GameState() {
 
@@ -65,5 +66,13 @@ public class GameState {
 
     public void setMyTurn(boolean myTurn) {
         this.myTurn = myTurn;
+    }
+
+    public boolean isInGame() {
+        return inGame;
+    }
+
+    public void setInGame(boolean inGame) {
+        this.inGame = inGame;
     }
 }
