@@ -17,7 +17,7 @@ public class CarpetBall {
         final Engine engine = new Engine(state);
         final CarpetBallComponent component = new CarpetBallComponent(table, state);
 
-        final NetworkHandler networkHandler = new NetworkHandler(state, new BallListener(){
+        /* final NetworkHandler networkHandler = new NetworkHandler(state, new BallListener(){
             public void ballSentIntoMotion(Ball b, float speed, float angle) {
                 engine.ballSentIntoMotion(b, speed, angle);
             }
@@ -27,19 +27,19 @@ public class CarpetBall {
             public void ballImpacted(Ball a, Ball b, Point2D impactPoint) {
                 component.ballImpacted(a, b, impactPoint);
             }
-        });
+        }); */
 
         ControlHandler controlHandler = new ControlHandler(state, new BallListener() {
             public void ballSentIntoMotion(Ball b, float speed, float angle) {
                 engine.ballSentIntoMotion(b, speed, angle);
-                networkHandler.ballSentIntoMotion(b, speed, angle);
+                // networkHandler.ballSentIntoMotion(b, speed, angle);
             }
             public void ballRelocated(Ball b, Point2D p) {
                 engine.ballRelocated(b, p);
-                networkHandler.ballRelocated(b, p);
+                // networkHandler.ballRelocated(b, p);
             }
             public void ballImpacted(Ball a, Ball b, Point2D impactPoint) {
-
+				engine.ballImpacted(a, b, impactPoint);
             }
         });
 
@@ -49,7 +49,7 @@ public class CarpetBall {
 
         frame.addWindowListener(new WindowAdapter() {
             public void windowClosed(WindowEvent e) {
-                networkHandler.shutdown();
+                // networkHandler.shutdown();
             }
         });
 
