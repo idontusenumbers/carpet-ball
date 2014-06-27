@@ -49,6 +49,20 @@ public class Ball {
         this.velocity = velocity;
     }
 
+	/**
+	 * Compares the speed of two balls
+	 *
+	 * @return 1 if A is faster than B, -1 if B is faster than A, and 0 if they are the same
+	 */
+	public int compareSpeedTo(Ball b) {
+		if (getVelocity() > b.getVelocity())
+			return 1;
+		else if (getVelocity() < b.getVelocity())
+			return -1;
+		else
+			return 0;
+	}
+
 	public boolean isOnBall(Point2D ballPos) {
         return getLocation().distance(ballPos) < BALL_RADIUS;
     }
