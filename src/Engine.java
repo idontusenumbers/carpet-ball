@@ -1,3 +1,4 @@
+import java.awt.*;
 import java.awt.geom.Point2D;
 
 	public class Engine implements BallListener{
@@ -44,57 +45,54 @@ import java.awt.geom.Point2D;
     }
 	public void speed(Ball regballs)
 	{
-        Point2D wall = wall((int) regballs.getSpeed(), (int) regballs.getAngle(), regballs.getLocation());
-        if (wall != null)
-            regballs.setLocation(wall);
+        regballs.setLocation(new Point2D.Float((float) (regballs.getLocation().getX() + regballs.getHorizontalSpeed()), (float) (regballs.getLocation().getY() + regballs.getSpeed())));
+		wall(regballs);
 
 		for (Ball Balls: state.getMyBalls()){
-			if (Balls.getLocation().getY() > 650 && Balls.getLocation().getY() < 700)
+			if (Balls.isInGutter())
 			{
 				Balls.setSpeed(0);
 			}
 		}
 		for (Ball balls: state.getTheirBalls()){
-			if (balls.getLocation().getY() > 0 && balls.getLocation().getY() < 50)
+			if (balls.isInGutter())
 			{
 				balls.setSpeed(0);
 			}
 		}
-		if (state.getCueBall().getLocation().getY() > 650 && state.getCueBall().getLocation().getY() < 700)
+		if (state.getCueBall().isInGutter())
 		{
 				state.getCueBall().setSpeed(0);
 		}
 
 	}
-	public Point2D wall(int rise, int run, Point2D location)
+	public void wall(Ball b)
 	{
-		Point2D temploc = new Point2D.Float((float)location .getX() + run, (float)location.getY() + rise);
-		double X;
-		double Y;
-		Point2D wall = null;
-			if (location.getX() > 300 || location.getX() < 0 || location.getY() > 700 || location.getY() < 0)
-			{
-				X = location.getX();
-				Y = location.getY();
-				wall = new Point2D.Float((float)X - run, (float)Y - rise);
+		float x = (float) b.getLocation().getX();
+		float y = (float) b.getLocation().getY();
+		// Check to run into wall
+		if (x >= 700 || x <= 0)
+			ballCollidedWithWall(b, b.getSpeed(), b.getAngle());
+		// Check to run into your balls
+		for (Ball ball : state.getMyBalls()) {
+			if (Point2D.distance(ball.getLocation().getX(), ball.getLocation().getY(), x, y) < Ball.BALL_RADIUS) {
+				Point2D newLoc = new Point2D.Float((float) ((ball.getLocation().getX() + x) / 2), (float) ((ball.getLocation().getY() + y) / 2));
+				ballImpacted(b, state.getCueBall(), newLoc);
 			}
-			for (int ii = 0; ii < state.getMyBalls().length; ii++)
-			{
-				if (state.getMyBalls()[ii].isOnBall(location))
-				{
-					return new Point2D.Float((float)location.getX() - run, (float)location.getY() - rise);
-				}
+		}
+		// Check to run into their balls
+		for (Ball ball : state.getTheirBalls()) {
+			if (Point2D.distance(ball.getLocation().getX(), ball.getLocation().getY(), x, y) < Ball.BALL_RADIUS) {
+				Point2D newLoc = new Point2D.Float((float) ((ball.getLocation().getX() + x) / 2), (float) ((ball.getLocation().getY() + y) / 2));
+				ballImpacted(b, state.getCueBall(), newLoc);
 			}
-			for (int iii = 0; iii < state.getTheirBalls().length; iii++)
-			{
-				if (state.getTheirBalls()[iii].isOnBall(location))
-				{
-					return new Point2D.Float((float)location.getX() - run, (float)location.getY() - rise);
-				}
-			}
-			location.setLocation(location.getX() + run, location.getY() + rise);
-
-		return wall;
+		}
+		// Check for cue ball
+		Point2D cueLocation = state.getCueBall().getLocation();
+		if (Point2D.distance(cueLocation.getX(), cueLocation.getY(), x, y) < Ball.BALL_RADIUS) {
+			Point2D newLoc = new Point2D.Float((float) ((cueLocation.getX() + x) / 2), (float) ((cueLocation.getY() + y) / 2));
+			ballImpacted(b, state.getCueBall(), newLoc);
+		}
 	}
 
     // BallListener implementation
@@ -111,17 +109,28 @@ import java.awt.geom.Point2D;
 	{
 		if (a.getSpeed() > b.getSpeed())
 		{
-			ballSentIntoMotion(a, getImpactSpeed(a, b, true), a.getAngle());
-			ballSentIntoMotion(b, getImpactSpeed(a, b, false), b.getAngle());
+			ballSentIntoMotion(a, getImpactSpeed(a, b, true), a.getHorizontalSpeed());
+			ballSentIntoMotion(b, getImpactSpeed(a, b, false), b.getHorizontalSpeed());
 		}
 		else if (a.getSpeed() < b.getSpeed())
 		{
-			ballSentIntoMotion(a, getImpactSpeed(a, b, false), a.getAngle());
-			ballSentIntoMotion(b, getImpactSpeed(a, b, true), b.getAngle());
+			ballSentIntoMotion(a, getImpactSpeed(a, b, false), a.getHorizontalSpeed());
+			ballSentIntoMotion(b, getImpactSpeed(a, b, true), b.getHorizontalSpeed());
 		}
     }
 
-	public float getImpactSpeed(Ball a, Ball b, boolean forMovingBall) {
+		@Override
+		public void ballCollidedWithWall(Ball b, float speed, float angle) {
+			float newAngle;
+			if (angle > (Math.PI / 2) && angle < (3 * Math.PI / 2)) {
+				newAngle = (float) ((Math.PI / 2) - (angle - Math.PI / 2));
+			} else {
+				newAngle = (float) (angle - (Math.PI / 2 - angle));
+			}
+			ballSentIntoMotion(b, (float) (b.getSpeed() * 0.75), newAngle);
+		}
+
+		public float getImpactSpeed(Ball a, Ball b, boolean forMovingBall) {
 		if (forMovingBall)
 			return (float) (Math.max(a.getSpeed(), b.getSpeed()) * 0.75);
 		else
