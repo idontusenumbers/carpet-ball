@@ -5,6 +5,7 @@ public class ControlHandler implements MouseListener, MouseMotionListener, KeyLi
     private BallListener ballListener;
     double velocity = 0;
     float rotation = 0;
+    Ball activeBall;
     public ControlHandler(GameState state, BallListener ballListener) {
         this.state = state;
         this.ballListener = ballListener;
@@ -20,7 +21,7 @@ public class ControlHandler implements MouseListener, MouseMotionListener, KeyLi
     }
     public void mouseClicked(MouseEvent e) {
         for (int i = 0; i < 6; i++) {
-            if (Point2D.distance(state.getMyBalls()[i].getLocation().getX(), state.getMyBalls()[i].getLocation().getY(), e.getX(), e.getY()) < Ball.BALL_RADIUS && state.isSettingUp() == false) {
+            if (Point2D.distance(state.getMyBalls()[i].getLocation().getX(), state.getMyBalls()[i].getLocation().getY(), e.getX(), e.getY()) < Ball.BALL_RADIUS && !state.isSettingUp()) {
                 state.getMyBalls()[i].setLocation(new Point2D.Float(150f, 675f));
                 break;
             }
@@ -29,15 +30,19 @@ public class ControlHandler implements MouseListener, MouseMotionListener, KeyLi
     public void mousePressed(MouseEvent e) {
     }
     public void mouseReleased(MouseEvent e) {
-        state.getCueBall().setVelocity((float) velocity);
-        state.getCueBall().setRotation(rotation);
+        if (state.isSettingUp()) {
+            activeBall = null;
+        } else {
+            state.getCueBall().setVelocity((float) velocity);
+            state.getCueBall().setRotation(rotation);
+        }
     }
     public void mouseEntered(MouseEvent e) {
     }
     public void mouseExited(MouseEvent e) {
     }
     public void mouseMoved(MouseEvent e) {
-        if (e.getY() > 500f) {
+        if (e.getY() > 500f && !state.isSettingUp()) {
             state.getCueBall().setLocation(new Point2D.Float(e.getX(), e.getY()));
         }
     }
@@ -46,8 +51,11 @@ public class ControlHandler implements MouseListener, MouseMotionListener, KeyLi
         if (state.isSettingUp()) {
             for (int i = 0; i < GameState.NUMBER_OF_BALLS_PER_PLAYER; i++) {
                 double distance = Point2D.distance(state.getMyBalls()[i].getLocation().getX(), state.getMyBalls()[i].getLocation().getY(), e.getX(), e.getY());
-                if (distance < Ball.BALL_RADIUS) {
-                    state.getMyBalls()[i].setLocation(new Point2D.Float(e.getX(), e.getY()));
+                if (distance < Ball.BALL_RADIUS && activeBall == null) {
+                    activeBall = state.getMyBalls()[i];
+                    activeBall.setLocation(new Point2D.Float(e.getX(), e.getY()));
+                } else if (activeBall != null) {
+                    activeBall.setLocation(new Point2D.Float(e.getX(), e.getY()));
                 }
             }
         } else {
