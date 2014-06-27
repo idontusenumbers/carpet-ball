@@ -23,19 +23,19 @@ import java.awt.geom.Point2D;
 		{
 			for (Ball theirBall : state.getTheirBalls())
 			{
-				if (Point2D.distance(myBall.getLocation().getX(), myBall.getLocation().getY(), theirBall.getLocation().getX(), theirBall.getLocation().getY()) < Ball.BALL_RADIUS) {
+				if (myBall.getLocation().distance(theirBall.getLocation()) < Ball.BALL_RADIUS) {
 					Point2D center = new Point2D.Float((float) (myBall.getLocation().getX() + theirBall.getLocation().getX()) / 2, (float) (myBall.getLocation().getY() + theirBall.getLocation().getY()) / 2);
 					ballImpacted(myBall, theirBall, center);
 				}
 			}
 			for (Ball myOtherBall : state.getMyBalls())
 			{
-				if (Point2D.distance(myBall.getLocation().getX(), myBall.getLocation().getY(), myOtherBall.getLocation().getX(), myOtherBall.getLocation().getY()) < Ball.BALL_RADIUS && myOtherBall != myBall) {
+				if (myBall.getLocation().distance(myOtherBall.getLocation()) < Ball.BALL_RADIUS && myOtherBall != myBall) {
 					Point2D center = new Point2D.Float((float) (myBall.getLocation().getX() + myOtherBall.getLocation().getX()) / 2, (float) (myBall.getLocation().getY() + myOtherBall.getLocation().getY()) / 2);
 					ballImpacted(myBall, myOtherBall, center);
 				}
 			}
-			if (Point2D.distance(myBall.getLocation().getX(), myBall.getLocation().getY(), state.getCueBall().getLocation().getX(), state.getCueBall().getLocation().getY()) < Ball.BALL_RADIUS) {
+			if (myBall.getLocation().distance(state.getCueBall().getLocation()) < Ball.BALL_RADIUS) {
 				Point2D center = new Point2D.Float((float) (myBall.getLocation().getX() + state.getCueBall().getLocation().getX()) / 2, (float) (myBall.getLocation().getY() + state.getCueBall().getLocation().getY()) / 2);
 				ballImpacted(myBall, state.getCueBall(), center);
 			}
