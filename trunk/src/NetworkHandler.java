@@ -1,4 +1,3 @@
-import java.awt.*;
 import java.io.*;
 import java.io.IOException;
 import java.net.*;
@@ -16,6 +15,7 @@ public class NetworkHandler implements BallListener{
     private BallListener ballListener;
     MulticastSocket mcs;
     PrintWriter out;
+    ServerSocket serverSocket;
 
 
     public NetworkHandler(GameState state, BallListener ballListener) throws IOException {
@@ -59,6 +59,7 @@ public class NetworkHandler implements BallListener{
     }
 
     public void broadcast()throws IOException{
+        System.out.println("Sending broadcast");
         byte[] buf = new byte[256];
         DatagramPacket packet;
         packet = new DatagramPacket(buf, buf.length, group, BROADCAST_PORT);
@@ -71,7 +72,9 @@ public class NetworkHandler implements BallListener{
         DatagramPacket packet;
 
             packet = new DatagramPacket(buf, buf.length);
+            System.out.println("Listening for broadcast on port " + mcs.getLocalPort());
             mcs.receive(packet);
+            System.out.println("Received broadcast");
 
             if (isLocalHost(packet.getAddress())){
                // ignore myself
@@ -87,7 +90,7 @@ public class NetworkHandler implements BallListener{
             String received = new String(packet.getData());
             System.out.println(received + "has joined.");
 
-
+        System.out.println("No longer listening for broadcasts");
         mcs.leaveGroup(group);
         mcs.close();
     }
@@ -114,8 +117,10 @@ public class NetworkHandler implements BallListener{
 
     public void listensFortTCP()throws IOException {
 
-        ServerSocket tcpsocketListne = new ServerSocket(TCP_PORT);
-        Socket tcpConecetion = tcpsocketListne.accept();
+        serverSocket = openFirstAvailablePort(TCP_PORT);
+        System.out.println("Listening on " +serverSocket.getLocalPort());
+
+        Socket tcpConecetion = serverSocket.accept();
 
 
 
@@ -141,6 +146,7 @@ public class NetworkHandler implements BallListener{
             ball.setLocation(new Point2D.Float(x,y));
         }
 
+        System.out.println("No longer listening for TCP connections");
     }
     public void shutdown() {
 
@@ -154,15 +160,31 @@ public class NetworkHandler implements BallListener{
 
     }
 
+    private ServerSocket openFirstAvailablePort(int startAtPort){
+        int p = startAtPort;
+        do{
+            try{
+                return new ServerSocket(p);
+
+            }catch(IOException ex){
+                System.err.println("Port already in use: " + p + "; trying another...");
+                p++;
+            }
+        }while(p <= 65535);
+        throw new RuntimeException("Could not open ServerSocket, ran out of ports");
+    }
+
     // BallListener implementation
 
     public void ballSentIntoMotion(Ball b, float speed, float angle) {
+        System.out.println("Sending THROW");
         out.println("THROW");
         out.println(b.getNumber());
         out.println(speed);
         out.println(angle);
     }
     public void ballRelocated(Ball b, Point2D p) {
+        System.out.println("Sending RELOCATED");
         out.println("RELOCATED");
         out.println(b.getNumber());
         out.println(p.getX());
