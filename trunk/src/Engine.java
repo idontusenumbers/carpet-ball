@@ -55,6 +55,20 @@ public class Engine implements BallListener{
     public void ballImpacted(Ball a, Ball b, Point2D impactPoint) {
 
     }
+
+	public float getImpactSpeed(Ball a, Ball b, boolean forMovingBall) {
+		if (a.getVelocity() > b.getVelocity()) {
+			if (forMovingBall)
+				return (float) (a.getVelocity() * 0.75);
+			else
+				return (float) (a.getVelocity() * 0.5);
+		} else {
+			if (forMovingBall)
+				return (float) (b.getVelocity() * 0.75);
+			else
+				return (float) (b.getVelocity() * 0.5);
+		}
+	}
 }
 /*
 What happens when the cue ball hits the carpet balls.
