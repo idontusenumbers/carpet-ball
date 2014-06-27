@@ -19,37 +19,45 @@ import java.awt.geom.Point2D;
 		}
 		speed(state.getCueBall());
 
-		for (Ball bAlls: state.getMyBalls())
+		for (Ball myBall : state.getMyBalls())
 		{
-			for (Ball BAlls: state.getTheirBalls())
+			for (Ball theirBall : state.getTheirBalls())
 			{
-
+				if (Point2D.distance(myBall.getLocation().getX(), myBall.getLocation().getY(), theirBall.getLocation().getX(), theirBall.getLocation().getY()) < Ball.BALL_RADIUS) {
+					Point2D center = new Point2D.Float((float) (myBall.getLocation().getX() + theirBall.getLocation().getX()) / 2, (float) (myBall.getLocation().getY() + theirBall.getLocation().getY()) / 2);
+					ballImpacted(myBall, theirBall, center);
+				}
 			}
-			for (Ball BALls: state.getMyBalls())
+			for (Ball myOtherBall : state.getMyBalls())
 			{
-
+				if (Point2D.distance(myBall.getLocation().getX(), myBall.getLocation().getY(), myOtherBall.getLocation().getX(), myOtherBall.getLocation().getY()) < Ball.BALL_RADIUS && myOtherBall != myBall) {
+					Point2D center = new Point2D.Float((float) (myBall.getLocation().getX() + myOtherBall.getLocation().getX()) / 2, (float) (myBall.getLocation().getY() + myOtherBall.getLocation().getY()) / 2);
+					ballImpacted(myBall, myOtherBall, center);
+				}
+			}
+			if (Point2D.distance(myBall.getLocation().getX(), myBall.getLocation().getY(), state.getCueBall().getLocation().getX(), state.getCueBall().getLocation().getY()) < Ball.BALL_RADIUS) {
+				Point2D center = new Point2D.Float((float) (myBall.getLocation().getX() + state.getCueBall().getLocation().getX()) / 2, (float) (myBall.getLocation().getY() + state.getCueBall().getLocation().getY()) / 2);
+				ballImpacted(myBall, state.getCueBall(), center);
 			}
 		}
 
     }
 	public void speed(Ball regballs)
 	{
-		float newX = (float)regballs.getLocation().getX();
-		float newY = (float)regballs.getLocation().getY() + regballs.getSpeed();
 		regballs.setLocation(wall((int) regballs.getSpeed(), (int) regballs.getAngle(), regballs.getLocation()));
 		for (Ball Balls: state.getMyBalls()){
-			if (state.getCueBall().getLocation().getY() < 700 - 50 || state.getCueBall().getLocation().getY() > 700)
+			if (Balls.getLocation().getY() > 650 && Balls.getLocation().getY() < 700)
 			{
 				Balls.setSpeed(0);
 			}
 		}
 		for (Ball balls: state.getTheirBalls()){
-			if (state.getCueBall().getLocation().getY() < 700 - 50 || state.getCueBall().getLocation().getY() > 700)
+			if (balls.getLocation().getY() > 0 && balls.getLocation().getY() < 50)
 			{
 				balls.setSpeed(0);
 			}
 		}
-		if (state.getCueBall().getLocation().getY() < 700 - 50 || state.getCueBall().getLocation().getY() > 700)
+		if (state.getCueBall().getLocation().getY() > 650 && state.getCueBall().getLocation().getY() < 700)
 		{
 				state.getCueBall().setSpeed(0);
 		}
