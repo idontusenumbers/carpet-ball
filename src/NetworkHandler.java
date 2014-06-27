@@ -21,7 +21,6 @@ public class NetworkHandler implements BallListener{
 		this.state = state;
         this.ballListener = ballListener;
 
-
         ServerSocket ss = new ServerSocket();
         mcs = new MulticastSocket(BROADCAST_PORT);
         mcs.joinGroup(group);

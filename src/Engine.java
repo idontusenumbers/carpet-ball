@@ -56,6 +56,20 @@ public class Engine implements BallListener{
 
     }
 
+	/**
+	 * Compares the speed of two balls
+	 *
+	 * @return 1 if A is faster than B, -1 if B is faster than A, and 0 if they are the same
+	 */
+	public int compareSpeedTo(Ball a, Ball b) {
+		if (a.getVelocity() > b.getVelocity())
+			return 1;
+		else if (a.getVelocity() < b.getVelocity())
+			return -1;
+		else
+			return 0;
+	}
+
 	public float getImpactSpeed(Ball a, Ball b, boolean forMovingBall) {
 		if (a.getVelocity() > b.getVelocity()) {
 			if (forMovingBall)
