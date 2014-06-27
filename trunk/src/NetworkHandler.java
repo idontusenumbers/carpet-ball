@@ -39,6 +39,9 @@ public class NetworkHandler implements BallListener{
         });
 
         // Start thread to listen for TCP connections
+        serverSocket = openFirstAvailablePort(TCP_PORT);
+        System.out.println("Listening on " +serverSocket.getLocalPort());
+
         Thread TCPListener = new Thread(new Runnable() {
 
             public void run() {
@@ -60,35 +63,55 @@ public class NetworkHandler implements BallListener{
 
     public void broadcast()throws IOException{
         System.out.println("Sending broadcast");
-        byte[] buf = new byte[256];
+        byte[] buf;
+        buf = intToBytes(serverSocket.getLocalPort());
         DatagramPacket packet;
         packet = new DatagramPacket(buf, buf.length, group, BROADCAST_PORT);
         mcs.send(packet);
     }
-
+    public byte[] intToBytes(int my_int) throws IOException {
+        ByteArrayOutputStream bos = new ByteArrayOutputStream();
+        ObjectOutput out = new ObjectOutputStream(bos);
+        out.writeInt(my_int);
+        out.close();
+        byte[] int_bytes = bos.toByteArray();
+        bos.close();
+        return int_bytes;
+    }
+    public int bytesToInt(byte[] int_bytes) throws IOException {
+        ByteArrayInputStream bis = new ByteArrayInputStream(int_bytes);
+        ObjectInputStream ois = new ObjectInputStream(bis);
+        int my_int = ois.readInt();
+        ois.close();
+        return my_int;
+    }
     public void listenForBroadcast()throws IOException{
-        byte[] buf = new byte[256];
+        byte[] buf = new byte[10];
 
         DatagramPacket packet;
 
             packet = new DatagramPacket(buf, buf.length);
+
             System.out.println("Listening for broadcast on port " + mcs.getLocalPort());
             mcs.receive(packet);
+            int remoteport = bytesToInt(buf);
             System.out.println("Received broadcast");
 
-            if (isLocalHost(packet.getAddress())){
-               // ignore myself
-            }else if (state.isInGame()){
+
+            if (state.isInGame()){
                 //ignore myself
-            }else{
+            }else if (remoteport == serverSocket.getLocalPort()){
+                //ignore myself
+            }
+            else{
                 sendTCP(packet.getAddress());
             }
 
 
 
 
-            String received = new String(packet.getData());
-            System.out.println(received + "has joined.");
+            String received = packet.getAddress().toString();
+            System.out.println(received + " has joined.");
 
         System.out.println("No longer listening for broadcasts");
         mcs.leaveGroup(group);
@@ -117,11 +140,9 @@ public class NetworkHandler implements BallListener{
 
     public void listensFortTCP()throws IOException {
 
-        serverSocket = openFirstAvailablePort(TCP_PORT);
-        System.out.println("Listening on " +serverSocket.getLocalPort());
-
+        boolean connected = false;
         Socket tcpConecetion = serverSocket.accept();
-
+        connected = true;
 
 
         Scanner s = new Scanner(tcpConecetion.getInputStream());
