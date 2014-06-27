@@ -1,4 +1,3 @@
-import java.awt.Color;
 import java.awt.geom.Point2D;
 public class GameState {
 	public static final int NUMBER_OF_BALLS_PER_PLAYER = 6;

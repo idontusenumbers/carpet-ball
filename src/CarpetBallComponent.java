@@ -5,8 +5,6 @@ import java.awt.geom.Point2D;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-import java.nio.Buffer;
-import java.util.Random;
 
 public class CarpetBallComponent extends JComponent implements BallListener {
 	private GameState state;
