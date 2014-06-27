@@ -9,6 +9,7 @@ public class Ball {
     private Point2D location;
     private float rotation;
     private float velocity;
+    private boolean isHovered;
 
     public Ball(int number, Point2D location) {
         this.number = number;
@@ -51,4 +52,12 @@ public class Ball {
 		Point2D.Float otherPos = new Point2D.Float((float) getLocation().getX() + Ball.BALL_RADIUS, (float) getLocation().getY() + Ball.BALL_RADIUS);
 		return Point2D.distance(ballPos.getX(), ballPos.getY(), otherPos.getX(), otherPos.getY()) < Ball.BALL_RADIUS;
 	}
+
+    public boolean isHovered() {
+        return isHovered;
+    }
+
+    public void setHovered(boolean isHovered) {
+        this.isHovered = isHovered;
+    }
 }
