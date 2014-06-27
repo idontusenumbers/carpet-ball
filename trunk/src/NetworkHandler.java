@@ -54,7 +54,6 @@ public class NetworkHandler implements BallListener{
             }
         });
 
-
         broadcastListener.start();
         TCPListener.start();
         broadcast();
@@ -91,29 +90,26 @@ public class NetworkHandler implements BallListener{
 
         DatagramPacket packet;
 
-            packet = new DatagramPacket(buf, buf.length);
+        packet = new DatagramPacket(buf, buf.length);
 
-            System.out.println("Listening for broadcast on port " + mcs.getLocalPort());
-            mcs.receive(packet);
-            int remoteport = bytesToInt(buf);
-            System.out.println("Received broadcast");
+        System.out.println("Listening for broadcast on port " + mcs.getLocalPort());
+        mcs.receive(packet);
+        int remotePort = bytesToInt(buf);
+        System.out.println("Received broadcast... ");
 
+        if (state.isInGame()){
+            System.out.println("... but I'm in game.");
+            return;
+        } else if (remotePort == serverSocket.getLocalPort()){
+            System.out.println("... but it's from me.");
+            System.out.println("... remote port in packet: " + remotePort);
+            System.out.println("... my local port: " + serverSocket.getLocalPort());
+            return;
+        }
 
-            if (state.isInGame()){
-                //ignore myself
-            }else if (remoteport == serverSocket.getLocalPort()){
-                //ignore myself
-            }
-            else{
-                sendTCP(packet.getAddress());
-            }
-
-
-
-
-            String received = packet.getAddress().toString();
-            System.out.println(received + " has joined.");
-
+        sendTCP(packet.getAddress());
+        String received = packet.getAddress().toString();
+        System.out.println(received + " has joined.");
         System.out.println("No longer listening for broadcasts");
         mcs.leaveGroup(group);
         mcs.close();
