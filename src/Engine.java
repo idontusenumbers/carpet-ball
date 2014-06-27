@@ -44,7 +44,10 @@ import java.awt.geom.Point2D;
     }
 	public void speed(Ball regballs)
 	{
-		regballs.setLocation(wall((int) regballs.getSpeed(), (int) regballs.getAngle(), regballs.getLocation()));
+        Point2D wall = wall((int) regballs.getSpeed(), (int) regballs.getAngle(), regballs.getLocation());
+        if (wall != null)
+            regballs.setLocation(wall);
+
 		for (Ball Balls: state.getMyBalls()){
 			if (Balls.getLocation().getY() > 650 && Balls.getLocation().getY() < 700)
 			{
