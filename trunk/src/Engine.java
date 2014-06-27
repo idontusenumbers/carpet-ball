@@ -1,6 +1,6 @@
 import java.awt.geom.Point2D;
 
-public class Engine implements BallListener{
+	public class Engine implements BallListener{
     private GameState state;
     public Engine(GameState state)
 	{
@@ -11,46 +11,65 @@ public class Engine implements BallListener{
 	{
 
     }
-	public void speed()
+	public void speed(Ball regballs)
 	{
-		float newX = 0;
-		float newY = 0;
-		state.getCueBall().setLocation(new Point2D.Float(newX, newY));
+		float newX = (float)regballs.getLocation().getX();
+		float newY = (float)regballs.getLocation().getY() + regballs.getSpeed();
+		regballs.setLocation(wall((int) regballs.getSpeed(), (int) regballs.getAngle(), regballs.getLocation()));
 	}
 	public Point2D wall(int rise, int run, Point2D location)
 	{
-		float X;
-		float Y;
+		Point2D temploc = new Point2D.Float((float)location .getX() + run, (float)location.getY() + rise);
+		double X;
+		double Y;
 		Point2D wall = null;
-		if (location.getX() < 300 && location.getX() > 0)
-		{
-			wall = null;
-		}
-		else
-		{
-			X = (float) location.getX();
-			Y = (float) location.getY();
-			wall = new Point2D.Float(X, Y);
-		}
-		if (location.getY() > 0)
-		{
-			wall = null;
-		}
-		location.setLocation(location.getX() + run, location.getY() + rise);
+			if (location.getX() > 300 || location.getX() < 0 || location.getY() > 700 || location.getY() < 0)
+			{
+				X = location.getX();
+				Y = location.getY();
+				wall = new Point2D.Float((float)X - run, (float)Y - rise);
+			}
+			for (int ii = 0; ii < state.getMyBalls().length; ii++)
+			{
+				if (state.getMyBalls()[ii].isOnBall(location))
+				{
+					return new Point2D.Float((float)location.getX() - run, (float)location.getY() - rise);
+				}
+			}
+			for (int iii = 0; iii < state.getTheirBalls().length; iii++)
+			{
+				if (state.getTheirBalls()[iii].isOnBall(location))
+				{
+					return new Point2D.Float((float)location.getX() - run, (float)location.getY() - rise);
+				}
+			}
+			location.setLocation(location.getX() + run, location.getY() + rise);
+
 		return wall;
 	}
 
-
     // BallListener implementation
-
-    public void ballSentIntoMotion(Ball b, float speed, float angle) {
-
+	@Override
+    public void ballSentIntoMotion(Ball b, float speed, float angle)
+	{
+		b.setAngle(angle);
+		b.setSpeed(speed);
     }
     public void ballRelocated(Ball b, Point2D p) {
-
+		b.setLocation(p);
     }
-    public void ballImpacted(Ball a, Ball b, Point2D impactPoint) {
-
+    public void ballImpacted(Ball a, Ball b, Point2D impactPoint)
+	{
+		if (a.getSpeed() > b.getSpeed())
+		{
+			ballSentIntoMotion(a, getImpactSpeed(a, b, true), a.getAngle());
+			ballSentIntoMotion(b, getImpactSpeed(a, b, false), b.getAngle());
+		}
+		else if (a.getSpeed() < b.getSpeed())
+		{
+			ballSentIntoMotion(a, getImpactSpeed(a, b, false), a.getAngle());
+			ballSentIntoMotion(b, getImpactSpeed(a, b, true), b.getAngle());
+		}
     }
 
 	public float getImpactSpeed(Ball a, Ball b, boolean forMovingBall) {
