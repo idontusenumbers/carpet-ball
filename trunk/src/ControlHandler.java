@@ -67,7 +67,7 @@ public class ControlHandler implements MouseListener, MouseMotionListener, KeyLi
             } else {
                 float mouseX = e.getX();
                 float mouseY = e.getY();
-                velocity = Math.sqrt(Math.pow((state.getCueBall().getLocation().getY() - mouseY), 2) + Math.pow((state.getCueBall().getLocation().getX() - mouseX), 2));
+                velocity = Point2D.distance(mouseX, mouseY, state.getCueBall().getLocation().getX(),  state.getCueBall().getLocation().getY());
                 rotation = (float) Math.atan((state.getCueBall().getLocation().getX() - mouseX) / (state.getCueBall().getLocation().getY() - mouseY));
             }
         // }
