@@ -9,13 +9,28 @@ import java.awt.geom.Point2D;
 
     public void tick()
 	{
-		for (Ball Balls: state.getMyBalls()){
+		for (Ball Balls: state.getMyBalls())
+		{
 			speed(Balls);
 		}
-		for (Ball balls: state.getTheirBalls()){
+		for (Ball balls: state.getTheirBalls())
+		{
 			speed(balls);
 		}
 		speed(state.getCueBall());
+
+		for (Ball bAlls: state.getMyBalls())
+		{
+			for (Ball BAlls: state.getTheirBalls())
+			{
+
+			}
+			for (Ball BALls: state.getMyBalls())
+			{
+
+			}
+		}
+
     }
 	public void speed(Ball regballs)
 	{
