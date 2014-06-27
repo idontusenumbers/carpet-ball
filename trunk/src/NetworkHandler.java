@@ -18,6 +18,7 @@ public class NetworkHandler implements BallListener{
     ServerSocket serverSocket;
 
 
+
     public NetworkHandler(GameState state, BallListener ballListener) throws IOException {
 		this.state = state;
         this.ballListener = ballListener;
@@ -140,9 +141,9 @@ public class NetworkHandler implements BallListener{
 
     public void listensFortTCP()throws IOException {
 
-        boolean connected = false;
+
         Socket tcpConecetion = serverSocket.accept();
-        connected = true;
+        state.setConnected(true);
 
 
         Scanner s = new Scanner(tcpConecetion.getInputStream());
