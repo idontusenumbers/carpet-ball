@@ -1,8 +1,8 @@
 public class Table {
-    float height;
-    float width;
-    float barDistance;
-    float gutterDepth;
+    private float height;
+    private float width;
+    private float barDistance;
+    private float gutterDepth;
 
     public Table(float height, float width, float barDistance, float gutterDepth) {
         this.height = height;

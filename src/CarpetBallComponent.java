@@ -83,7 +83,7 @@ public class CarpetBallComponent extends JComponent implements BallListener {
     }
     private void drawBall(Graphics g, Ball b){
         Point2D loc = b.getLocation();
-        int size = Ball.BALL_RADIUS;
+        int size = (int) Ball.BALL_RADIUS;
         if (b.isHovered()){
             g.setColor(Color.WHITE);
             g.fillOval((int)loc.getX() - size - 5, (int)loc.getY() - size - 5, (size + 5) * 2, (size + 5) * 2);

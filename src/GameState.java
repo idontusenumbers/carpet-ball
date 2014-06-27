@@ -15,7 +15,7 @@ public class GameState {
 
     }
     public void reset(Table table){
-        int r = Ball.BALL_RADIUS;
+        float r = Ball.BALL_RADIUS;
 
 
         myBalls = new Ball[NUMBER_OF_BALLS_PER_PLAYER];
@@ -25,12 +25,12 @@ public class GameState {
 
         Point2D.Float location;
 
-        location = new Point2D.Float(table.getWidth()/2, table.height/2);
+        location = new Point2D.Float(table.getWidth()/2, table.getHeight()/2);
         cueBall = new Ball(number, location);
         number++;
 
         for (int i = 0; i < myBalls.length; i++) {
-            location = new Point2D.Float(i * 2 * r + r, table.height - r - table.gutterDepth);
+            location = new Point2D.Float(i * 2 * r + r, table.getHeight() - r - table.getGutterDepth());
             myBalls[i] = new Ball(number, location);
             number++;
         }
@@ -38,7 +38,7 @@ public class GameState {
 
 
         for (int i = 0; i < theirBalls.length; i++) {
-            location = new Point2D.Float(table.width-( i*2* r + r), r + table.gutterDepth);
+            location = new Point2D.Float(table.getWidth()-( i*2* r + r), r + table.getGutterDepth());
             theirBalls[i] = new Ball(number, location);
             number++;
         }

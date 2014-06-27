@@ -1,12 +1,14 @@
 import java.awt.event.*;
 import java.awt.geom.Point2D;
 public class ControlHandler implements MouseListener, MouseMotionListener, KeyListener {
+    private Table table;
     private GameState state;
     private BallListener ballListener;
     double velocity = 0;
     float rotation = 0;
     Ball activeBall;
-    public ControlHandler(GameState state, BallListener ballListener) {
+    public ControlHandler(Table table, GameState state, BallListener ballListener) {
+        this.table = table;
         this.state = state;
         this.ballListener = ballListener;
     }
@@ -22,21 +24,27 @@ public class ControlHandler implements MouseListener, MouseMotionListener, KeyLi
     public void keyReleased(KeyEvent e) {
     }
     public void mouseClicked(MouseEvent e) {
-        // if (state.isInGame()) {
-            for (int i = 0; i < 6; i++) {
-                if (Point2D.distance(state.getMyBalls()[i].getLocation().getX(), state.getMyBalls()[i].getLocation().getY(), e.getX(), e.getY()) < Ball.BALL_RADIUS && !state.isSettingUp()) {
-                    ballListener.ballRelocated(state.getMyBalls()[i], new Point2D.Float(150f, 675f));
-                    break;
-                }
-            }
-        // }
     }
     public void mousePressed(MouseEvent e) {
+        // if (state.isInGame()) {
+
+        Ball closestBall = null;
+        float closestD = Float.MAX_VALUE;
+        for (Ball ball : state.getMyBalls()) {
+            float d = (float) ball.getLocation().distance(e.getPoint());
+            if (d < closestD){
+                closestBall = ball;
+                closestD = d;
+            }
+        }
+        if (closestD < Ball.BALL_RADIUS)
+            activeBall = closestBall;
+        // }
     }
     public void mouseReleased(MouseEvent e) {
         // if (state.isInGame()) {
+            activeBall = null;
             if (state.isSettingUp()) {
-                activeBall = null;
             } else {
                 state.getCueBall().setSpeed((float) velocity);
                 state.getCueBall().setAngle(rotation);
@@ -57,18 +65,23 @@ public class ControlHandler implements MouseListener, MouseMotionListener, KeyLi
     }
     public void mouseDragged(MouseEvent e) {
         // if (state.isInGame()) {
+            int y = e.getY();
+            int x = e.getX();
             if (state.isSettingUp()) {
                 for (int i = 0; i < GameState.NUMBER_OF_BALLS_PER_PLAYER; i++) {
-                    if (activeBall != null && e.getY() > 500f && e.getY() < 650f && e.getX() > 0f && e.getX() < 300f) {
-                        ballListener.ballRelocated(activeBall, new Point2D.Float(e.getX(), e.getY()));
+
+                    if (activeBall != null &&
+                            y > table.getHeight()-table.getBarDistance() &&
+                            y < table.getHeight()-table.getGutterDepth() &&
+                            x > 0f && x < table.getWidth()) {
+                        ballListener.ballRelocated(activeBall, new Point2D.Float(x, y));
                         break;
                     }
                 }
             } else {
-                float mouseX = e.getX();
-                float mouseY = e.getY();
-                velocity = Point2D.distance(mouseX, mouseY, state.getCueBall().getLocation().getX(),  state.getCueBall().getLocation().getY());
-                rotation = (float) Math.atan((state.getCueBall().getLocation().getX() - mouseX) / (state.getCueBall().getLocation().getY() - mouseY));
+
+                velocity = Point2D.distance(x, y, state.getCueBall().getLocation().getX(), state.getCueBall().getLocation().getY());
+                rotation = (float) Math.atan((state.getCueBall().getLocation().getX() - x) / (state.getCueBall().getLocation().getY() - y));
             }
         // }
     }

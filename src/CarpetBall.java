@@ -29,7 +29,7 @@ public class CarpetBall {
             }
         }); */
 
-        ControlHandler controlHandler = new ControlHandler(state, new BallListener() {
+        ControlHandler controlHandler = new ControlHandler(table, state, new BallListener() {
             public void ballSentIntoMotion(Ball b, float speed, float angle) {
                 engine.ballSentIntoMotion(b, speed, angle);
                 // networkHandler.ballSentIntoMotion(b, speed, angle);
