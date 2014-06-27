@@ -127,7 +127,7 @@ public class NetworkHandler implements BallListener{
         out = new PrintWriter(tCPSend.getOutputStream(),true);
 
     }
-    
+
     // BallListener implementation
 
     public void ballSentIntoMotion(Ball b, float speed, float angle) {
