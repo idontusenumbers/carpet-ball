@@ -51,10 +51,10 @@ public class ControlHandler implements MouseListener, MouseMotionListener, KeyLi
         if (state.isSettingUp()) {
             for (int i = 0; i < GameState.NUMBER_OF_BALLS_PER_PLAYER; i++) {
                 double distance = Point2D.distance(state.getMyBalls()[i].getLocation().getX(), state.getMyBalls()[i].getLocation().getY(), e.getX(), e.getY());
-                if (distance < Ball.BALL_RADIUS && activeBall == null) {
+                if (distance < Ball.BALL_RADIUS && activeBall == null && e.getY() > 500f) {
                     activeBall = state.getMyBalls()[i];
                     activeBall.setLocation(new Point2D.Float(e.getX(), e.getY()));
-                } else if (activeBall != null) {
+                } else if (activeBall != null && e.getY() > 500f) {
                     activeBall.setLocation(new Point2D.Float(e.getX(), e.getY()));
                 }
             }
