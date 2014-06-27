@@ -57,16 +57,16 @@ public class Engine implements BallListener{
     }
 
 	public float getImpactSpeed(Ball a, Ball b, boolean forMovingBall) {
-		if (a.getVelocity() > b.getVelocity()) {
+		if (a.getyVelocity() > b.getyVelocity()) {
 			if (forMovingBall)
-				return (float) (a.getVelocity() * 0.75);
+				return (float) (a.getyVelocity() * 0.75);
 			else
-				return (float) (a.getVelocity() * 0.5);
+				return (float) (a.getyVelocity() * 0.5);
 		} else {
 			if (forMovingBall)
-				return (float) (b.getVelocity() * 0.75);
+				return (float) (b.getyVelocity() * 0.75);
 			else
-				return (float) (b.getVelocity() * 0.5);
+				return (float) (b.getyVelocity() * 0.5);
 		}
 	}
 }
