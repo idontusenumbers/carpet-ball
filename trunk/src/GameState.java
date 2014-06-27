@@ -67,9 +67,6 @@ public class GameState {
     public Ball getCueBall() {
         return cueBall;
     }
-    public void setCueBall(Ball cueBall) {
-        this.cueBall = cueBall;
-    }
     public Ball[] getMyBalls() {
         return myBalls;
     }
