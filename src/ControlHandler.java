@@ -25,7 +25,7 @@ public class ControlHandler implements MouseListener, MouseMotionListener, KeyLi
         // if (state.isInGame()) {
             for (int i = 0; i < 6; i++) {
                 if (Point2D.distance(state.getMyBalls()[i].getLocation().getX(), state.getMyBalls()[i].getLocation().getY(), e.getX(), e.getY()) < Ball.BALL_RADIUS && !state.isSettingUp()) {
-                    state.getMyBalls()[i].setLocation(new Point2D.Float(150f, 675f));
+                    ballListener.ballRelocated(state.getMyBalls()[i], new Point2D.Float(150f, 675f));
                     break;
                 }
             }
@@ -51,7 +51,7 @@ public class ControlHandler implements MouseListener, MouseMotionListener, KeyLi
     public void mouseMoved(MouseEvent e) {
         // if (state.isInGame()) {
             if (e.getY() > 500f && !state.isSettingUp()) {
-                state.getCueBall().setLocation(new Point2D.Float(e.getX(), e.getY()));
+                ballListener.ballRelocated(state.getCueBall(), new Point2D.Float(e.getX(), e.getY()));
             }
         // }
     }
@@ -59,14 +59,10 @@ public class ControlHandler implements MouseListener, MouseMotionListener, KeyLi
         // if (state.isInGame()) {
             if (state.isSettingUp()) {
                 for (int i = 0; i < GameState.NUMBER_OF_BALLS_PER_PLAYER; i++) {
-                    double distance = Point2D.distance(state.getMyBalls()[i].getLocation().getX(), state.getMyBalls()[i].getLocation().getY(), e.getX(), e.getY());
-                    if (distance < Ball.BALL_RADIUS && activeBall == null && e.getY() > 500f && e.getY() < 650f && e.getX() > 0f && e.getX() < 300f) {
-                        activeBall = state.getMyBalls()[i];
-                        activeBall.setLocation(new Point2D.Float(e.getX(), e.getY()));
-                    } else if (activeBall != null && e.getY() > 500f && e.getY() < 650f && e.getX() > 0f && e.getX() < 300f) {
-                        activeBall.setLocation(new Point2D.Float(e.getX(), e.getY()));
+                    if (activeBall != null && e.getY() > 500f && e.getY() < 650f && e.getX() > 0f && e.getX() < 300f) {
+                        ballListener.ballRelocated(activeBall, new Point2D.Float(e.getX(), e.getY()));
+                        break;
                     }
-                    ballListener.ballRelocated(state.getCueBall(), new Point2D.Float(e.getX(), e.getY()));
                 }
             } else {
                 float mouseX = e.getX();
