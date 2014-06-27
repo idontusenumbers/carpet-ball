@@ -2,6 +2,7 @@ import java.awt.*;
 import java.io.*;
 import java.io.IOException;
 import java.net.*;
+import java.awt.geom.Point2D;
 
 public class NetworkHandler implements BallListener{
 
@@ -64,10 +65,10 @@ public class NetworkHandler implements BallListener{
     public void ballSentIntoMotion(Ball b, float speed, float angle) {
 
     }
-    public void ballRelocated(Ball b, Point p) {
+    public void ballRelocated(Ball b, Point2D p) {
 
     }
-    public void ballImpacted(Ball a, Ball b, Point impactPoint) {
+    public void ballImpacted(Ball a, Ball b, Point2D impactPoint) {
 
     }
 

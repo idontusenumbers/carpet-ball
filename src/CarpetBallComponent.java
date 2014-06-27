@@ -83,10 +83,10 @@ public class CarpetBallComponent extends JComponent implements BallListener {
     public void ballSentIntoMotion(Ball b, float speed, float angle) {
 
     }
-    public void ballRelocated(Ball b, Point p) {
+    public void ballRelocated(Ball b, Point2D p) {
 
     }
-    public void ballImpacted(Ball a, Ball b, Point impactPoint) {
+    public void ballImpacted(Ball a, Ball b, Point2D impactPoint) {
 
     }
 }

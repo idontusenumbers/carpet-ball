@@ -5,6 +5,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.IOException;
+import java.awt.geom.Point2D;
 
 public class CarpetBall {
 	public static void main(String[] args) throws IOException {
@@ -20,10 +21,10 @@ public class CarpetBall {
             public void ballSentIntoMotion(Ball b, float speed, float angle) {
                 engine.ballSentIntoMotion(b, speed, angle);
             }
-            public void ballRelocated(Ball b, Point p) {
+            public void ballRelocated(Ball b, Point2D p) {
                 engine.ballRelocated(b,p);
             }
-            public void ballImpacted(Ball a, Ball b, Point impactPoint) {
+            public void ballImpacted(Ball a, Ball b, Point2D impactPoint) {
                 component.ballImpacted(a, b, impactPoint);
             }
         });
@@ -33,11 +34,11 @@ public class CarpetBall {
                 engine.ballSentIntoMotion(b, speed, angle);
                 networkHandler.ballSentIntoMotion(b, speed, angle);
             }
-            public void ballRelocated(Ball b, Point p) {
+            public void ballRelocated(Ball b, Point2D p) {
                 engine.ballRelocated(b, p);
                 networkHandler.ballRelocated(b, p);
             }
-            public void ballImpacted(Ball a, Ball b, Point impactPoint) {
+            public void ballImpacted(Ball a, Ball b, Point2D impactPoint) {
 
             }
         });
