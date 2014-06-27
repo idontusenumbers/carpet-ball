@@ -17,29 +17,26 @@ public class Engine implements BallListener{
 		float newY = 0;
 		state.getCueBall().setLocation(new Point2D.Float(newX, newY));
 	}
-	public Point2D wall(int rise, int run, Point2D location, int loop)
+	public Point2D wall(int rise, int run, Point2D location)
 	{
-		double X;
-		double Y;
+		float X;
+		float Y;
 		Point2D wall = null;
-		for (int i = 0; i < loop; i+=1)
+		if (location.getX() < 300 && location.getX() > 0)
 		{
-			if (location.getX() < 300 && location.getX() > 0)
-			{
-				wall = null;
-			}
-			else
-			{
-				X = location.getX();
-				Y = location.getY();
-				wall = new Point2D.Double(X, Y);
-			}
-			if (location.getY() > 0)
-			{
-				wall = null;
-			}
-			location.setLocation(location.getX() + run, location.getY() + rise);
+			wall = null;
 		}
+		else
+		{
+			X = (float) location.getX();
+			Y = (float) location.getY();
+			wall = new Point2D.Float(X, Y);
+		}
+		if (location.getY() > 0)
+		{
+			wall = null;
+		}
+		location.setLocation(location.getX() + run, location.getY() + rise);
 		return wall;
 	}
 
@@ -57,19 +54,10 @@ public class Engine implements BallListener{
     }
 
 	public float getImpactSpeed(Ball a, Ball b, boolean forMovingBall) {
-		// TODO combine using Math.abs()
-        if (a.getSpeed() > b.getSpeed()) {
-			if (forMovingBall)
-				return (float) (a.getSpeed() * 0.75);
-			else
-				return (float) (a.getSpeed() * 0.5);
-		} else {
-			if (forMovingBall)
-				return (float) (b.getSpeed() * 0.75);
-			else
-				return (float) (b.getSpeed() * 0.5);
-		}
-
+		if (forMovingBall)
+			return (float) (Math.max(a.getSpeed(), b.getSpeed()) * 0.75);
+		else
+			return (float) (Math.max(a.getSpeed(), b.getSpeed()) * 0.5);
 	}
 }
 /*
