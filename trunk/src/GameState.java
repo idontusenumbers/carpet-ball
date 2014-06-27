@@ -39,6 +39,20 @@ public class GameState {
             number++;
         }
     }
+
+    public Ball getBall(int ballNumber){
+        if (ballNumber == 0)
+            return cueBall;
+        for (Ball b : myBalls) {
+            if (b.getNumber() == ballNumber)
+                return b;
+        }
+        for (Ball b : theirBalls) {
+            if (b.getNumber() == ballNumber)
+                return b;
+        }
+        throw new RuntimeException("Could not find ball: " + ballNumber);
+    }
     private boolean settingUp;
     public boolean isSettingUp() {
         return settingUp;
