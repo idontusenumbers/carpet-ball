@@ -11,6 +11,7 @@ public class NetworkHandler implements BallListener{
     public static final int BROADCAST_PORT = 6666;
     public static final int TCP_PORT = 6667;
     InetAddress group = InetAddress.getByName("224.6.6.6");
+
 	private GameState state;
     private BallListener ballListener;
     MulticastSocket mcs;
@@ -48,6 +49,13 @@ public class NetworkHandler implements BallListener{
                 }
             }
         });
+
+
+        broadcastListener.start();
+        TCPListener.start();
+        broadcast();
+
+
     }
 
     public void broadcast()throws IOException{
@@ -113,6 +121,25 @@ public class NetworkHandler implements BallListener{
 
         Scanner s = new Scanner(tcpConecetion.getInputStream());
 
+        if(s.next().contentEquals("THROW")){
+            int ballnumber = s.nextInt();
+            float speed = s.nextFloat();
+            float angle = s.nextFloat();
+
+            Ball ball = state.getBall(ballnumber);
+            ball.setSpeed(speed);
+            ball.setAngle(angle);
+
+
+        }
+        if(s.next().contentEquals("RELOCATED")){
+            int ballnumber = s.nextInt();
+            float x = s.nextFloat();
+            float y = s.nextFloat();
+
+            Ball ball = state.getBall(ballnumber);
+            ball.setLocation(new Point2D.Float(x,y));
+        }
 
     }
     public void shutdown() {
@@ -136,7 +163,7 @@ public class NetworkHandler implements BallListener{
         out.println(angle);
     }
     public void ballRelocated(Ball b, Point2D p) {
-        out.println("Impact");
+        out.println("RELOCATED");
         out.println(b.getNumber());
         out.println(p.getX());
         out.println(p.getY());
