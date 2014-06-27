@@ -212,6 +212,11 @@ public class NetworkHandler implements BallListener{
 
     }
 
+	@Override
+	public void ballCollidedWithWall(Ball b, float speed, float angle) {
+
+	}
+
 
 }
 

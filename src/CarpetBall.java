@@ -27,7 +27,12 @@ public class CarpetBall {
             public void ballImpacted(Ball a, Ball b, Point2D impactPoint) {
                 component.ballImpacted(a, b, impactPoint);
             }
-        });
+
+			 @Override
+			 public void ballCollidedWithWall(Ball b, float speed, float angle) {
+				 engine.ballCollidedWithWall(b, speed, angle);
+			 }
+		 });
 
         ControlHandler controlHandler = new ControlHandler(table, state, new BallListener() {
             public void ballSentIntoMotion(Ball b, float speed, float angle) {
@@ -41,7 +46,12 @@ public class CarpetBall {
             public void ballImpacted(Ball a, Ball b, Point2D impactPoint) {
 				engine.ballImpacted(a, b, impactPoint);
             }
-        });
+
+			@Override
+			public void ballCollidedWithWall(Ball b, float speed, float angle) {
+				engine.ballCollidedWithWall(b, speed, angle);
+			}
+		});
 
 
 

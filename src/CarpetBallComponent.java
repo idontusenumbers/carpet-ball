@@ -41,7 +41,7 @@ public class CarpetBallComponent extends JComponent implements BallListener {
         g.fillRect(0, 0, (int)table.getWidth(), (int)table.getGutterDepth());
         g.fillRect(0, (int) table.getHeight() - 50, (int) table.getWidth(), (int) table.getGutterDepth());
         g.setColor(new Color(117, 117, 117));
-        g.fillRect(0, (int)table.getGutterDepth(), (int)table.getWidth(), (int)table.getHeight() - (int)table.getGutterDepth() * 2);
+        g.fillRect(0, (int) table.getGutterDepth(), (int) table.getWidth(), (int) table.getHeight() - (int) table.getGutterDepth() * 2);
         g.setColor(new Color(200, 165, 80));
         g.fillRect(0, (int) table.getBarDistance(), (int) table.getWidth(), 5);
         g.fillRect(0, barTwo, (int)table.getWidth(), 5);
@@ -103,7 +103,13 @@ public class CarpetBallComponent extends JComponent implements BallListener {
     public void ballImpacted(Ball a, Ball b, Point2D impactPoint) {
 
     }
-    public void  play(String filename){
+
+	@Override
+	public void ballCollidedWithWall(Ball b, float speed, float angle) {
+
+	}
+
+	public void  play(String filename){
         try{
             Clip clip = AudioSystem.getClip();
             clip.open(AudioSystem.getAudioInputStream(new File (filename)));
