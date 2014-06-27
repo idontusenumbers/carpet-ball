@@ -6,6 +6,7 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.nio.Buffer;
+import java.util.Random;
 
 public class CarpetBallComponent extends JComponent implements BallListener {
 	private GameState state;
@@ -52,16 +53,23 @@ public class CarpetBallComponent extends JComponent implements BallListener {
             drawBall(g2, ball);
         }
         drawBall(g2, state.getCueBall());
-        if (state.isMyTurn() && !state.isSettingUp()){
+        if (!state.isInGame()){
             g.setColor(Color.RED);
-            g.drawString("YOUR", 95, (barTwo - (int)table.getBarDistance()) / 2 + (int)table.getBarDistance());
-            g.drawString("TURN", 175, (barTwo - (int)table.getBarDistance()) / 2 + (int)table.getBarDistance());
+            g.drawString("WAITING FOR PLAYER 2", 85, (barTwo - (int)table.getBarDistance()) / 2 + (int)table.getBarDistance() - 20);
         }
-        if (state.isSettingUp()){
-            g.setColor(Color.RED);
-            g.drawString("SET", 95, (barTwo - (int)table.getBarDistance()) / 2 + (int)table.getBarDistance());
-            g.drawString("UP", 175, (barTwo - (int)table.getBarDistance()) / 2 + (int)table.getBarDistance());
+        else {
+            if (state.isMyTurn() && !state.isSettingUp()) {
+                g.setColor(Color.RED);
+                g.drawString("YOUR", 95, (barTwo - (int) table.getBarDistance()) / 2 + (int) table.getBarDistance());
+                g.drawString("TURN", 175, (barTwo - (int) table.getBarDistance()) / 2 + (int) table.getBarDistance());
+            }
+            if (state.isSettingUp()) {
+                g.setColor(Color.RED);
+                g.drawString("SET", 95, (barTwo - (int) table.getBarDistance()) / 2 + (int) table.getBarDistance());
+                g.drawString("UP", 175, (barTwo - (int) table.getBarDistance()) / 2 + (int) table.getBarDistance());
+            }
         }
+
     }
     private BufferedImage getBufferedImage(File input){
         try {
@@ -75,6 +83,11 @@ public class CarpetBallComponent extends JComponent implements BallListener {
     private void drawBall(Graphics g, Ball b){
         Point2D loc = b.getLocation();
         int size = Ball.BALL_RADIUS;
+        if (b.isHovered()){
+            g.setColor(Color.WHITE);
+            g.fillOval((int)loc.getX() - size - 5, (int)loc.getY() - size - 5, (size + 5) * 2, (size + 5) * 2);
+        }
+
         g.drawImage(balls[b.getNumber()], (int) loc.getX() - size, (int) loc.getY() - size, size * 2, size * 2, null);
     }
 
