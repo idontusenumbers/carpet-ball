@@ -7,8 +7,8 @@ import java.util.Scanner;
 
 public class NetworkHandler implements BallListener{
 
-    public static final int BROADCAST_PORT = 6666;
-    public static final int TCP_PORT = 6667;
+    public static final int BROADCAST_PORT = 46666;
+    public static final int TCP_PORT = 46667;
     InetAddress group = InetAddress.getByName("224.6.6.6");
 
     private Table table;
