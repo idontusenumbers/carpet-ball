@@ -128,17 +128,18 @@ public class NetworkHandler implements BallListener{
 
     private boolean isLocalHost(InetAddress packetAddress) {
         try {
-            for (Enumeration<NetworkInterface> en = NetworkInterface.getNetworkInterfaces(); en.hasMoreElements();) {
-                NetworkInterface intf = en.nextElement();
+            for (Enumeration<NetworkInterface> interfaceEnumeration = NetworkInterface.getNetworkInterfaces(); interfaceEnumeration.hasMoreElements();) {
+                NetworkInterface intf = interfaceEnumeration.nextElement();
 
-                for (Enumeration<InetAddress> enumIpAddr = intf.getInetAddresses(); enumIpAddr.hasMoreElements(); ) {
-                    if (enumIpAddr.equals(packetAddress)){
+                for (Enumeration<InetAddress> addressEnumeration = intf.getInetAddresses(); addressEnumeration.hasMoreElements(); ) {
+                    InetAddress address = addressEnumeration.nextElement();
+                    if (address.equals(packetAddress)){
                         return true;
                     }
                 }
             }
         } catch (SocketException e) {
-
+            e.printStackTrace();
         }
         return false;
     }
