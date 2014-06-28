@@ -54,7 +54,7 @@ public class CarpetBallComponent extends JComponent implements BallListener {
             drawBall(g2, ball);
         }
         drawBall(g2, state.getCueBall());
-        if (!state.isConnected()){
+        if (!state.isInGame()){
             g.setColor(Color.RED);
             g.drawString("WAITING FOR PLAYER 2", 85, (barTwo - (int)table.getBarDistance()) / 2 + (int)table.getBarDistance() - 20);
         }

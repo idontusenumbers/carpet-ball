@@ -153,12 +153,17 @@ public class NetworkHandler implements BallListener{
         try {
 
             System.out.println(socket.getRemoteSocketAddress().toString() + " connected");
-            state.setConnected(true);
             networkOut = new PrintWriter(socket.getOutputStream());
+            startGame();
             listenForCommands(socket);
         }catch(Exception ex){
             ex.printStackTrace();
         }
+    }
+
+    private void startGame() {
+        state.setInGame(true);
+        state.setSettingUp(true);
     }
 
     private void listenForCommands(Socket socket) throws IOException {
@@ -197,7 +202,9 @@ public class NetworkHandler implements BallListener{
         Socket socket = new Socket(address, port);
 
         networkOut = new PrintWriter(socket.getOutputStream(),true);
+        startGame();
         listenForCommands(socket);
+
     }
 
     private ServerSocket openFirstAvailablePort(int startAtPort){
