@@ -11,7 +11,8 @@ public class NetworkHandler implements BallListener{
     public static final int TCP_PORT = 6667;
     InetAddress group = InetAddress.getByName("224.6.6.6");
 
-	private GameState state;
+    private Table table;
+    private GameState state;
     private BallListener ballListener;
     MulticastSocket mcs;
     PrintWriter networkOut;
@@ -19,8 +20,9 @@ public class NetworkHandler implements BallListener{
 
 
 
-    public NetworkHandler(GameState state, BallListener ballListener) throws IOException {
-		this.state = state;
+    public NetworkHandler(Table table, GameState state, BallListener ballListener) throws IOException {
+        this.table = table;
+        this.state = state;
         this.ballListener = ballListener;
 
         ServerSocket ss = new ServerSocket();
@@ -167,20 +169,20 @@ public class NetworkHandler implements BallListener{
             String command = s.nextLine();
             System.out.println("Received " + command);
             if(command.contentEquals("THROW")){
-                int ballnumber = s.nextInt();
+                int ballNumber = s.nextInt();
                 float speed = s.nextFloat();
                 float angle = s.nextFloat();
 
-                Ball ball = state.getBall(ballnumber);
+                Ball ball = state.getBall(ballNumber);
                 ball.setSpeed(speed);
                 ball.setAngle(angle);
             }
             if(command.contentEquals("RELOCATED")){
-                int ballnumber = s.nextInt();
-                float x = s.nextFloat();
-                float y = s.nextFloat();
+                int ballNumber = s.nextInt() + 6;
+                float x = table.getWidth() - s.nextFloat();
+                float y = table.getHeight() - s.nextFloat();
 
-                Ball ball = state.getBall(ballnumber);
+                Ball ball = state.getBall(ballNumber);
                 ball.setLocation(new Point2D.Float(x,y));
             }
         }
