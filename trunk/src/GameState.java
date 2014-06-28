@@ -6,17 +6,17 @@ public class GameState {
     private Ball cueBall;
     private boolean myTurn = true;
     private boolean inGame = false;
+    private boolean settingUp = false;
 
 
 
-    boolean connected = false;
+//    boolean connected = false;
 
     public GameState() {
 
     }
     public void reset(Table table){
         float r = Ball.BALL_RADIUS;
-
 
         myBalls = new Ball[NUMBER_OF_BALLS_PER_PLAYER];
         theirBalls = new Ball[NUMBER_OF_BALLS_PER_PLAYER];
@@ -34,8 +34,6 @@ public class GameState {
             myBalls[i] = new Ball(number, location);
             number++;
         }
-
-
 
         for (int i = 0; i < theirBalls.length; i++) {
             location = new Point2D.Float(table.getWidth()-( i*2* r + r), r + table.getGutterDepth());
@@ -57,7 +55,6 @@ public class GameState {
         }
         throw new RuntimeException("Could not find ball: " + ballNumber);
     }
-    private boolean settingUp;
     public boolean isSettingUp() {
         return settingUp;
     }
@@ -89,11 +86,5 @@ public class GameState {
     public void setInGame(boolean inGame) {
         this.inGame = inGame;
     }
-    public boolean isConnected() {
-        return connected;
-    }
 
-    public void setConnected(boolean connected) {
-        this.connected = connected;
-    }
 }
