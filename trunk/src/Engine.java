@@ -2,6 +2,7 @@ import java.awt.geom.Point2D;
 
 	public class Engine implements BallListener{
     private GameState state;
+
     public Engine(GameState state)
 	{
         this.state = state;
