@@ -14,7 +14,7 @@ public class NetworkHandler implements BallListener{
 	private GameState state;
     private BallListener ballListener;
     MulticastSocket mcs;
-    PrintWriter out;
+    PrintWriter networkOut;
     ServerSocket serverSocket;
 
 
@@ -148,10 +148,11 @@ public class NetworkHandler implements BallListener{
         System.out.println("Listening for incoming TCP " + serverSocket.getLocalPort());
         Socket socket = serverSocket.accept();
 
-        try{
+        try {
+
             System.out.println(socket.getRemoteSocketAddress().toString() + " connected");
             state.setConnected(true);
-            out = new PrintWriter(socket.getOutputStream());
+            networkOut = new PrintWriter(socket.getOutputStream());
             listenForCommands(socket);
         }catch(Exception ex){
             ex.printStackTrace();
@@ -162,10 +163,9 @@ public class NetworkHandler implements BallListener{
         System.out.println("Listening for commands");
         Scanner s = new Scanner(socket.getInputStream());
 
-        while(!socket.isConnected()){
-
+        while(socket.isConnected()) {
             String command = s.nextLine();
-            System.out.println("Recieved " + command);
+            System.out.println("Received " + command);
             if(command.contentEquals("THROW")){
                 int ballnumber = s.nextInt();
                 float speed = s.nextFloat();
@@ -174,8 +174,6 @@ public class NetworkHandler implements BallListener{
                 Ball ball = state.getBall(ballnumber);
                 ball.setSpeed(speed);
                 ball.setAngle(angle);
-
-
             }
             if(command.contentEquals("RELOCATED")){
                 int ballnumber = s.nextInt();
@@ -196,7 +194,7 @@ public class NetworkHandler implements BallListener{
         System.out.println("Establishing outgoing connection to " + address + ":" + port);
         Socket socket = new Socket(address, port);
 
-        out = new PrintWriter(socket.getOutputStream(),true);
+        networkOut = new PrintWriter(socket.getOutputStream(),true);
         listenForCommands(socket);
     }
 
@@ -218,17 +216,19 @@ public class NetworkHandler implements BallListener{
 
     public void ballSentIntoMotion(Ball b, float speed, float angle) {
         System.out.println("Sending THROW");
-        out.println("THROW");
-        out.println(b.getNumber());
-        out.println(speed);
-        out.println(angle);
+        networkOut.println("THROW");
+        networkOut.println(b.getNumber());
+        networkOut.println(speed);
+        networkOut.println(angle);
+        networkOut.flush();
     }
     public void ballRelocated(Ball b, Point2D p) {
         System.out.println("Sending RELOCATED");
-        out.println("RELOCATED");
-        out.println(b.getNumber());
-        out.println(p.getX());
-        out.println(p.getY());
+        networkOut.println("RELOCATED");
+        networkOut.println(b.getNumber());
+        networkOut.println(p.getX());
+        networkOut.println(p.getY());
+        networkOut.flush();
     }
     public void ballImpacted(Ball a, Ball b, Point2D impactPoint) {
 
