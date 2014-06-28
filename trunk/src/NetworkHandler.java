@@ -143,10 +143,11 @@ public class NetworkHandler implements BallListener{
         Socket tcpConecetion = serverSocket.accept();
         state.setConnected(true);
 
-
+        out = new PrintWriter(tcpConecetion.getOutputStream());
         Scanner s = new Scanner(tcpConecetion.getInputStream());
 
-        if(s.next().contentEquals("THROW")){
+        String command = s.nextLine();
+        if(command.contentEquals("THROW")){
             int ballnumber = s.nextInt();
             float speed = s.nextFloat();
             float angle = s.nextFloat();
@@ -157,7 +158,7 @@ public class NetworkHandler implements BallListener{
 
 
         }
-        if(s.next().contentEquals("RELOCATED")){
+        if(command.contentEquals("RELOCATED")){
             int ballnumber = s.nextInt();
             float x = s.nextFloat();
             float y = s.nextFloat();
