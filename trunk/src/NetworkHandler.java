@@ -109,7 +109,8 @@ public class NetworkHandler implements BallListener{
 
             if (state.isInGame()) {
                 System.out.println("... but I'm in game.");
-            } else if (remotePort == serverSocket.getLocalPort()) {
+            } else if (isLocalHost(packet.getAddress())
+                    && remotePort == serverSocket.getLocalPort()) {
                 System.out.println("... but it's from me.");
                 System.out.println("... remote port in packet: " + remotePort);
                 System.out.println("... my local port: " + serverSocket.getLocalPort());
@@ -125,18 +126,15 @@ public class NetworkHandler implements BallListener{
         System.out.println("No longer listening for broadcasts");
     }
 
-    private boolean isLocalHost(InetAddress address) {
-
+    private boolean isLocalHost(InetAddress packetAddress) {
         try {
-
             for (Enumeration<NetworkInterface> en = NetworkInterface.getNetworkInterfaces(); en.hasMoreElements();) {
                 NetworkInterface intf = en.nextElement();
 
                 for (Enumeration<InetAddress> enumIpAddr = intf.getInetAddresses(); enumIpAddr.hasMoreElements(); ) {
-                    if (enumIpAddr.equals(address)){
+                    if (enumIpAddr.equals(packetAddress)){
                         return true;
                     }
-
                 }
             }
         } catch (SocketException e) {
@@ -183,7 +181,13 @@ public class NetworkHandler implements BallListener{
                 ball.setAngle(angle);
             }
             if(command.contentEquals("RELOCATED")){
-                int ballNumber = s.nextInt() + 6;
+                int ballNumber;
+                ballNumber = s.nextInt();
+                if (ballNumber == 0) {
+                    ballNumber = 0;
+                } else {
+                    ballNumber += 6;
+                }
                 float x = table.getWidth() - s.nextFloat();
                 float y = table.getHeight() - s.nextFloat();
 
