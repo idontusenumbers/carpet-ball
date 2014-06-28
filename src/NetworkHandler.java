@@ -40,23 +40,29 @@ public class NetworkHandler implements BallListener{
         });
 
         // Start thread to listen for TCP connections
-        serverSocket = openFirstAvailablePort(TCP_PORT);
-        System.out.println("Listening on " +serverSocket.getLocalPort());
 
         Thread TCPListener = new Thread(new Runnable() {
 
             public void run() {
                 try{
-                    listensFortTCP();
+                    serverSocket = openFirstAvailablePort(TCP_PORT);
+
+                    broadcast();
+
+
+                    while( !serverSocket.isClosed()){
+                        listenForTCP();
+                    }
                 }catch (IOException e){
                     System.err.println("Error listening for broadcasts:" + e.getMessage());
                 }
+                System.out.println("No longer listening for TCP connections");
             }
         });
 
         broadcastListener.start();
         TCPListener.start();
-        broadcast();
+
 
 
     }
@@ -106,7 +112,7 @@ public class NetworkHandler implements BallListener{
                 System.out.println("... remote port in packet: " + remotePort);
                 System.out.println("... my local port: " + serverSocket.getLocalPort());
             } else {
-                sendTCP(packet.getAddress());
+                sendTCP(packet.getAddress(), remotePort);
                 String received = packet.getAddress().toString();
                 System.out.println(received + " has joined.");
                 mcs.leaveGroup(group);
@@ -137,47 +143,61 @@ public class NetworkHandler implements BallListener{
         return false;
     }
 
-    public void listensFortTCP()throws IOException {
+    public void listenForTCP()throws IOException {
 
+        System.out.println("Listening for incoming TCP " + serverSocket.getLocalPort());
+        Socket socket = serverSocket.accept();
 
-        Socket tcpConecetion = serverSocket.accept();
-        state.setConnected(true);
-
-        out = new PrintWriter(tcpConecetion.getOutputStream());
-        Scanner s = new Scanner(tcpConecetion.getInputStream());
-
-        String command = s.nextLine();
-        if(command.contentEquals("THROW")){
-            int ballnumber = s.nextInt();
-            float speed = s.nextFloat();
-            float angle = s.nextFloat();
-
-            Ball ball = state.getBall(ballnumber);
-            ball.setSpeed(speed);
-            ball.setAngle(angle);
-
-
+        try{
+            System.out.println(socket.getRemoteSocketAddress().toString() + " connected");
+            state.setConnected(true);
+            out = new PrintWriter(socket.getOutputStream());
+            listenForCommands(socket);
+        }catch(Exception ex){
+            ex.printStackTrace();
         }
-        if(command.contentEquals("RELOCATED")){
-            int ballnumber = s.nextInt();
-            float x = s.nextFloat();
-            float y = s.nextFloat();
-
-            Ball ball = state.getBall(ballnumber);
-            ball.setLocation(new Point2D.Float(x,y));
-        }
-
-        System.out.println("No longer listening for TCP connections");
     }
+
+    private void listenForCommands(Socket socket) throws IOException {
+        System.out.println("Listening for commands");
+        Scanner s = new Scanner(socket.getInputStream());
+
+        while(!socket.isConnected()){
+
+            String command = s.nextLine();
+            System.out.println("Recieved " + command);
+            if(command.contentEquals("THROW")){
+                int ballnumber = s.nextInt();
+                float speed = s.nextFloat();
+                float angle = s.nextFloat();
+
+                Ball ball = state.getBall(ballnumber);
+                ball.setSpeed(speed);
+                ball.setAngle(angle);
+
+
+            }
+            if(command.contentEquals("RELOCATED")){
+                int ballnumber = s.nextInt();
+                float x = s.nextFloat();
+                float y = s.nextFloat();
+
+                Ball ball = state.getBall(ballnumber);
+                ball.setLocation(new Point2D.Float(x,y));
+            }
+        }
+    }
+
     public void shutdown() {
         mcs.close();
     }
 
-    public void sendTCP(InetAddress destination)throws IOException{
-        Socket tCPSend = new Socket(destination, TCP_PORT);
+    public void sendTCP(InetAddress address, int port)throws IOException{
+        System.out.println("Establishing outgoing connection to " + address + ":" + port);
+        Socket socket = new Socket(address, port);
 
-        out = new PrintWriter(tCPSend.getOutputStream(),true);
-
+        out = new PrintWriter(socket.getOutputStream(),true);
+        listenForCommands(socket);
     }
 
     private ServerSocket openFirstAvailablePort(int startAtPort){
