@@ -17,7 +17,7 @@ public class CarpetBall {
         final Engine engine = new Engine(state);
         final CarpetBallComponent component = new CarpetBallComponent(table, state);
 
-         final NetworkHandler networkHandler = new NetworkHandler(state, new BallListener(){
+         final NetworkHandler networkHandler = new NetworkHandler(table, state, new BallListener(){
             public void ballSentIntoMotion(Ball b, float speed, float angle) {
                 engine.ballSentIntoMotion(b, speed, angle);
             }
