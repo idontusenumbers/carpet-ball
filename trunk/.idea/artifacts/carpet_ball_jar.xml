@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="carpet-ball:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/carpet_ball_jar</output-path>
+    <root id="archive" name="carpet-ball.jar">
+      <element id="module-output" name="carpet-ball" />
+    </root>
+  </artifact>
+</component>
