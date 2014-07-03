@@ -17,10 +17,6 @@ public class Ball {
     }
 
 
-	public boolean isInGutter() {
-		float y = (float) getLocation().getY();
-		return (y > 0 && y < 50) || (y > 650 && y < 700);
-	}
 
     public int getNumber() {
         return number;
@@ -39,12 +35,7 @@ public class Ball {
         return angle;
     }
 
-	public float getHorizontalSpeed() {
-		if (getAngle() > (Math.PI / 2) && getAngle() < (3 * Math.PI / 2))
-			return (float) (- getSpeed() * Math.cos(getAngle()));
-		else
-			return (float) (getSpeed() * Math.cos(getAngle()));
-	}
+
 
     public void setAngle(float angle) {
         this.angle = angle;

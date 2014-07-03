@@ -6,7 +6,7 @@ public class ControlHandler implements MouseListener, MouseMotionListener, KeyLi
     private GameState state;
     private BallListener ballListener;
     double velocity = 0;
-    float rotation = 0;
+    float angle = 0;
     Ball activeBall;
 
     public ControlHandler(Table table, GameState state, BallListener ballListener) {
@@ -19,7 +19,7 @@ public class ControlHandler implements MouseListener, MouseMotionListener, KeyLi
     }
 
     public void keyPressed(KeyEvent e) {
-        if (state.isInGame()) {
+        if (shouldAllowControl()) {
             if (e.getKeyCode() == KeyEvent.VK_ENTER) {
                 state.setSettingUp(false);
             }
@@ -33,7 +33,7 @@ public class ControlHandler implements MouseListener, MouseMotionListener, KeyLi
     }
 
     public void mousePressed(MouseEvent e) {
-        if (state.isInGame()) {
+        if (shouldAllowControl()) {
 
             Ball closestBall = null;
             float closestD = Float.MAX_VALUE;
@@ -50,15 +50,21 @@ public class ControlHandler implements MouseListener, MouseMotionListener, KeyLi
     }
 
     public void mouseReleased(MouseEvent e) {
-        if (state.isInGame()) {
+        if (shouldAllowControl()) {
             activeBall = null;
             if (state.isSettingUp()) {
-            } else {
+            } else if (canControlMyTurn()) {
                 state.getCueBall().setSpeed((float) velocity);
-                state.getCueBall().setAngle(rotation);
-                ballListener.ballSentIntoMotion(state.getCueBall(), (float) velocity, rotation);
+                state.getCueBall().setAngle(angle);
+                ballListener.ballSentIntoMotion(state.getCueBall(), (float) velocity, angle);
+                state.setMyTurn(false);
             }
         }
+    }
+
+    private boolean shouldAllowControl() {
+        return true;
+//        return state.isInGame();
     }
 
     public void mouseEntered(MouseEvent e) {
@@ -68,32 +74,53 @@ public class ControlHandler implements MouseListener, MouseMotionListener, KeyLi
     }
 
     public void mouseMoved(MouseEvent e) {
-        if (state.isInGame()) {
-            if (e.getY() > 500f && !state.isSettingUp()) {
-                ballListener.ballRelocated(state.getCueBall(), new Point2D.Float(e.getX(), e.getY()));
+        if (shouldAllowControl()) {
+            if (!state.isSettingUp() && canControlMyTurn() &&
+                    e.getY() > table.getHeight() - table.getBarDistance()) {
+                int x = (int) Math.max(Ball.BALL_RADIUS, Math.min(table.getWidth() - Ball.BALL_RADIUS, e.getX()));
+                int y = (int) Math.max(table.getHeight() - table.getBarDistance(),
+                        Math.min(table.getHeight()- table.getGutterDepth(), e.getY()));
+                ballListener.ballRelocated(state.getCueBall(), new Point2D.Float(x, y));
             }
         }
     }
 
+    private boolean canControlMyTurn() {
+//        return true;
+        return state.getCueBall().getSpeed() < 0.001 ;// && state.isMyTurn();
+    }
+
     public void mouseDragged(MouseEvent e) {
-        if (state.isInGame()) {
-            int y = e.getY();
-            int x = e.getX();
+        if (shouldAllowControl()) {
+            int mouseY = e.getY();
+            int mouseX = e.getX();
             if (state.isSettingUp()) {
                 for (int i = 0; i < GameState.NUMBER_OF_BALLS_PER_PLAYER; i++) {
 
                     if (activeBall != null &&
-                            y > table.getHeight() - table.getBarDistance() &&
-                            y < table.getHeight() - table.getGutterDepth() &&
-                            x > 0f && x < table.getWidth()) {
-                        ballListener.ballRelocated(activeBall, new Point2D.Float(x, y));
+                            mouseY > table.getHeight() - table.getBarDistance() &&
+                            mouseY < table.getHeight() - table.getGutterDepth() &&
+                            mouseX > 0f && mouseX < table.getWidth()) {
+                        ballListener.ballRelocated(activeBall, new Point2D.Float(mouseX, mouseY));
                         break;
                     }
                 }
-            } else {
+            } else if (state.isMyTurn()) {
+                if (e.isShiftDown())
+                    System.out.println("break!");
+                velocity = Point2D.distance(mouseX, mouseY, state.getCueBall().getLocation().getX(), state.getCueBall().getLocation().getY());
+                double x = mouseX - state.getCueBall().getLocation().getX();
+                double y = state.getCueBall().getLocation().getY() - mouseY;
 
-                velocity = Point2D.distance(x, y, state.getCueBall().getLocation().getX(), state.getCueBall().getLocation().getY());
-                rotation = (float) Math.atan((state.getCueBall().getLocation().getX() - x) / (state.getCueBall().getLocation().getY() - y));
+
+                angle = (float) (Math.atan(Math.abs(y)/Math.abs(x)));
+                if (x<0 && y >0)
+                    angle= (float) (Math.PI - angle);
+                if (x<0 && y<=0)
+                    angle+=Math.PI;
+                if (x>=0 && y<0)
+                    angle= (float) (2* Math.PI - angle);
+                System.out.println(angle);
             }
         }
     }

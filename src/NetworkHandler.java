@@ -153,6 +153,7 @@ public class NetworkHandler implements BallListener{
 
             System.out.println(socket.getRemoteSocketAddress().toString() + " connected");
             networkOut = new PrintWriter(socket.getOutputStream());
+            state.setMyTurn(true);
             startGame();
             listenForCommands(socket);
         }catch(Exception ex){
@@ -171,22 +172,21 @@ public class NetworkHandler implements BallListener{
 
         while(socket.isConnected()) {
             String command = s.nextLine();
-            System.out.println("Received " + command);
+//            System.out.println("Received " + command);
             if(command.contentEquals("THROW")){
                 int ballNumber = s.nextInt();
                 float speed = s.nextFloat();
                 float angle = s.nextFloat();
-
+                if (ballNumber == 0)
+                    state.setMyTurn(true);
                 Ball ball = state.getBall(ballNumber);
                 ball.setSpeed(speed);
-                ball.setAngle(angle);
+                ball.setAngle((float) (angle));
             }
             if(command.contentEquals("RELOCATED")){
                 int ballNumber;
                 ballNumber = s.nextInt();
-                if (ballNumber == 0) {
-                    ballNumber = 0;
-                } else {
+                if (ballNumber != 0) {
                     ballNumber += 6;
                 }
                 float x = table.getWidth() - s.nextFloat();
@@ -207,6 +207,7 @@ public class NetworkHandler implements BallListener{
         Socket socket = new Socket(address, port);
 
         networkOut = new PrintWriter(socket.getOutputStream(),true);
+        state.setMyTurn(false);
         startGame();
         listenForCommands(socket);
 
@@ -229,7 +230,9 @@ public class NetworkHandler implements BallListener{
     // BallListener implementation
 
     public void ballSentIntoMotion(Ball b, float speed, float angle) {
-        System.out.println("Sending THROW");
+//        System.out.println("Sending THROW");
+        if (networkOut == null)
+            return;
         networkOut.println("THROW");
         networkOut.println(b.getNumber());
         networkOut.println(speed);
@@ -237,7 +240,9 @@ public class NetworkHandler implements BallListener{
         networkOut.flush();
     }
     public void ballRelocated(Ball b, Point2D p) {
-        System.out.println("Sending RELOCATED");
+//        System.out.println("Sending RELOCATED");
+        if (networkOut == null)
+            return;
         networkOut.println("RELOCATED");
         networkOut.println(b.getNumber());
         networkOut.println(p.getX());
