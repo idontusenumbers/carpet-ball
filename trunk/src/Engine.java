@@ -70,22 +70,22 @@ public class Engine implements BallListener {
         if (angle < Math.PI / 2)
             return (float) (mag * Math.cos(angle));
         else if (angle < Math.PI)
-            return (float) (-mag * (1-Math.cos(angle - Math.PI / 2)));
+            return (float) -(mag * (Math.cos(Math.PI  - angle)));
         else if (angle < Math.PI * 1.5)
-            return (float) (-mag * Math.cos(angle - Math.PI));
+            return (float) -(mag * Math.cos(angle - Math.PI));
         else
-            return (float) (mag * Math.cos(angle - Math.PI * 1.5));
+            return (float) (mag * Math.cos(Math.PI * 2  - angle));
     }
 
     public float getYComp(float mag, float angle) {
         if (angle < Math.PI / 2)
-            return (float) (mag * Math.sin(angle));
+            return (float) -(mag * Math.sin(angle));
         else if (angle < Math.PI)
-            return (float) (-mag * Math.sin(angle - Math.PI / 2));
+            return (float) -(mag * Math.sin(Math.PI  - angle));
         else if (angle < Math.PI * 1.5)
-            return (float) (-mag * Math.sin(angle - Math.PI));
+            return (float) (mag * Math.sin(angle - Math.PI));
         else
-            return (float) (mag * Math.sin(angle - Math.PI * 1.5));
+            return (float) (mag * Math.sin(Math.PI * 2  - angle));
     }
 
     public boolean isInGutter(Ball b) {
