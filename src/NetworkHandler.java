@@ -181,7 +181,7 @@ public class NetworkHandler implements BallListener{
                     state.setMyTurn(true);
                 Ball ball = state.getBall(ballNumber);
                 ball.setSpeed(speed);
-                ball.setAngle((float) (angle));
+                ball.setAngle((float) ((angle +  Math.PI) % (Math.PI*2)));
             }
             if(command.contentEquals("RELOCATED")){
                 int ballNumber;

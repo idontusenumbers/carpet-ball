@@ -63,8 +63,8 @@ public class ControlHandler implements MouseListener, MouseMotionListener, KeyLi
     }
 
     private boolean shouldAllowControl() {
-        return true;
-//        return state.isInGame();
+        //return true;
+        return state.isInGame();
     }
 
     public void mouseEntered(MouseEvent e) {
@@ -87,7 +87,7 @@ public class ControlHandler implements MouseListener, MouseMotionListener, KeyLi
 
     private boolean canControlMyTurn() {
 //        return true;
-        return state.getCueBall().getSpeed() < 0.001 ;// && state.isMyTurn();
+        return state.getCueBall().getSpeed() < 0.001  && state.isMyTurn();
     }
 
     public void mouseDragged(MouseEvent e) {
@@ -106,8 +106,6 @@ public class ControlHandler implements MouseListener, MouseMotionListener, KeyLi
                     }
                 }
             } else if (state.isMyTurn()) {
-                if (e.isShiftDown())
-                    System.out.println("break!");
                 velocity = Point2D.distance(mouseX, mouseY, state.getCueBall().getLocation().getX(), state.getCueBall().getLocation().getY());
                 double x = mouseX - state.getCueBall().getLocation().getX();
                 double y = state.getCueBall().getLocation().getY() - mouseY;
