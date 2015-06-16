@@ -51,9 +51,7 @@ public class CarpetBall {
             }
 
             @Override
-            public void ballCollidedWithWall(Ball b, float speed, float angle) {
-                engine.ballCollidedWithWall(b, speed, angle);
-            }
+            public void ballCollidedWithWall(Ball b, float speed, float angle) {}
         });
 
         controlHandler = new ControlHandler(table, state, new BallListener() {
@@ -70,9 +68,7 @@ public class CarpetBall {
             }
 
             @Override
-            public void ballCollidedWithWall(Ball b, float speed, float angle) {
-                engine.ballCollidedWithWall(b, speed, angle);
-            }
+            public void ballCollidedWithWall(Ball b, float speed, float angle) {}
         });
 
 
@@ -85,7 +81,7 @@ public class CarpetBall {
         });
 
         frame.setLayout(new GridBagLayout());
-        frame.add(component, new GridBagConstraints(0, 0, 1, 1, 1, 1,GridBagConstraints.CENTER, GridBagConstraints.BOTH, new Insets(10, 10, 1, 1), 1, 1));
+        frame.add(component, new GridBagConstraints(0, 0, 1, 1, 1, 1,GridBagConstraints.CENTER, GridBagConstraints.BOTH, new Insets(10, 10, 10, 10), 1, 1));
         frame.pack();
         frame.getContentPane().setBackground(new Color(200, 165, 80));
         frame.setResizable(false);

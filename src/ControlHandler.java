@@ -53,10 +53,12 @@ public class ControlHandler implements MouseListener, MouseMotionListener, KeyLi
         if (shouldAllowControl()) {
             activeBall = null;
             if (state.isSettingUp()) {
+
             } else if (canControlMyTurn()) {
-                state.getCueBall().setSpeed((float) velocity);
-                state.getCueBall().setAngle(angle);
-                ballListener.ballSentIntoMotion(state.getCueBall(), (float) velocity, angle);
+                Ball cueBall = state.getCueBall();
+                cueBall.setSpeed((float) velocity);
+                cueBall.setAngle(angle);
+                ballListener.ballSentIntoMotion(cueBall, (float) velocity, angle);
                 state.setMyTurn(false);
             }
         }

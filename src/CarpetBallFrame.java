@@ -6,6 +6,6 @@ public class CarpetBallFrame extends JFrame {
 	public CarpetBallFrame(GameState state) throws HeadlessException {
 		super("Carpet Ball");
 		this.state = state;
-		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+		setDefaultCloseOperation(EXIT_ON_CLOSE);
 	}
 }
