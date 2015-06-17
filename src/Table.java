@@ -15,9 +15,7 @@ public class Table {
         return height;
     }
 
-    public float getWidth() {
-        return width;
-    }
+    public float getWidth() {return width;    }
 
     public float getBarDistance() {
         return barDistance;
