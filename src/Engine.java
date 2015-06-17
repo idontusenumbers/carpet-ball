@@ -106,10 +106,11 @@ public class Engine implements BallListener {
 		float y = newLocation.y;
 		// Check to run into wall
         if (x > table.getWidth() - Ball.BALL_RADIUS) {
-			reflectY(b);
 			b.setLocation(new Point2D.Float(-x+Ball.BALL_RADIUS,y));
+			reflectY(b);
 
 		} else if (x < Ball.BALL_RADIUS) {
+			b.setLocation(new Point2D.Float(table.getWidth()-(x-table.getWidth())-Ball.BALL_RADIUS,y));
 			reflectY(b);
 
 		}
