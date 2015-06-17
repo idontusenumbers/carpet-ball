@@ -98,10 +98,11 @@ public class Engine implements BallListener {
 		return (y > 0 && y < table.getGutterDepth()) || (y > table.getHeight() - table.getGutterDepth() && y < 700);
 	}
 
-	private void possiblyRepositionDueToWall(Ball b, Point2D.Float aFloat) {
+	private void possiblyRepositionDueToWall(Ball b, Point2D.Float newLocation) {
 
-		float x = (float) b.getLocation().getX();
-		float y = (float) b.getLocation().getY();
+		b.setLocation(newLocation);
+		float x = newLocation.x;
+		float y = newLocation.y;
 		// Check to run into wall
 		if (x > table.getWidth() - Ball.BALL_RADIUS && x > (int)table.getWidth()/2) {
 			reflectY(b);
@@ -131,7 +132,6 @@ public class Engine implements BallListener {
 			Point2D newLoc = new Point2D.Float((float) ((cueLocation.getX() + x) / 2), (float) ((cueLocation.getY() + y) / 2));
 			ballImpacted(b, state.getCueBall(), newLoc);
 		}
-
 
 	}
 
