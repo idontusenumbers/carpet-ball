@@ -1,3 +1,4 @@
+import java.awt.*;
 import java.awt.geom.Point2D;
 
 public class Engine implements BallListener {
@@ -103,13 +104,13 @@ public class Engine implements BallListener {
 		float x = (float) b.getLocation().getX();
 		float y = (float) b.getLocation().getY();
 		// Check to run into wall
-		if (x > table.getWidth() - Ball.BALL_RADIUS && x > (int)table.getWidth()/2) {
+        if (x > table.getWidth() - Ball.BALL_RADIUS) {
 			reflectY(b);
-			// TODO calculate reflected position
+			b.setLocation(new Point2D.Float(-x+Ball.BALL_RADIUS,y));
 
-		}
-		if (x < Ball.BALL_RADIUS && x < (int)table.getWidth()/2){
+		} else if (x < Ball.BALL_RADIUS) {
 			reflectY(b);
+
 		}
 		// Check to run into your balls
 		for (Ball ball : state.getMyBalls()) {

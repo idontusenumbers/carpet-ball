@@ -50,7 +50,7 @@ public class CarpetBall {
                 component.ballImpacted(a, b, impactPoint);
             }
 
-            @Override
+
             public void ballCollidedWithWall(Ball b, float speed, float angle) {}
         });
 
