@@ -1,4 +1,6 @@
 import java.awt.geom.Point2D;
+import java.rmi.Naming;
+
 public class GameState {
 	public static final int NUMBER_OF_BALLS_PER_PLAYER = 6;
 	private Ball[] myBalls;
@@ -7,6 +9,7 @@ public class GameState {
     private boolean myTurn = true;
     private boolean inGame = false;
     private boolean settingUp = false;
+	private boolean Naming = true;
 
 
 
@@ -87,4 +90,8 @@ public class GameState {
         this.inGame = inGame;
     }
 
+	public boolean isNaming() { return Naming; }
+
+	public void setIsNaming(boolean Naming) { this.Naming = Naming; }
 }
+// this.isNaming = isNaming;
