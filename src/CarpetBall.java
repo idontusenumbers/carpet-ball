@@ -6,6 +6,7 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.IOException;
 import java.awt.geom.Point2D;
+import java.util.Arrays;
 
 public class CarpetBall {
 
@@ -14,13 +15,10 @@ public class CarpetBall {
     final NetworkHandler networkHandler;
     final ControlHandler controlHandler;
 
-    public CarpetBall() throws IOException {
+    public CarpetBall(final boolean debugPhysics) throws IOException {
         Table table =  new Table(700f,300f,200f,50f);
-        GameState state = new GameState();
+        final GameState state = new GameState();
         state.reset(table);
-
-
-
 
         engine = new Engine(table, state, new BallListener(){
             public void ballSentIntoMotion(Ball b, float speed, float angle) {
@@ -96,16 +94,27 @@ public class CarpetBall {
             public void actionPerformed(ActionEvent e) {
                 engine.tick();
                 component.repaint();
+
+
+				if (debugPhysics){
+					state.setInGame(true);
+					state.setSettingUp(false);
+					state.setMyTurn(true);
+				}
+
             }
         });
         timer.start();
+
+
+
 
     }
 
     public static void main(String[] args) throws IOException {
 
-
-        new CarpetBall();
+		boolean debugPhysics = Arrays.asList(args).contains("debugphysics");
+		new CarpetBall(debugPhysics);
 
 	}
 }
