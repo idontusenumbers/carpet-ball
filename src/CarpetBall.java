@@ -14,6 +14,7 @@ public class CarpetBall {
     final Engine engine;
     final NetworkHandler networkHandler;
     final ControlHandler controlHandler;
+    final JTextField nameField;
 
     public CarpetBall(final boolean debugPhysics) throws IOException {
         Table table =  new Table(700f,300f,200f,50f);
@@ -36,6 +37,7 @@ public class CarpetBall {
             }
         });
         component = new CarpetBallComponent(table, state);
+        nameField = new JTextField("Enter Name");
 
         networkHandler = new NetworkHandler(table, state, new BallListener(){
             public void ballSentIntoMotion(Ball b, float speed, float angle) {
@@ -80,6 +82,7 @@ public class CarpetBall {
 
         frame.setLayout(new GridBagLayout());
         frame.add(component, new GridBagConstraints(0, 0, 1, 1, 1, 1,GridBagConstraints.CENTER, GridBagConstraints.BOTH, new Insets(10, 10, 10, 10), 1, 1));
+        frame.add(nameField);
         frame.pack();
         frame.getContentPane().setBackground(new Color(200, 165, 80));
         frame.setResizable(false);
