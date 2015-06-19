@@ -1,0 +1,7 @@
+TODO cue ball shouldn't start in the middle of the table at the beginning of the game
+TODO your turn can be activated while one player is setting up
+TODO don't send mouse events if the window doesn't have focus
+TODO DEFINE/COMMENT ON CONFUSING OR POORLY NAMED VARIABLES
+TODO FINISHED BY MATT JUNE 17 2015 3:32 PICTURE FLICKERING TAN COLOR* (3actually is a failure)
+TODO look up etymology of "guarino"
+TODO WHAT IS getHorizontalSpeed
