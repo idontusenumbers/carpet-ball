@@ -16,6 +16,9 @@ public class CarpetBall {
 	private Table table;
 	private GameState state;
 
+	private String playerName;
+
+
 
 	public CarpetBall(final boolean debugPhysics) throws IOException {
 		table = new Table(700f, 300f, 200f, 50f);

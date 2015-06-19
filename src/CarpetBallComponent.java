@@ -73,6 +73,7 @@ public class CarpetBallComponent extends JComponent {
 				g.drawString("ENTER YOUR", 46, (barTwo - (int) table.getBarDistance()) / 2 + (int) table.getBarDistance());
 				g.drawString("NAME, PLEASE", 173, (barTwo - (int) table.getBarDistance()) / 2 + (int) table.getBarDistance());
 
+
 			if (state.isMyTurn() && !state.isSettingUp()) {
 				g.setColor(Color.RED);
 				g.drawString("YOUR", 95, (barTwo - (int) table.getBarDistance()) / 2 + (int) table.getBarDistance());
