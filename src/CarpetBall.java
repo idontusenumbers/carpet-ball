@@ -9,14 +9,16 @@ import java.awt.geom.Point2D;
 import java.io.IOException;
 import java.util.Arrays;
 
-public class CarpetBall {
+public class CarpetBall implements GameListener{
 	private Engine engine;
 	private NetworkHandler networkHandler;
 	private ControlHandler controlHandler;
 	private Table table;
 	private GameState state;
+	final CarpetBallFrame frame;
 
-	private String playerName;
+	private String localPlayerName;
+	private String networkPlayerName;
 
 
 
@@ -78,7 +80,7 @@ public class CarpetBall {
 			public void ballCollidedWithWall(Ball b, float speed, float angle) {
 			}
 		});
-		final CarpetBallFrame frame = new CarpetBallFrame(this);
+		frame = new CarpetBallFrame(this);
 
 		frame.addWindowListener(new WindowAdapter() {
 			public void windowClosed(WindowEvent e) {
@@ -124,6 +126,32 @@ public class CarpetBall {
 
 	public GameState getState() {
 		return state;
+	}
+
+	public String getLocalPlayerName() {
+		return localPlayerName;
+	}
+
+	public void setLocalPlayerName(String localPlayerName) {
+		this.localPlayerName = localPlayerName;
+	}
+
+	public String getNetworkPlayerName() {
+		return networkPlayerName;
+	}
+
+	public void setNetworkPlayerName(String networkPlayerName) {
+		this.networkPlayerName = networkPlayerName;
+	}
+
+	public void LocalPlayerNameChanged(String playerName) {
+		frame.LocalPlayerNameChanged(playerName);
+		networkHandler.LocalPlayerNameChanged(playerName);
+	}
+
+	public void NetworkPlayerNameChanged(String playerName) {
+		frame.LocalPlayerNameChanged(playerName);
+		networkHandler.LocalPlayerNameChanged(playerName);
 	}
 
 	public static void main(String[] args) throws IOException {

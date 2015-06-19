@@ -4,7 +4,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 
-public class CarpetBallFrame extends JFrame {
+public class CarpetBallFrame extends JFrame implements GameListener {
 	final CarpetBallComponent component;
 
 	final JTextField nameField;
@@ -12,7 +12,7 @@ public class CarpetBallFrame extends JFrame {
 	final JLabel namesP1;
 	final JLabel namesP2;
 
-	public CarpetBallFrame(CarpetBall carpetball) throws HeadlessException {
+	public CarpetBallFrame(final CarpetBall carpetball) throws HeadlessException {
 		super("Carpet Ball");
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 
@@ -24,18 +24,10 @@ public class CarpetBallFrame extends JFrame {
 		component = new CarpetBallComponent(carpetball);
 		nameField = new JTextField("Name Here");
 		nameButton = new JButton("Confirm Name");
-		String NameP1 = null;
-		namesP1 = new JLabel(NameP1);
-		String NameP2 = null;
-		namesP2 = new JLabel(NameP2);
-		NameP1 = "";
-		NameP2 = "";
+
 		nameButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				if (nameField.getText() != "Name Here") {
-//					NameP1 = nameField.getText();
-				}
-
+				carpetball.LocalPlayerNameChanged("change me!");
 
 			}
 		});
@@ -60,9 +52,13 @@ public class CarpetBallFrame extends JFrame {
 
 	}
 
-	public void MouseClicked(MouseEvent event) {
-
-
+	@Override
+	public void LocalPlayerNameChanged(String playerName) {
+		// There's no need to update because that comes from the text box
 	}
 
+	@Override
+	public void NetworkPlayerNameChanged(String playerName) {
+		// TODO update the label that shows the network player name
+	}
 }

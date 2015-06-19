@@ -5,7 +5,7 @@ import java.awt.geom.Point2D;
 import java.util.Enumeration;
 import java.util.Scanner;
 
-public class NetworkHandler implements BallListener{
+public class NetworkHandler implements BallListener, GameListener{
 
     public static final int BROADCAST_PORT = 46666;
     public static final int TCP_PORT = 46667;
@@ -253,11 +253,17 @@ public class NetworkHandler implements BallListener{
 
     }
 
-	@Override
 	public void ballCollidedWithWall(Ball b, float speed, float angle) {
 
 	}
 
+	public void LocalPlayerNameChanged(String playerName) {
+		// TODO send local player name to remote computer
+	}
+
+	public void NetworkPlayerNameChanged(String playerName) {
+
+	}
 }
 
 
