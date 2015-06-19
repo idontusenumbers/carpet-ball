@@ -8,18 +8,19 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 
-public class CarpetBallComponent extends JComponent implements BallListener {
+public class CarpetBallComponent extends JComponent {
 	private GameState state;
 	private Table table;
 	BufferedImage[] balls = new BufferedImage[13];
 
 
-	public CarpetBallComponent(Table table, GameState state) {
+	public CarpetBallComponent(CarpetBall carpetBall) {
+		state = carpetBall.getState();
+		table = carpetBall.getTable();
+
 		setFocusable(true);
-		this.table = table;
-		state.setSettingUp(true);
 		setPreferredSize(new Dimension((int) table.getWidth(), (int) table.getHeight()));
-		this.state = state;
+
 		for (int x = 0; x < balls.length; x++) {
 			balls[x] = getBufferedImage(new File(x + "Ball.png"));
 		}
@@ -71,6 +72,7 @@ public class CarpetBallComponent extends JComponent implements BallListener {
 				//TODO MAKE SURE IS NAMING HAPPENS BEFORE IsInGaming == true
 				g.drawString("ENTER YOUR", 46, (barTwo - (int) table.getBarDistance()) / 2 + (int) table.getBarDistance());
 				g.drawString("NAME, PLEASE", 173, (barTwo - (int) table.getBarDistance()) / 2 + (int) table.getBarDistance());
+
 			if (state.isMyTurn() && !state.isSettingUp()) {
 				g.setColor(Color.RED);
 				g.drawString("YOUR", 95, (barTwo - (int) table.getBarDistance()) / 2 + (int) table.getBarDistance());
@@ -106,24 +108,6 @@ public class CarpetBallComponent extends JComponent implements BallListener {
 		g.drawImage(balls[b.getNumber()], (int) loc.getX() - size, (int) loc.getY() - size, size * 2, size * 2, null);
 	}
 
-
-	// BallListener Implementation
-	public void ballSentIntoMotion(Ball b, float speed, float angle) {
-
-	}
-
-	public void ballRelocated(Ball b, Point2D p) {
-
-	}
-
-	public void ballImpacted(Ball a, Ball b, Point2D impactPoint) {
-
-	}
-
-	@Override
-	public void ballCollidedWithWall(Ball b, float speed, float angle) {
-
-	}
 
 	public void play(String filename) {
 		try {

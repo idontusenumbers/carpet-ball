@@ -1,4 +1,5 @@
 import javax.swing.*;
+import javax.swing.JLabel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -9,19 +10,18 @@ import java.io.IOException;
 import java.util.Arrays;
 
 public class CarpetBall {
-
-	final CarpetBallComponent component;
-	final Engine engine;
-	final NetworkHandler networkHandler;
-	final ControlHandler controlHandler;
-	final JTextField nameField;
-	final JButton nameButton;
+	private Engine engine;
+	private NetworkHandler networkHandler;
+	private ControlHandler controlHandler;
+	private Table table;
+	private GameState state;
 
 
 	public CarpetBall(final boolean debugPhysics) throws IOException {
-		Table table = new Table(700f, 300f, 200f, 50f);
-		final GameState state = new GameState();
+		table = new Table(700f, 300f, 200f, 50f);
+		state = new GameState();
 		state.reset(table);
+		state.setSettingUp(true);
 
 		engine = new Engine(table, state, new BallListener() {
 			public void ballSentIntoMotion(Ball b, float speed, float angle) {
@@ -31,17 +31,13 @@ public class CarpetBall {
 			}
 
 			public void ballImpacted(Ball a, Ball b, Point2D impactPoint) {
-				component.ballImpacted(a, b, impactPoint);
+
 			}
 
 			public void ballCollidedWithWall(Ball b, float speed, float angle) {
 
 			}
 		});
-		component = new CarpetBallComponent(table, state);
-		nameField = new JTextField("Name Here");
-		nameButton = new JButton("Confirm Name");
-
 		networkHandler = new NetworkHandler(table, state, new BallListener() {
 			public void ballSentIntoMotion(Ball b, float speed, float angle) {
 				engine.ballSentIntoMotion(b, speed, angle);
@@ -52,7 +48,7 @@ public class CarpetBall {
 			}
 
 			public void ballImpacted(Ball a, Ball b, Point2D impactPoint) {
-				component.ballImpacted(a, b, impactPoint);
+
 			}
 
 
@@ -79,9 +75,7 @@ public class CarpetBall {
 			public void ballCollidedWithWall(Ball b, float speed, float angle) {
 			}
 		});
-
-
-		CarpetBallFrame frame = new CarpetBallFrame(state);
+		final CarpetBallFrame frame = new CarpetBallFrame(this);
 
 		frame.addWindowListener(new WindowAdapter() {
 			public void windowClosed(WindowEvent e) {
@@ -89,24 +83,11 @@ public class CarpetBall {
 			}
 		});
 
-		frame.setLayout(new GridBagLayout());
-		frame.add(nameField, new GridBagConstraints(0, 0, 1, 1, 1, 1, GridBagConstraints.WEST, GridBagConstraints.NORTHWEST, new Insets(10, 10, 0, 10), 1, 1));
-		frame.add(nameButton, new GridBagConstraints(0, 0, 1, 1, 1, 1, GridBagConstraints.NORTHEAST, GridBagConstraints.NORTHWEST, new Insets(10, 10, 0, 10), 1, 1));
-		frame.add(component, new GridBagConstraints(0, 1, 1, 1, 1, 1, GridBagConstraints.CENTER, GridBagConstraints.BOTH, new Insets(10, 10, 10, 10), 1, 1));
-		frame.pack();
-		frame.getContentPane().setBackground(new Color(200, 165, 80));
-		frame.setResizable(false);
-
-		component.addMouseListener(controlHandler);
-		component.addMouseMotionListener(controlHandler);
-		component.addKeyListener(controlHandler);
-		frame.setVisible(true);
-
 		Timer timer = new Timer(1000 / 60, new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				engine.tick();
-				component.repaint();
+				frame.repaint();
 
 
 				if (debugPhysics) {
@@ -120,6 +101,26 @@ public class CarpetBall {
 		timer.start();
 
 
+	}
+
+	public Engine getEngine() {
+		return engine;
+	}
+
+	public NetworkHandler getNetworkHandler() {
+		return networkHandler;
+	}
+
+	public ControlHandler getControlHandler() {
+		return controlHandler;
+	}
+
+	public Table getTable() {
+		return table;
+	}
+
+	public GameState getState() {
+		return state;
 	}
 
 	public static void main(String[] args) throws IOException {
