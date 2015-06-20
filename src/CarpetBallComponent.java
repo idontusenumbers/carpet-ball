@@ -67,12 +67,12 @@ public class CarpetBallComponent extends JComponent {
 			g.setColor(Color.RED);
 			g.drawString("WAITING FOR PLAYER 2", 85, (barTwo - (int) table.getBarDistance()) / 2 + (int) table.getBarDistance() - 20);
 		} else {
-			if (state.isNaming() && !state.isSettingUp() && !state.isMyTurn())
-				g.setColor(Color.RED);
-				//TODO MAKE SURE IS NAMING HAPPENS BEFORE IsInGaming == true
-				g.drawString("ENTER YOUR", 46, (barTwo - (int) table.getBarDistance()) / 2 + (int) table.getBarDistance());
-				g.drawString("NAME, PLEASE", 173, (barTwo - (int) table.getBarDistance()) / 2 + (int) table.getBarDistance());
-
+//			if (state.isNaming() && !state.isSettingUp() && !state.isMyTurn() && )
+//				g.setColor(Color.RED);
+//				//TODO MAKE SURE IS NAMING HAPPENS BEFORE IsInGaming == true
+//				g.drawString("ENTER YOUR", 46, (barTwo - (int) table.getBarDistance()) / 2 + (int) table.getBarDistance());
+//				g.drawString("NAME, PLEASE", 173, (barTwo - (int) table.getBarDistance()) / 2 + (int) table.getBarDistance());
+//
 
 			if (state.isMyTurn() && !state.isSettingUp()) {
 				g.setColor(Color.RED);

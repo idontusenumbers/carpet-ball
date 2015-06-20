@@ -249,6 +249,7 @@ public class NetworkHandler implements BallListener, GameListener{
         networkOut.flush();
     }
 	public void NameChanged(String getLocalPlayerName){
+
 		if (networkOut == null)
 			return;
 		networkOut.println("NAMECHANGED");
