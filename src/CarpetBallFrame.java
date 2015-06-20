@@ -1,3 +1,5 @@
+import com.sun.xml.internal.bind.v2.runtime.NamespaceContext2;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -7,10 +9,10 @@ import java.awt.event.MouseEvent;
 public class CarpetBallFrame extends JFrame implements GameListener {
 	final CarpetBallComponent component;
 
-	final JTextField nameField;
-	final JButton nameButton;
-	final JLabel namesP1;
-	final JLabel namesP2;
+	JTextField nameField;
+	JButton nameButton;
+	JLabel namesP1;
+	JLabel namesP2;
 
 	public CarpetBallFrame(final CarpetBall carpetball) throws HeadlessException {
 		super("Carpet Ball");
@@ -23,18 +25,22 @@ public class CarpetBallFrame extends JFrame implements GameListener {
 
 		component = new CarpetBallComponent(carpetball);
 		nameField = new JTextField("Name Here");
+		nameField.setMaximumSize(new Dimension(100,100));
 		nameButton = new JButton("Confirm Name");
+		namesP1 = new JLabel();
+		namesP2 = new JLabel();
+
+
 
 		nameButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				carpetball.LocalPlayerNameChanged("change me!");
-
+				carpetball.setLocalPlayerName(nameField.getText());
+				namesP1.setText(nameField.getText());
 			}
 		});
 
-
 		setLayout(new GridBagLayout());
-		add(nameField, new GridBagConstraints(0, 0, 1, 1, 1, 1, GridBagConstraints.WEST, GridBagConstraints.NORTHWEST, new Insets(10, 10, 0, 10), 1, 1));
+		add(nameField, new GridBagConstraints(0, 0, 1, 1, 1, 1, GridBagConstraints.WEST, GridBagConstraints.NORTH, new Insets(10, 10, 0, 10), 1, 1));
 		add(nameButton, new GridBagConstraints(0, 0, 1, 1, 1, 1, GridBagConstraints.NORTHEAST, GridBagConstraints.NORTHWEST, new Insets(10, 10, 0, 10), 1, 1));
 		add(component, new GridBagConstraints(0, 1, 1, 1, 1, 1, GridBagConstraints.CENTER, GridBagConstraints.BOTH, new Insets(10, 10, 10, 10), 1, 1));
 		add(namesP1, new GridBagConstraints(0, 0, 1, 1, 1, 1, GridBagConstraints.NORTH, GridBagConstraints.SOUTHEAST, new Insets(10, 10, 0, 50), 1, 1));
@@ -59,6 +65,6 @@ public class CarpetBallFrame extends JFrame implements GameListener {
 
 	@Override
 	public void NetworkPlayerNameChanged(String playerName) {
-		// TODO update the label that shows the network player name
+		namesP2.setText(playerName);
 	}
 }

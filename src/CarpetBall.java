@@ -9,7 +9,7 @@ import java.awt.geom.Point2D;
 import java.io.IOException;
 import java.util.Arrays;
 
-public class CarpetBall implements GameListener{
+public class CarpetBall{
 	private Engine engine;
 	private NetworkHandler networkHandler;
 	private ControlHandler controlHandler;
@@ -27,6 +27,7 @@ public class CarpetBall implements GameListener{
 		state = new GameState();
 		state.reset(table);
 		state.setSettingUp(true);
+		frame = new CarpetBallFrame(this);
 
 		engine = new Engine(table, state, new BallListener() {
 			public void ballSentIntoMotion(Ball b, float speed, float angle) {
@@ -59,7 +60,7 @@ public class CarpetBall implements GameListener{
 
 			public void ballCollidedWithWall(Ball b, float speed, float angle) {
 			}
-		});
+		}, frame);
 
 		controlHandler = new ControlHandler(table, state, new BallListener() {
 			public void ballSentIntoMotion(Ball b, float speed, float angle) {
@@ -80,7 +81,6 @@ public class CarpetBall implements GameListener{
 			public void ballCollidedWithWall(Ball b, float speed, float angle) {
 			}
 		});
-		frame = new CarpetBallFrame(this);
 
 		frame.addWindowListener(new WindowAdapter() {
 			public void windowClosed(WindowEvent e) {
@@ -134,6 +134,7 @@ public class CarpetBall implements GameListener{
 
 	public void setLocalPlayerName(String localPlayerName) {
 		this.localPlayerName = localPlayerName;
+		networkHandler.LocalPlayerNameChanged(localPlayerName);
 	}
 
 	public String getNetworkPlayerName() {
@@ -142,16 +143,7 @@ public class CarpetBall implements GameListener{
 
 	public void setNetworkPlayerName(String networkPlayerName) {
 		this.networkPlayerName = networkPlayerName;
-	}
-
-	public void LocalPlayerNameChanged(String playerName) {
-		frame.LocalPlayerNameChanged(playerName);
-		networkHandler.LocalPlayerNameChanged(playerName);
-	}
-
-	public void NetworkPlayerNameChanged(String playerName) {
-		frame.LocalPlayerNameChanged(playerName);
-		networkHandler.LocalPlayerNameChanged(playerName);
+		frame.NetworkPlayerNameChanged(networkPlayerName);
 	}
 
 	public static void main(String[] args) throws IOException {

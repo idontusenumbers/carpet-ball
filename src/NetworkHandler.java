@@ -1,3 +1,4 @@
+import javax.swing.*;
 import java.io.*;
 import java.io.IOException;
 import java.net.*;
@@ -11,24 +12,26 @@ public class NetworkHandler implements BallListener, GameListener{
     public static final int TCP_PORT = 46667;
     InetAddress group = InetAddress.getByName("224.6.6.6");
 
+	private CarpetBallFrame frame;
     private Table table;
     private GameState state;
     private BallListener ballListener;
+	private GameListener gameListener;
     MulticastSocket mcs;
     PrintWriter networkOut;
     ServerSocket serverSocket;
 
 
 
-    public NetworkHandler(Table table, GameState state, BallListener ballListener) throws IOException {
+    public NetworkHandler(Table table, GameState state, BallListener ballListener, GameListener gameListener) throws IOException {
         this.table = table;
         this.state = state;
         this.ballListener = ballListener;
+		this.gameListener = gameListener;
 
         ServerSocket ss = new ServerSocket();
         mcs = new MulticastSocket(BROADCAST_PORT);
         mcs.joinGroup(group);
-
 
         // Start thread to listen for broadcasts
         Thread broadcastListener = new Thread(new Runnable(){
@@ -66,8 +69,8 @@ public class NetworkHandler implements BallListener, GameListener{
         TCPListener.start();
 
 
-
-    }
+		frame = null;
+	}
 
     public void broadcast()throws IOException{
         System.out.println("Sending broadcast");
@@ -195,6 +198,12 @@ public class NetworkHandler implements BallListener, GameListener{
                 Ball ball = state.getBall(ballNumber);
                 ball.setLocation(new Point2D.Float(x,y));
             }
+			if(command.contentEquals("NAMECHANGED")){
+				String networkname;
+				networkname = s.nextLine();
+				NetworkPlayerNameChanged(networkname);
+
+			}
         }
     }
 
@@ -239,6 +248,14 @@ public class NetworkHandler implements BallListener, GameListener{
         networkOut.println(angle);
         networkOut.flush();
     }
+	public void NameChanged(String getLocalPlayerName){
+		if (networkOut == null)
+			return;
+		networkOut.println("NAMECHANGED");
+		System.out.println("NAMECHANGED");
+		networkOut.println(getLocalPlayerName);
+		networkOut.flush();
+	}
     public void ballRelocated(Ball b, Point2D p) {
 //        System.out.println("Sending RELOCATED");
         if (networkOut == null)
@@ -259,10 +276,12 @@ public class NetworkHandler implements BallListener, GameListener{
 
 	public void LocalPlayerNameChanged(String playerName) {
 		// TODO send local player name to remote computer
+
 	}
 
 	public void NetworkPlayerNameChanged(String playerName) {
-
+		// TODO tell the carpetballframe that the network player name changed to playerName
+		gameListener.NetworkPlayerNameChanged(playerName);
 	}
 }
 
