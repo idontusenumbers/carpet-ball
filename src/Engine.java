@@ -108,11 +108,11 @@ public class Engine implements BallListener {
         //  right
 		if (x > table.getWidth() - Ball.BALL_RADIUS) {
 			b.setLocation(new Point2D.Float(table.getWidth()-(x-table.getWidth())-Ball.BALL_RADIUS,y));
-			reflectY(b);
+			reflectY(b,new Point2D.Float(x, y));
 		//  left
 		} else if (x < Ball.BALL_RADIUS) {
 			b.setLocation(new Point2D.Float(-x+Ball.BALL_RADIUS,y));
-			reflectY(b);
+			reflectY(b,new Point2D.Float(x, y));
 		}
 		// Check to run into your balls
 		for (Ball ball : state.getMyBalls()) {
@@ -165,16 +165,14 @@ public class Engine implements BallListener {
 	public void ballCollidedWithWall(Ball b, float speed, float angle) {
 	}
 
-	public void reflectY(Ball b) {
-		float newAngle;
-		float a = b.getAngle();
-		if (a > (Math.PI / 2) && a < (3 * Math.PI / 2)) {
-			newAngle = (float) ((Math.PI / 2) - (a - Math.PI / 2));
-		} else {
-			newAngle = (float) (a - (Math.PI / 2 - a));
-		}
-		b.setAngle(newAngle);
-	}
+    public void reflectY(Ball b,Point2D.Float newLocation) {
+        float a = b.getAngle();
+        float x = newLocation.x;
+        if (x > table.getWidth() - Ball.BALL_RADIUS && a > 4.7123889804 && a < 1.5707963268) {
+            a = (float) ((float) 4.7123889804 - a +1.5707963268);
+        }
+        b.setAngle(a);
+    }
 
 	public float getImpactSpeed(Ball a, Ball b, boolean forMovingBall) {
 		if (forMovingBall)
