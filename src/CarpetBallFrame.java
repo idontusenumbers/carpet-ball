@@ -41,6 +41,7 @@ public class CarpetBallFrame extends JFrame implements GameListener {
 				namesP1.setText(nameField.getText());
 				carpetball.getNetworkHandler().NameChanged(namesP1.getText());
 
+
 			}
 		});
 
