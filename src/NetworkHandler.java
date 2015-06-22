@@ -31,7 +31,7 @@ public class NetworkHandler implements BallListener, GameListener{
 
         ServerSocket ss = new ServerSocket();
         mcs = new MulticastSocket(BROADCAST_PORT);
-        mcs.joinGroup(group);
+        mcs.joinGroup(group); // Some macs need '-Djava.net.preferIPv4Stack=true' in the VM args or this throws an exception
 
         // Start thread to listen for broadcasts
         Thread broadcastListener = new Thread(new Runnable(){
