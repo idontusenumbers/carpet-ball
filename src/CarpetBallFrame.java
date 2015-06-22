@@ -9,6 +9,7 @@ import java.awt.event.MouseEvent;
 public class CarpetBallFrame extends JFrame implements GameListener {
 	final CarpetBallComponent component;
 
+
 	JTextField nameField;
 	JButton nameButton;
 	JLabel namesP1;
@@ -33,11 +34,14 @@ public class CarpetBallFrame extends JFrame implements GameListener {
 
 
 
+
 		nameButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				carpetball.setLocalPlayerName(nameField.getText());
 				namesP1.setText(nameField.getText());
-                carpetball.getNetworkHandler().NameChanged(namesP1.getText());
+				carpetball.getNetworkHandler().NameChanged(namesP1.getText());
+
+
 			}
 		});
 
