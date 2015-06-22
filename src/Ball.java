@@ -61,4 +61,5 @@ public class Ball {
     public void setHovered(boolean isHovered) {
         this.isHovered = isHovered;
     }
+
 }

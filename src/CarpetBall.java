@@ -1,6 +1,4 @@
 import javax.swing.*;
-import javax.swing.JLabel;
-import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
@@ -10,6 +8,7 @@ import java.io.IOException;
 import java.util.Arrays;
 
 public class CarpetBall{
+	public static boolean DEBUG_PHYSICS = false;
 	private Engine engine;
 	private NetworkHandler networkHandler;
 	private ControlHandler controlHandler;
@@ -22,14 +21,14 @@ public class CarpetBall{
 
 
 
-	public CarpetBall(final boolean debugPhysics) throws IOException {
+	public CarpetBall() throws IOException {
 		table = new Table(700f, 300f, 200f, 50f);
 		state = new GameState();
 		state.reset(table);
 		state.setSettingUp(true);
 		frame = new CarpetBallFrame(this);
 
-		engine = new Engine(table, state, new BallListener() {
+		engine = new BoxEngine(new BallListener() {
 			public void ballSentIntoMotion(Ball b, float speed, float angle) {
 			}
 
@@ -43,7 +42,7 @@ public class CarpetBall{
 			public void ballCollidedWithWall(Ball b, float speed, float angle) {
 
 			}
-		});
+		}, state, table);
 		networkHandler = new NetworkHandler(table, state, new BallListener() {
 			public void ballSentIntoMotion(Ball b, float speed, float angle) {
 				engine.ballSentIntoMotion(b, speed, angle);
@@ -95,7 +94,7 @@ public class CarpetBall{
 				frame.repaint();
 
 
-				if (debugPhysics) {
+				if (DEBUG_PHYSICS) {
 					state.setInGame(true);
 					state.setSettingUp(false);
 					state.setMyTurn(true);
@@ -148,8 +147,8 @@ public class CarpetBall{
 
 	public static void main(String[] args) throws IOException {
 
-		boolean debugPhysics = Arrays.asList(args).contains("debugphysics");
-		new CarpetBall(debugPhysics);
+		DEBUG_PHYSICS = Arrays.asList(args).contains("debugphysics");
+		new CarpetBall();
 
 	}
 }

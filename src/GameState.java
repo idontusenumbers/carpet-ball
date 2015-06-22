@@ -1,5 +1,11 @@
+import com.sun.deploy.util.ArrayUtil;
+import com.sun.tools.javac.util.ArrayUtils;
+
 import java.awt.geom.Point2D;
 import java.rmi.Naming;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 
 public class GameState {
 	public static final int NUMBER_OF_BALLS_PER_PLAYER = 6;
@@ -93,5 +99,13 @@ public class GameState {
 	public boolean isNaming() { return Naming; }
 
 	public void setIsNaming(boolean Naming) { this.Naming = Naming; }
+
+	public ArrayList<Ball> getAllBalls() {
+		ArrayList<Ball> result = new ArrayList<Ball>(myBalls.length + theirBalls.length +1);
+		Collections.addAll(result, myBalls);
+		Collections.addAll(result, theirBalls);
+		result.add(cueBall);
+		return result;
+	}
 }
 // this.isNaming = isNaming;
