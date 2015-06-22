@@ -9,6 +9,7 @@ import java.io.File;
 import java.io.IOException;
 
 public class CarpetBallComponent extends JComponent {
+	public static final int GUTTER_HEIGHT = 50;
 	private GameState state;
 	private Table table;
 	BufferedImage[] balls = new BufferedImage[13];
@@ -38,21 +39,23 @@ public class CarpetBallComponent extends JComponent {
 		int barTwo = (int) table.getHeight() - (int) table.getBarDistance() - 10;
 		//       g.setColor(new Color(200, 165, 80));
 		//       g.fillRect(0, 0, (int) table.getWidth(), (int) table.getHeight());
-		// sets gutter color
+
 		g.setColor(Color.BLACK);
-		// sets top gutter color to black
+		// top gutter
 		g.fillRect(0, 0, (int) table.getWidth(), (int) table.getGutterDepth());
-		// sets bottom gutter color to black
-		g.fillRect(0, (int) table.getHeight() - 50, (int) table.getWidth(), (int) table.getGutterDepth());
-		//sets table segment (gray part)
+		// bottom gutter
+		g.fillRect(0, (int) table.getHeight() - GUTTER_HEIGHT, (int) table.getWidth(), (int) table.getGutterDepth());
+
+		//table segment (gray part)
 		g.setColor(new Color(117, 117, 117));
 		// sets table area to gray
 		g.fillRect(0, (int) table.getGutterDepth(), (int) table.getWidth(), (int) table.getHeight() - (int) table.getGutterDepth() * 2);
-		// sets bar color
+
+
 		g.setColor(new Color(200, 165, 80));
-		// sets area of top bar
+		// top bar
 		g.fillRect(0, (int) table.getBarDistance(), (int) table.getWidth(), 5);
-		// sets area of bottom bar
+		// bottom bar
 		g.fillRect(0, barTwo, (int) table.getWidth(), 5);
 
 
