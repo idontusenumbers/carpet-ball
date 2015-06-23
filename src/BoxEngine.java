@@ -1,11 +1,13 @@
 import debug.SimPanel;
-import org.jbox2d.collision.shapes.ChainShape;
 import org.jbox2d.collision.shapes.CircleShape;
+import org.jbox2d.collision.shapes.EdgeShape;
+import org.jbox2d.common.Settings;
 import org.jbox2d.common.Transform;
 import org.jbox2d.common.Vec2;
 import org.jbox2d.dynamics.Body;
 import org.jbox2d.dynamics.BodyDef;
 import org.jbox2d.dynamics.BodyType;
+import org.jbox2d.dynamics.FixtureDef;
 import org.jbox2d.dynamics.World;
 
 import javax.swing.JFrame;
@@ -29,8 +31,10 @@ public class BoxEngine extends Engine {
 
 	World world;
 	private SimPanel simPanel;
-	public BoxEngine(CarpetBall carpetBall, BallListener ballListener) {
+	private float carpetFriction;
+	public BoxEngine(CarpetBall carpetBall, BallListener ballListener, float carpetFriction) {
 		super(carpetBall, ballListener);
+		this.carpetFriction = carpetFriction;
 		setupSimulation();
 
 		if (CarpetBall.DEBUG_PHYSICS) {
@@ -49,33 +53,64 @@ public class BoxEngine extends Engine {
 		Vec2 gravity = new Vec2(0, 0);
 		world = new World(gravity);
 
-
 		// create table
-
+		float t = 5 / 2;
 		float x = getTable().getWidth() / 2;
 		float y = getTable().getHeight() / 2;
-		BodyDef wallBody = new BodyDef();
-		ChainShape walls = new ChainShape();
-		walls.createLoop(new Vec2[]{new Vec2(-x * SIM_SCALE, -y * SIM_SCALE), new Vec2(x * SIM_SCALE, -y * SIM_SCALE), new Vec2(x * SIM_SCALE, y * SIM_SCALE), new Vec2(-x * SIM_SCALE, y * SIM_SCALE)}, 4);
-		world.createBody(wallBody).createFixture(walls, 0);
+//		BodyDef wallBody = new BodyDef();
+//		wallBody.type=BodyType.STATIC;
+//		ChainShape walls = new ChainShape();
+//		walls.createLoop(new Vec2[]{new Vec2(-x * SIM_SCALE, -y * SIM_SCALE), new Vec2(x * SIM_SCALE, -y * SIM_SCALE), new Vec2(x * SIM_SCALE, y * SIM_SCALE), new Vec2(-x * SIM_SCALE, y * SIM_SCALE)}, 4);
+//		FixtureDef wallFixture = new FixtureDef();
+//		wallFixture.shape = walls;
+//		wallFixture.restitution=1;
+//		wallFixture.density=1;
+//		world.createBody(wallBody).createFixture(wallFixture);
+
+		// Top
+		createWall(new Vec2(0 * SIM_SCALE, -y * SIM_SCALE), new Vec2(-x, -t), new Vec2(x, t));
+		// Bottom
+		createWall(new Vec2(0 * SIM_SCALE, y * SIM_SCALE), new Vec2(-x, -t), new Vec2(x, t));
+
+		// Left
+		createWall(new Vec2(-x * SIM_SCALE, 0 * SIM_SCALE), new Vec2(-t, -x), new Vec2(t, y));
+		// Right
+		createWall(new Vec2(x * SIM_SCALE, 0 * SIM_SCALE), new Vec2(-t, -x), new Vec2(t, y));
+
 
 		// TODO add one sided wall for gutters?
 
 		// add balls
 
 		for (Ball ball : getState().getAllBalls()) {
-			BodyDef ballBody = new BodyDef();
+			BodyDef ballBodyDef = new BodyDef();
 			CircleShape ballShape = new CircleShape();
 			ballShape.m_radius = Ball.BALL_RADIUS * SIM_SCALE;
-			ballBody.type = BodyType.DYNAMIC;
-			ballBody.position.set(((float) ball.getLocation().getX() - getTable().getWidth() / 2) * SIM_SCALE, ((float) ball.getLocation().getY() - getTable().getHeight() / 2) * SIM_SCALE);
-			ballBody.userData = ball;
-			Body body = world.createBody(ballBody);
-			body.createFixture(ballShape, 1.0f);
+			ballBodyDef.type = BodyType.DYNAMIC;
+			ballBodyDef.position.set(((float) ball.getLocation().getX() - getTable().getWidth() / 2) * SIM_SCALE, ((float) ball.getLocation().getY() - getTable().getHeight() / 2) * SIM_SCALE);
+			ballBodyDef.userData = ball;
+			ballBodyDef.linearDamping = carpetFriction;
+			Body body = world.createBody(ballBodyDef);
+			FixtureDef ballFixture = new FixtureDef();
+			ballFixture.shape = ballShape;
+			ballFixture.restitution = .5f;
+			ballFixture.density = 1;
+			ballFixture.friction = 0;
+			body.createFixture(ballFixture);
 
 			ballToBody.put(ball, body);
 			bodyToBall.put(body, ball);
 		}
+	}
+	private void createWall(Vec2 center, Vec2 bottomRight, Vec2 topLeft) {
+		BodyDef wBodyDef = new BodyDef();
+		wBodyDef.position.set(center);
+		Body wBody = world.createBody(wBodyDef);
+		EdgeShape wShape = new EdgeShape();
+		FixtureDef wFixture = new FixtureDef();
+		wFixture.shape = wShape;
+		wShape.set(topLeft, bottomRight);
+		wBody.createFixture(wFixture);
 	}
 
 	public void tick() {
@@ -93,8 +128,8 @@ public class BoxEngine extends Engine {
 				// TODO update ball angle
 
 
-				ball.setLocation(new Point2D.Float(	((pos.x/SIM_SCALE + getTable().getWidth()/2) * -1.0f) + getTable().getWidth(),
-													((pos.y/SIM_SCALE  + getTable().getHeight()/2) * -1.0f)+ getTable().getHeight()));
+				ball.setLocation(new Point2D.Float(((pos.x / SIM_SCALE + getTable().getWidth() / 2) * -1.0f) + getTable().getWidth(),
+												   ((pos.y / SIM_SCALE + getTable().getHeight() / 2) * -1.0f) + getTable().getHeight()));
 			}
 		}
 	}
@@ -105,7 +140,7 @@ public class BoxEngine extends Engine {
 		Body body = ballToBody.get(b);
 
 		// TODO change from a fixed direction
-		body.applyForceToCenter(new Vec2(1000,1000));
+		body.applyLinearImpulse(new Vec2(50, 50), new Vec2(5,5));
 
 		//b.setAngle(angle);
 		//b.setSpeed(speed);
