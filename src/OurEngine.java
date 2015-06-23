@@ -3,11 +3,14 @@ import java.awt.geom.Point2D;
 
 public class OurEngine extends Engine {
 
-	public OurEngine(Table table, GameState state, BallListener ballListener) {
-		super(ballListener, state, table);
+	public OurEngine(CarpetBall carpetBall, BallListener ballListener) {
+		super(carpetBall, ballListener);
 	}
 
 	public void tick() {
+		GameState state = getState();
+
+
 		// computer understands where the balls are using a for loop
 		for (Ball ball : state.getMyBalls()) {
 			speed(ball);
@@ -21,20 +24,20 @@ public class OurEngine extends Engine {
 			for (Ball theirBall : state.getTheirBalls()) {
 				if (myBall.getLocation().distance(theirBall.getLocation()) < Ball.BALL_RADIUS) {
 					Point2D center = new Point2D.Float((float) (myBall.getLocation().getX() + theirBall.getLocation().getX()) / 2, (float) (myBall.getLocation().getY() + theirBall.getLocation().getY()) / 2);
-					ballListener.ballImpacted(myBall, theirBall, center);
+					getBallListener().ballImpacted(myBall, theirBall, center);
 				}
 			}
 			// impactions where the ball the computer is not focusing on is being impacted
 			for (Ball myOtherBall : state.getMyBalls()) {
 				if (myBall.getLocation().distance(myOtherBall.getLocation()) < Ball.BALL_RADIUS && myOtherBall != myBall) {
 					Point2D center = new Point2D.Float((float) (myBall.getLocation().getX() + myOtherBall.getLocation().getX()) / 2, (float) (myBall.getLocation().getY() + myOtherBall.getLocation().getY()) / 2);
-					ballListener.ballImpacted(myBall, myOtherBall, center);
+					getBallListener().ballImpacted(myBall, myOtherBall, center);
 				}
 			}
 			// cue ball impacting other things
 			if (myBall.getLocation().distance(state.getCueBall().getLocation()) < Ball.BALL_RADIUS) {
 				Point2D center = new Point2D.Float((float) (myBall.getLocation().getX() + state.getCueBall().getLocation().getX()) / 2, (float) (myBall.getLocation().getY() + state.getCueBall().getLocation().getY()) / 2);
-				ballListener.ballImpacted(myBall, state.getCueBall(), center);
+				getBallListener().ballImpacted(myBall, state.getCueBall(), center);
 			}
 		}
 
@@ -89,12 +92,16 @@ public class OurEngine extends Engine {
 
 	// defines whether or not the ball is in the area the gutter occupies on the screen
 	public boolean isInGutter(Ball b) {
+		Table table = getTable();
 		float y = (float) b.getLocation().getY();
 		// defines the area of the gutter on the screen
 		return (y > 0 && y < table.getGutterDepth()) || (y > table.getHeight() - table.getGutterDepth() && y < 700);
 	}
 
 	private void possiblyRepositionDueToWall(Ball b, Point2D.Float newLocation) {
+
+		Table table = getTable();
+		GameState state = getState();
 
 		b.setLocation(newLocation);
 		float x = newLocation.x;
