@@ -14,6 +14,7 @@ public class CarpetBallFrame extends JFrame implements GameListener {
 	JButton nameButton;
 	JLabel namesP1;
 	JLabel namesP2;
+	JButton readyup;
 
 	public CarpetBallFrame(final CarpetBall carpetball) throws HeadlessException {
 		super("Carpet Ball");
@@ -30,6 +31,7 @@ public class CarpetBallFrame extends JFrame implements GameListener {
 		nameButton = new JButton("Confirm Name");
 		namesP1 = new JLabel();
 		namesP2 = new JLabel();
+		readyup = new JButton("READY UP");
 
 
 
@@ -51,7 +53,8 @@ public class CarpetBallFrame extends JFrame implements GameListener {
 		add(component, new GridBagConstraints(0, 1, 1, 1, 1, 1, GridBagConstraints.CENTER, GridBagConstraints.BOTH, new Insets(10, 10, 10, 10), 1, 1));
 		add(namesP1, new GridBagConstraints(0, 0, 1, 1, 1, 1, GridBagConstraints.NORTH, GridBagConstraints.SOUTHEAST, new Insets(10, 10, 0, 50), 1, 1));
 		add(namesP2, new GridBagConstraints(0, 0, 1, 1, 1, 1, GridBagConstraints.SOUTH, GridBagConstraints.SOUTHWEST, new Insets(10, 10, 0, 50), 1, 1));
-		pack();
+		add(readyup, new GridBagConstraints(0, 0, 1, 1, 1, 1, GridBagConstraints.SOUTH, GridBagConstraints.SOUTH, new Insets(10, 10, 0, 10), 1, 1));
+				pack();
 		getContentPane().setBackground(new Color(200, 165, 80));
 		setResizable(false);
 
