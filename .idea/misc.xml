@@ -4,6 +4,13 @@
     <entry_points version="2.0" />
   </component>
   <component name="IdProvider" IDEtalkID="099878F1100C405A679CD73508702B88" />
+  <component name="MavenProjectsManager">
+    <option name="originalFiles">
+      <list>
+        <option value="$PROJECT_DIR$/jbox2d-jbox2d-2.2.1.1/pom.xml" />
+      </list>
+    </option>
+  </component>
   <component name="ProjectRootManager" version="2" languageLevel="JDK_1_6" assert-keyword="true" jdk-15="true" project-jdk-name="1.8" project-jdk-type="JavaSDK">
     <output url="file://$PROJECT_DIR$/out" />
   </component>
@@ -22,4 +29,3 @@
     <option name="mySupportsUserInfoFilter" value="true" />
   </component>
 </project>
-

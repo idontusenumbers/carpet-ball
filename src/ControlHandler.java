@@ -120,7 +120,6 @@ public class ControlHandler implements MouseListener, MouseMotionListener, KeyLi
                     angle+=Math.PI;
                 if (x>=0 && y<0)
                     angle= (float) (2* Math.PI - angle);
-                System.out.println(angle);
             }
         }
     }

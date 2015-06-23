@@ -1,9 +1,9 @@
 <component name="libraryTable">
   <library name="jbox2d">
-    <CLASSES>
-      <root url="file://$PROJECT_DIR$/lib/jbox2d" />
-    </CLASSES>
+    <CLASSES />
     <JAVADOC />
-    <SOURCES />
+    <SOURCES>
+      <root url="file://$PROJECT_DIR$/lib/jbox2d" />
+    </SOURCES>
   </library>
 </component>
