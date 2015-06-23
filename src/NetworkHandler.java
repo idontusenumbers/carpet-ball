@@ -12,21 +12,20 @@ public class NetworkHandler implements BallListener, GameListener{
     public static final int TCP_PORT = 46667;
     InetAddress group = InetAddress.getByName("224.6.6.6");
 
-	private CarpetBallFrame frame;
-    private Table table;
-    private GameState state;
-    private BallListener ballListener;
+	private CarpetBall carpetBall;
+	private BallListener ballListener;
 	private GameListener gameListener;
+
     MulticastSocket mcs;
     PrintWriter networkOut;
     ServerSocket serverSocket;
 
 
 
-    public NetworkHandler(Table table, GameState state, BallListener ballListener, GameListener gameListener) throws IOException {
-        this.table = table;
-        this.state = state;
-        this.ballListener = ballListener;
+    public NetworkHandler(CarpetBall carpetBall, BallListener ballListener, GameListener gameListener) throws IOException {
+		this.carpetBall = carpetBall;
+
+		this.ballListener = ballListener;
 		this.gameListener = gameListener;
 
         ServerSocket ss = new ServerSocket();
@@ -69,7 +68,7 @@ public class NetworkHandler implements BallListener, GameListener{
         TCPListener.start();
 
 
-		frame = null;
+
 	}
 
     public void broadcast()throws IOException{
@@ -110,7 +109,7 @@ public class NetworkHandler implements BallListener, GameListener{
             int remotePort = bytesToInt(buf);
             System.out.println("Received broadcast... ");
 
-            if (state.isInGame()) {
+            if (carpetBall.getState().isInGame()) {
                 System.out.println("... but I'm in game.");
             } else if (isLocalHost(packet.getAddress())
                     && remotePort == serverSocket.getLocalPort()) {
@@ -156,7 +155,7 @@ public class NetworkHandler implements BallListener, GameListener{
 
             System.out.println(socket.getRemoteSocketAddress().toString() + " connected");
             networkOut = new PrintWriter(socket.getOutputStream());
-            state.setMyTurn(true);
+            carpetBall.getState().setMyTurn(true);
             startGame();
             listenForCommands(socket);
         }catch(Exception ex){
@@ -165,13 +164,16 @@ public class NetworkHandler implements BallListener, GameListener{
     }
 
     private void startGame() {
-        state.setInGame(true);
+		GameState state = carpetBall.getState();
+		state.setInGame(true);
         state.setSettingUp(true);
     }
 
     private void listenForCommands(Socket socket) throws IOException {
         System.out.println("Listening for commands");
         Scanner s = new Scanner(socket.getInputStream());
+		GameState state = carpetBall.getState();
+		Table table = carpetBall.getTable();
 
         while(socket.isConnected()) {
             String command = s.nextLine();
@@ -216,7 +218,7 @@ public class NetworkHandler implements BallListener, GameListener{
         Socket socket = new Socket(address, port);
 
         networkOut = new PrintWriter(socket.getOutputStream(),true);
-        state.setMyTurn(false);
+        carpetBall.getState().setMyTurn(false);
         startGame();
         listenForCommands(socket);
 

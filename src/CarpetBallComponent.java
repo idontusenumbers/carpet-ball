@@ -10,14 +10,14 @@ import java.io.IOException;
 
 public class CarpetBallComponent extends JComponent {
 	public static final int GUTTER_HEIGHT = 50;
-	private GameState state;
-	private Table table;
 	BufferedImage[] balls = new BufferedImage[13];
+	private CarpetBall carpetBall;
 
 
 	public CarpetBallComponent(CarpetBall carpetBall) {
-		state = carpetBall.getState();
-		table = carpetBall.getTable();
+		this.carpetBall = carpetBall;
+
+		Table table = carpetBall.getTable();
 
 		setFocusable(true);
 		setPreferredSize(new Dimension((int) table.getWidth(), (int) table.getHeight()));
@@ -30,6 +30,9 @@ public class CarpetBallComponent extends JComponent {
 
 	@Override
 	protected void paintComponent(Graphics g) {
+		GameState state = carpetBall.getState();
+		Table table = carpetBall.getTable();
+
 		Graphics2D g2 = (Graphics2D) g;
 		super.paintComponent(g2);
 		g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
@@ -59,13 +62,9 @@ public class CarpetBallComponent extends JComponent {
 		g.fillRect(0, barTwo, (int) table.getWidth(), 5);
 
 
-		for (Ball ball : state.getMyBalls()) {
+		for (Ball ball : state.getAllBalls()) {
 			drawBall(g2, ball);
 		}
-		for (Ball ball : state.getTheirBalls()) {
-			drawBall(g2, ball);
-		}
-		drawBall(g2, state.getCueBall());
 		if (!state.isInGame()) {
 			g.setColor(Color.RED);
 			g.drawString("WAITING FOR PLAYER 2", 85, (barTwo - (int) table.getBarDistance()) / 2 + (int) table.getBarDistance() - 20);

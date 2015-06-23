@@ -9,9 +9,9 @@ public class ControlHandler implements MouseListener, MouseMotionListener, KeyLi
     float angle = 0;
     Ball activeBall;
 
-    public ControlHandler(Table table, GameState state, BallListener ballListener) {
-        this.table = table;
-        this.state = state;
+    public ControlHandler(CarpetBall carpetBall, BallListener ballListener) {
+        this.table = carpetBall.getTable();
+        this.state = carpetBall.getState();
         this.ballListener = ballListener;
     }
 
@@ -54,7 +54,7 @@ public class ControlHandler implements MouseListener, MouseMotionListener, KeyLi
             activeBall = null;
             if (state.isSettingUp()) {
 
-            } else if (canControlMyTurn()) {
+            } else /*if (canControlMyTurn())*/ {
                 Ball cueBall = state.getCueBall();
                 cueBall.setSpeed((float) velocity);
                 cueBall.setAngle(angle);

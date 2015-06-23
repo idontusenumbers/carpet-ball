@@ -1,15 +1,22 @@
 import java.awt.geom.Point2D;
 
 public abstract class Engine implements BallListener {
-	protected Table table;
-	protected GameState state;
-	protected BallListener ballListener;
-	public Engine(BallListener ballListener, GameState state, Table table) {
+
+	private CarpetBall carpetBall;
+	private BallListener ballListener;
+	public Engine(CarpetBall carpetBall, BallListener ballListener) {
+
+		this.carpetBall = carpetBall;
 		this.ballListener = ballListener;
-		this.state = state;
-		this.table = table;
 	}
 
+	public GameState getState() {return carpetBall.getState();}
+	public Engine getEngine() {return carpetBall.getEngine();}
+	public NetworkHandler getNetworkHandler() {return carpetBall.getNetworkHandler();}
+	public Table getTable() {return carpetBall.getTable();}
+	public CarpetBall getCarpetBall() {
+		return carpetBall;
+	}
 	public abstract void tick();
 
 	// BallListener implementation
@@ -21,4 +28,7 @@ public abstract class Engine implements BallListener {
 	public abstract void ballImpacted(Ball a, Ball b, Point2D impactPoint);
 
 	public abstract void ballCollidedWithWall(Ball b, float speed, float angle);
+	public BallListener getBallListener() {
+		return ballListener;
+	}
 }

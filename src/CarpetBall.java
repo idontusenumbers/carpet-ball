@@ -7,7 +7,7 @@ import java.awt.geom.Point2D;
 import java.io.IOException;
 import java.util.Arrays;
 
-public class CarpetBall{
+public class CarpetBall {
 	public static boolean DEBUG_PHYSICS = false;
 	private Engine engine;
 	private NetworkHandler networkHandler;
@@ -20,48 +20,34 @@ public class CarpetBall{
 	private String networkPlayerName;
 
 
-
 	public CarpetBall() throws IOException {
+
 		table = new Table(700f, 300f, 200f, 50f);
 		state = new GameState();
 		state.reset(table);
-		state.setSettingUp(true);
+
+
+		engine = new BoxEngine(this, null);
 		frame = new CarpetBallFrame(this);
-
-		engine = new BoxEngine(new BallListener() {
+		networkHandler = new NetworkHandler(this, new BallListener() {
 			public void ballSentIntoMotion(Ball b, float speed, float angle) {
-			}
 
-			public void ballRelocated(Ball b, Point2D p) {
-			}
-
-			public void ballImpacted(Ball a, Ball b, Point2D impactPoint) {
-
-			}
-
-			public void ballCollidedWithWall(Ball b, float speed, float angle) {
-
-			}
-		}, state, table);
-		networkHandler = new NetworkHandler(table, state, new BallListener() {
-			public void ballSentIntoMotion(Ball b, float speed, float angle) {
 				engine.ballSentIntoMotion(b, speed, angle);
 			}
 
 			public void ballRelocated(Ball b, Point2D p) {
+
 				engine.ballRelocated(b, p);
 			}
 
 			public void ballImpacted(Ball a, Ball b, Point2D impactPoint) {
 
 			}
-
-
 			public void ballCollidedWithWall(Ball b, float speed, float angle) {
 			}
 		}, frame);
 
-		controlHandler = new ControlHandler(table, state, new BallListener() {
+		controlHandler = new ControlHandler(this, new BallListener() {
 			public void ballSentIntoMotion(Ball b, float speed, float angle) {
 				engine.ballSentIntoMotion(b, speed, angle);
 				networkHandler.ballSentIntoMotion(b, speed, angle);
@@ -81,12 +67,14 @@ public class CarpetBall{
 			}
 		});
 
+
+		state.setSettingUp(true);
 		frame.addWindowListener(new WindowAdapter() {
 			public void windowClosed(WindowEvent e) {
 				networkHandler.shutdown();
 			}
 		});
-
+		frame.addControlHandlerListeners(controlHandler);
 		Timer timer = new Timer(1000 / 60, new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -99,12 +87,9 @@ public class CarpetBall{
 					state.setSettingUp(false);
 					state.setMyTurn(true);
 				}
-
 			}
 		});
 		timer.start();
-
-
 	}
 
 	public Engine getEngine() {
@@ -126,7 +111,9 @@ public class CarpetBall{
 	public GameState getState() {
 		return state;
 	}
-
+	public CarpetBallFrame getFrame() {
+		return frame;
+	}
 	public String getLocalPlayerName() {
 		return localPlayerName;
 	}
@@ -149,6 +136,5 @@ public class CarpetBall{
 
 		DEBUG_PHYSICS = Arrays.asList(args).contains("debugphysics");
 		new CarpetBall();
-
 	}
 }

@@ -56,12 +56,14 @@ public class CarpetBallFrame extends JFrame implements GameListener {
 		setResizable(false);
 
 
-		component.addMouseListener(carpetball.getControlHandler());
-		component.addMouseMotionListener(carpetball.getControlHandler());
-		component.addKeyListener(carpetball.getControlHandler());
 		setVisible(true);
 
 
+	}
+	public void addControlHandlerListeners(ControlHandler controlHandler) {
+		component.addMouseListener(controlHandler);
+		component.addMouseMotionListener(controlHandler);
+		component.addKeyListener(controlHandler);
 	}
 
 	@Override
