@@ -16,6 +16,9 @@ import java.awt.geom.Point2D;
 import java.util.IdentityHashMap;
 import java.util.Map;
 
+/***
+ * JBox2D has a cool settings constants .java file that we need velocityThreshold to be 0, it defaults to 1..
+ */
 public class BoxEngine extends Engine {
 
 	public static final int SIXTIETH_OF_A_SECOND = 1000 / 60;
