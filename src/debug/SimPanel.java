@@ -34,7 +34,7 @@ public class SimPanel extends JPanel {
 			for (Fixture f = b.getFixtureList(); f != null; f = f.getNext()) {
 				Shape shape = f.getShape();
 				float r = shape.getRadius() * scale;
-				float x = t.p.x * scale;
+				float x = t.p.x * scale * -1;
 				float y = (t.p.y * scale * -1);
 				switch (shape.getType()) {
 					case CIRCLE:

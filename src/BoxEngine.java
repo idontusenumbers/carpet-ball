@@ -88,36 +88,15 @@ public class BoxEngine extends Engine {
 			if (b.getUserData() instanceof Ball) {
 				Ball ball = (Ball) b.getUserData();
 
-				ball.setLocation(new Point2D.Float((pos.x / SIM_SCALE + getTable().getWidth() / 2), ((pos.y / SIM_SCALE + getTable().getHeight() / 2) * -1.0f) + getTable().getHeight()));
+				//ball.setLocation(new Point2D.Float((pos.x / SIM_SCALE + getTable().getWidth() / 2), ((pos.y / SIM_SCALE + getTable().getHeight() / 2) * -1.0f) + getTable().getHeight()));
 				// TODO update ball speed
 				// TODO update ball angle
 
 
+				ball.setLocation(new Point2D.Float(	((pos.x/SIM_SCALE + table.getWidth()/2) * -1.0f) + table.getWidth(),
+													((pos.y/SIM_SCALE  + table.getHeight()/2) * -1.0f)+ table.getHeight()));
 			}
 		}
-	}
-
-
-	public float getXComp(float mag, float angle) {
-		if (angle < Math.PI / 2)
-			return (float) (mag * Math.cos(angle));
-		else if (angle < Math.PI)
-			return (float) -(mag * (Math.cos(Math.PI - angle)));
-		else if (angle < Math.PI * 1.5)
-			return (float) -(mag * Math.cos(angle - Math.PI));
-		else
-			return (float) (mag * Math.cos(Math.PI * 2 - angle));
-	}
-
-	public float getYComp(float mag, float angle) {
-		if (angle < Math.PI / 2)
-			return (float) -(mag * Math.sin(angle));
-		else if (angle < Math.PI)
-			return (float) -(mag * Math.sin(Math.PI - angle));
-		else if (angle < Math.PI * 1.5)
-			return (float) (mag * Math.sin(angle - Math.PI));
-		else
-			return (float) (mag * Math.sin(Math.PI * 2 - angle));
 	}
 
 
