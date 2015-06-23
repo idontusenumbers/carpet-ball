@@ -27,7 +27,7 @@ public class CarpetBall {
 		state.reset(table);
 
 
-		engine = new BoxEngine(this, null, 0.01f);
+		engine = new BoxEngine(this, null, 0.005f);
 		frame = new CarpetBallFrame(this);
 		networkHandler = new NetworkHandler(this, new BallListener() {
 			public void ballSentIntoMotion(Ball b, float speed, float angle) {

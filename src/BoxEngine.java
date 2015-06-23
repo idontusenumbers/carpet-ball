@@ -1,4 +1,5 @@
 import debug.SimPanel;
+import org.jbox2d.collision.shapes.ChainShape;
 import org.jbox2d.collision.shapes.CircleShape;
 import org.jbox2d.collision.shapes.EdgeShape;
 import org.jbox2d.common.Settings;
@@ -60,25 +61,25 @@ public class BoxEngine extends Engine {
 		float t = 5 / 2;
 		float x = getTable().getWidth() / 2;
 		float y = getTable().getHeight() / 2;
-//		BodyDef wallBody = new BodyDef();
-//		wallBody.type=BodyType.STATIC;
-//		ChainShape walls = new ChainShape();
-//		walls.createLoop(new Vec2[]{new Vec2(-x * SIM_SCALE, -y * SIM_SCALE), new Vec2(x * SIM_SCALE, -y * SIM_SCALE), new Vec2(x * SIM_SCALE, y * SIM_SCALE), new Vec2(-x * SIM_SCALE, y * SIM_SCALE)}, 4);
-//		FixtureDef wallFixture = new FixtureDef();
-//		wallFixture.shape = walls;
-//		wallFixture.restitution=1;
-//		wallFixture.density=1;
-//		world.createBody(wallBody).createFixture(wallFixture);
+		BodyDef wallBody = new BodyDef();
+		wallBody.type=BodyType.STATIC;
+		ChainShape walls = new ChainShape();
+		walls.createLoop(new Vec2[]{new Vec2(-x * SIM_SCALE, -y * SIM_SCALE), new Vec2(x * SIM_SCALE, -y * SIM_SCALE), new Vec2(x * SIM_SCALE, y * SIM_SCALE), new Vec2(-x * SIM_SCALE, y * SIM_SCALE)}, 4);
+		FixtureDef wallFixture = new FixtureDef();
+		wallFixture.shape = walls;
+		wallFixture.restitution=1;
+		wallFixture.density=1;
+		world.createBody(wallBody).createFixture(wallFixture);
 
 		// Top
-		createWall(new Vec2(0 * SIM_SCALE, -y * SIM_SCALE), new Vec2(-x, -t), new Vec2(x, t));
-		// Bottom
-		createWall(new Vec2(0 * SIM_SCALE, y * SIM_SCALE), new Vec2(-x, -t), new Vec2(x, t));
-
-		// Left
-		createWall(new Vec2(-x * SIM_SCALE, 0 * SIM_SCALE), new Vec2(-t, -x), new Vec2(t, y));
-		// Right
-		createWall(new Vec2(x * SIM_SCALE, 0 * SIM_SCALE), new Vec2(-t, -x), new Vec2(t, y));
+//		createWall(new Vec2(0 * SIM_SCALE, -y * SIM_SCALE), new Vec2(-x, -t), new Vec2(x, t));
+//		// Bottom
+//		createWall(new Vec2(0 * SIM_SCALE, y * SIM_SCALE), new Vec2(-x, -t), new Vec2(x, t));
+//
+//		// Left
+//		createWall(new Vec2(-x * SIM_SCALE, 0 * SIM_SCALE), new Vec2(-t, -x), new Vec2(t, y));
+//		// Right
+//		createWall(new Vec2(x * SIM_SCALE, 0 * SIM_SCALE), new Vec2(-t, -x), new Vec2(t, y));
 
 
 		// TODO add one sided wall for gutters?
