@@ -102,7 +102,7 @@ public class ControlHandler implements MouseListener, MouseMotionListener, KeyLi
                     if (activeBall != null &&
                             mouseY > table.getHeight() - table.getBarDistance() &&
                             mouseY < table.getHeight() - table.getGutterDepth() &&
-                            mouseX > 0f && mouseX < table.getWidth()-Ball.BALL_RADIUS) {
+                            mouseX-Ball.BALL_RADIUS >= 0f && mouseX <= table.getWidth()-Ball.BALL_RADIUS) {
                         ballListener.ballRelocated(activeBall, new Point2D.Float(mouseX, mouseY));
                         break;
                     }
