@@ -39,7 +39,7 @@ public class CarpetBallComponent extends JComponent {
 		g2.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_DEFAULT);
 		g2.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BILINEAR);
 		g2.setRenderingHint(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY);
-		int barTwo = (int) table.getHeight() - (int) table.getBarDistance() - 10;
+		int barTwo = (int) table.getHeight() - (int) table.getBarDistance() - 11;
 		//       g.setColor(new Color(200, 165, 80));
 		//       g.fillRect(0, 0, (int) table.getWidth(), (int) table.getHeight());
 
@@ -90,7 +90,7 @@ public class CarpetBallComponent extends JComponent {
 
 		g.setColor(new Color(200, 165, 80));
 		//top bar
-		g.fillRect(0, (int) table.getBarDistance(), (int) table.getWidth(), 5);
+		g.fillRect(0, (int) table.getBarDistance()+5, (int) table.getWidth(), 5);
 		// bottom bar
 		g.fillRect(0, barTwo, (int) table.getWidth(), 5);
 

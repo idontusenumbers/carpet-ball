@@ -33,15 +33,15 @@ public class GameState {
         number++;
 
         for (int i = 0; i < myBalls.length; i++) {
-//            location = new Point2D.Float(i * 2 * r + r, table.getHeight() - r - table.getGutterDepth());
-            location = new Point2D.Float(table.getWidth()-( i*2* r + r), r + table.getGutterDepth());
+            location = new Point2D.Float(i * 2 * r + r, table.getHeight() - r - table.getGutterDepth());
+//            location = new Point2D.Float(table.getWidth()-( i*2* r + r), r + table.getGutterDepth());
             myBalls[i] = new Ball(number, location);
             number++;
         }
 
         for (int i = 0; i < theirBalls.length; i++) {
-            location = new Point2D.Float(i * 2 * r + r, table.getHeight() - r - table.getGutterDepth());
-//            location = new Point2D.Float(table.getWidth()-( i*2* r + r), r + table.getGutterDepth());
+//            location = new Point2D.Float(i * 2 * r + r, table.getHeight() - r - table.getGutterDepth());
+            location = new Point2D.Float(table.getWidth()-( i*2* r + r), r + table.getGutterDepth());
             theirBalls[i] = new Ball(number, location);
             number++;
         }
