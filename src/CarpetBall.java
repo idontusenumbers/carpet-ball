@@ -86,6 +86,7 @@ public class CarpetBall {
 					state.setInGame(true);
 					state.setSettingUp(false);
 					state.setMyTurn(true);
+
 				}
 			}
 		});

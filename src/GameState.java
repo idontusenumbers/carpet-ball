@@ -14,10 +14,10 @@ public class GameState {
 
 
 
+
 //    boolean connected = false;
 
     public GameState() {
-
     }
     public void reset(Table table){
         float r = Ball.BALL_RADIUS;
@@ -26,7 +26,6 @@ public class GameState {
         theirBalls = new Ball[NUMBER_OF_BALLS_PER_PLAYER];
 
         int number = 0;
-
         Point2D.Float location;
 
         location = new Point2D.Float(table.getWidth()/2, table.getHeight()/2);
