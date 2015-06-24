@@ -114,12 +114,12 @@ public class ControlHandler implements MouseListener, MouseMotionListener, KeyLi
 
 
                 angle = (float) (Math.atan(Math.abs(y)/Math.abs(x)));
-                if (x<0 && y >0)
-                    angle= (float) (Math.PI - angle);
-                if (x<0 && y<=0)
-                    angle+=Math.PI;
-                if (x>=0 && y<0)
-                    angle= (float) (2* Math.PI - angle);
+                if (x < 0 && y > 0)
+                    angle = (float) (Math.PI - angle);
+                if (x < 0 && y <= 0)
+                    angle += Math.PI;
+                if (x >= 0 && y < 0)
+                    angle = (float) (2 * Math.PI - angle);
             }
         }
     }

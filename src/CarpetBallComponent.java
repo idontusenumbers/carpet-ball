@@ -55,11 +55,11 @@ public class CarpetBallComponent extends JComponent {
 		g.fillRect(0, (int) table.getGutterDepth(), (int) table.getWidth(), (int) table.getHeight() - (int) table.getGutterDepth() * 2);
 
 
-		g.setColor(new Color(200, 165, 80));
-		// top bar
-		g.fillRect(0, (int) table.getBarDistance(), (int) table.getWidth(), 5);
-		// bottom bar
-		g.fillRect(0, barTwo, (int) table.getWidth(), 5);
+//		g.setColor(new Color(200, 165, 80));
+//		// top bar
+//		g.fillRect(0, (int) table.getBarDistance(), (int) table.getWidth(), 5);
+//		// bottom bar
+//		g.fillRect(0, barTwo, (int) table.getWidth(), 5);
 
 
 		for (Ball ball : state.getAllBalls()) {
@@ -87,6 +87,12 @@ public class CarpetBallComponent extends JComponent {
 				g.drawString("UP", 175, (barTwo - (int) table.getBarDistance()) / 2 + (int) table.getBarDistance());
 			}
 		}
+
+		g.setColor(new Color(200, 165, 80));
+		//top bar
+		g.fillRect(0, (int) table.getBarDistance(), (int) table.getWidth(), 5);
+		// bottom bar
+		g.fillRect(0, barTwo, (int) table.getWidth(), 5);
 
 	}
 

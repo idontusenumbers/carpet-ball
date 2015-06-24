@@ -53,8 +53,9 @@ public class CarpetBallFrame extends JFrame implements GameListener {
 		readyup.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				state.setSettingUp(false);
+				state.setMyTurn(true);
 				readyup.setVisible(false);
-				//nameButton.setVisible(true);
+//				nameButton.setVisible(true);
 			}
 		});
 
