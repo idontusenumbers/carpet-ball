@@ -66,7 +66,7 @@ public class ControlHandler implements MouseListener, MouseMotionListener, KeyLi
 
     private boolean shouldAllowControl() {
         //return true;
-        return state.isInGame();
+        return state.isSettingUp();
     }
 
     public void mouseEntered(MouseEvent e) {
