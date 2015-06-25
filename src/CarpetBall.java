@@ -27,7 +27,7 @@ public class CarpetBall {
 		state.reset(table);
 
 
-		engine = new BoxEngine(this, null, 0.005f);
+		engine = new BoxEngine(this, createBallListener(), 0.005f);
 		frame = new CarpetBallFrame(this);
 		networkHandler = new NetworkHandler(this, new BallListener() {
 			public void ballSentIntoMotion(Ball b, float speed, float angle) {
@@ -91,6 +91,22 @@ public class CarpetBall {
 			}
 		});
 		timer.start();
+	}
+	private BallListener createBallListener() {
+		return new BallListener() {
+			public void ballSentIntoMotion(Ball b, float speed, float angle) {
+
+			}
+			public void ballRelocated(Ball b, Point2D p) {
+
+			}
+			public void ballImpacted(Ball a, Ball b, Point2D impactPoint) {
+
+			}
+			public void ballCollidedWithWall(Ball b) {
+
+			}
+		};
 	}
 
 	public Engine getEngine() {
