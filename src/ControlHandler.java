@@ -66,6 +66,7 @@ public class ControlHandler implements MouseListener, MouseMotionListener, KeyLi
 
     private boolean shouldAllowControl() {
         //return true;
+
         return state.isSettingUp();
     }
 
@@ -107,7 +108,7 @@ public class ControlHandler implements MouseListener, MouseMotionListener, KeyLi
                         break;
                     }
                 }
-            } else if (state.isMyTurn()) {
+            } else if (state.isInGame()) {
                 velocity = Point2D.distance(mouseX, mouseY, state.getCueBall().getLocation().getX(), state.getCueBall().getLocation().getY());
                 double x = mouseX - state.getCueBall().getLocation().getX();
                 double y = state.getCueBall().getLocation().getY() - mouseY;

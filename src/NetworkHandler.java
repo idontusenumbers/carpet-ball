@@ -166,6 +166,9 @@ public class NetworkHandler implements BallListener, GameListener{
 		GameState state = carpetBall.getState();
 		state.setInGame(true);
         state.setSettingUp(true);
+        if (state.isSettingUp()){
+            System.out.println("FOUND IT in NWH");
+        }
     }
 
     private void listenForCommands(Socket socket) throws IOException {

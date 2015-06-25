@@ -10,7 +10,11 @@ public class GameState {
     private boolean myTurn = true;
     private boolean inGame = false;
     private boolean settingUp = false;
-	private boolean Naming = true;
+	private boolean naming = true;
+    private boolean waiting = true;
+    private boolean ready = false;
+    private boolean theirTurn = false;
+    private boolean endOfGame = false;
 
 
 
@@ -91,10 +95,33 @@ public class GameState {
     public void setInGame(boolean inGame) {
         this.inGame = inGame;
     }
+    public boolean isWaiting(){
+        return waiting;
+    }
+    public boolean isReady(){
+        return ready;
+    }
+    public boolean isTheirTurn(){
+        return theirTurn;
+    }
+    public boolean isEndOfGame(){
+        return endOfGame;
+    }
+    public void setWaiting(boolean waiting){
+        this.waiting = waiting;
+        }
+    public void setReady(boolean ready){
+        this.ready = ready;
+    }
+    public void setTheirTurn(boolean theirTurn){
+        this.theirTurn = theirTurn;
+    }
+    public void setEndOfGame(boolean endOfGame){
+        this.endOfGame = endOfGame;
+    }
+	public boolean isNaming() { return naming; }
 
-	public boolean isNaming() { return Naming; }
-
-	public void setIsNaming(boolean Naming) { this.Naming = Naming; }
+	public void setIsNaming(boolean Naming) { this.naming = Naming; }
 
 	public ArrayList<Ball> getAllBalls() {
 		ArrayList<Ball> result = new ArrayList<Ball>(myBalls.length + theirBalls.length +1);
