@@ -10,14 +10,18 @@ public class GameState {
     private boolean myTurn = true;
     private boolean inGame = false;
     private boolean settingUp = false;
-	private boolean naming = true;
     private boolean waiting = true;
     private boolean ready = false;
     private boolean theirTurn = false;
     private boolean endOfGame = false;
 
 
+    private class InvalidStateException extends Exception {
 
+        public InvalidStateException(String message) {
+            super(message);
+        }
+    }
 
 //    boolean connected = false;
 
@@ -86,6 +90,11 @@ public class GameState {
 
     public void setMyTurn(boolean myTurn) {
         this.myTurn = myTurn;
+        try {
+            ensureOnlyOneStateActive();
+        } catch (InvalidStateException e) {
+            e.printStackTrace();
+        }
     }
 
     public boolean isInGame() {
@@ -98,30 +107,48 @@ public class GameState {
     public boolean isWaiting(){
         return waiting;
     }
-    public boolean isReady(){
+    public boolean isReady() {
         return ready;
     }
-    public boolean isTheirTurn(){
+    public boolean isTheirTurn() {
         return theirTurn;
     }
-    public boolean isEndOfGame(){
+    public boolean isEndOfGame() {
         return endOfGame;
     }
-    public void setWaiting(boolean waiting){
+    public void setWaiting(boolean waiting) {
         this.waiting = waiting;
+        try {
+            ensureOnlyOneStateActive();
+        } catch (InvalidStateException e) {
+            e.printStackTrace();
         }
-    public void setReady(boolean ready){
+        }
+    public void setReady(boolean ready) {
         this.ready = ready;
+        try {
+            ensureOnlyOneStateActive();
+        } catch (InvalidStateException e) {
+            e.printStackTrace();
+        }
     }
-    public void setTheirTurn(boolean theirTurn){
+    public void setTheirTurn(boolean theirTurn) {
         this.theirTurn = theirTurn;
+        try {
+            ensureOnlyOneStateActive();
+        } catch (InvalidStateException e) {
+            e.printStackTrace();
+        }
     }
-    public void setEndOfGame(boolean endOfGame){
+    public void setEndOfGame(boolean endOfGame) {
         this.endOfGame = endOfGame;
+        try {
+            ensureOnlyOneStateActive();
+        } catch (InvalidStateException e) {
+            e.printStackTrace();
+        }
     }
-	public boolean isNaming() { return naming; }
 
-	public void setIsNaming(boolean Naming) { this.naming = Naming; }
 
 	public ArrayList<Ball> getAllBalls() {
 		ArrayList<Ball> result = new ArrayList<Ball>(myBalls.length + theirBalls.length +1);
@@ -130,5 +157,21 @@ public class GameState {
 		result.add(cueBall);
 		return result;
 	}
+
+    private void ensureOnlyOneStateActive() throws InvalidStateException {
+        int trueCount = 0;
+        if (waiting) trueCount++;
+        if (settingUp) trueCount++;
+        if (ready) trueCount++;
+        if (myTurn) trueCount++;
+        if (theirTurn) trueCount++;
+        if (endOfGame) trueCount++;
+
+        if (trueCount > 1) {
+            throw new InvalidStateException("Too many states are active!");
+        } else if (trueCount < 1) {
+            throw new InvalidStateException("Not enough states are active!");
+        }
+
+    }
 }
-// this.isNaming = isNaming;
