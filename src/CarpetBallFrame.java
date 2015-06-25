@@ -53,8 +53,7 @@ public class CarpetBallFrame extends JFrame implements GameListener {
 		readyup.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				state.setSettingUp(false);
-				state.setMyTurn(true);
-                state.setInGame(true);
+                state.setReady(true);
 				readyup.setVisible(false);
                 if (state.isSettingUp()) {
                     System.out.println("set true");

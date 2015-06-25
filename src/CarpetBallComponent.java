@@ -66,34 +66,39 @@ public class CarpetBallComponent extends JComponent {
 		for (Ball ball : state.getAllBalls()) {
 			drawBall(g2, ball);
 		}
-		if (!state.isInGame()) {
+		if (state.isWaiting()) {
 			g.setColor(Color.RED);
 			g.drawString("WAITING FOR PLAYER 2", 85, (barTwo - (int) table.getBarDistance()) / 2 + (int) table.getBarDistance() - 20);
-		} else {
-
-			if (state.isMyTurn() && !state.isSettingUp()) {
-				g.setColor(Color.RED);
-				g.drawString("YOUR", 95, (barTwo - (int) table.getBarDistance()) / 2 + (int) table.getBarDistance());
-				g.drawString("TURN", 175, (barTwo - (int) table.getBarDistance()) / 2 + (int) table.getBarDistance());
-			}
-			if (state.isSettingUp()) {
-				g.setColor(Color.RED);
-				g.drawString("SET", 95, (barTwo - (int) table.getBarDistance()) / 2 + (int) table.getBarDistance());
-				g.drawString("UP", 175, (barTwo - (int) table.getBarDistance()) / 2 + (int) table.getBarDistance());
-			}
-			if (state.isTheirTurn() && !state.isMyTurn()){
-				g.setColor(Color.RED);
-				g.drawString("THEIR", 95, (barTwo - (int) table.getBarDistance()) / 2 + (int) table.getBarDistance());
-				g.drawString("TURN", 175, (barTwo - (int) table.getBarDistance()) / 2 + (int) table.getBarDistance());
-			}
-			if (state.isEndOfGame()){
-				g.setColor(Color.RED);
-				g.drawString("THE", 95, (barTwo - (int) table.getBarDistance()) / 2 + (int) table.getBarDistance());
-				g.drawString("END", 175, (barTwo - (int) table.getBarDistance()) / 2 + (int) table.getBarDistance());
-				g.drawString("WINS", 85, (barTwo - (int) table.getBarDistance()) / 2 + (int) table.getBarDistance() - 20);
-			}
-
 		}
+
+        if (state.isMyTurn()) {
+            g.setColor(Color.RED);
+            g.drawString("YOUR", 95, (barTwo - (int) table.getBarDistance()) / 2 + (int) table.getBarDistance());
+            g.drawString("TURN", 175, (barTwo - (int) table.getBarDistance()) / 2 + (int) table.getBarDistance());
+        }
+        if (state.isSettingUp()) {
+            g.setColor(Color.RED);
+            g.drawString("SET", 95, (barTwo - (int) table.getBarDistance()) / 2 + (int) table.getBarDistance());
+            g.drawString("UP", 175, (barTwo - (int) table.getBarDistance()) / 2 + (int) table.getBarDistance());
+        }
+        if (state.isTheirTurn()){
+            g.setColor(Color.RED);
+            g.drawString("THEIR", 95, (barTwo - (int) table.getBarDistance()) / 2 + (int) table.getBarDistance());
+            g.drawString("TURN", 175, (barTwo - (int) table.getBarDistance()) / 2 + (int) table.getBarDistance());
+        }
+        if (state.isEndOfGame()){
+            g.setColor(Color.RED);
+            g.drawString("THE", 95, (barTwo - (int) table.getBarDistance()) / 2 + (int) table.getBarDistance());
+            g.drawString("END", 175, (barTwo - (int) table.getBarDistance()) / 2 + (int) table.getBarDistance());
+            g.drawString("WINS", 85, (barTwo - (int) table.getBarDistance()) / 2 + (int) table.getBarDistance() - 20);
+        }
+        if (state.isReady()){
+            g.setColor(Color.RED);
+            g.drawString("Please", 95, (barTwo - (int) table.getBarDistance()) / 2 + (int) table.getBarDistance());
+            g.drawString("Wait", 175, (barTwo - (int) table.getBarDistance()) / 2 + (int) table.getBarDistance());
+        }
+
+
 
 		g.setColor(new Color(200, 165, 80));
 		//top bar

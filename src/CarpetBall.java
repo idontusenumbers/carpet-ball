@@ -68,10 +68,7 @@ public class CarpetBall {
 		});
 
 
-		state.setSettingUp(true);
-        if (state.isSettingUp()){
-            System.out.println("FOUND IT in cb.java");
-        }
+
 		frame.addWindowListener(new WindowAdapter() {
 			public void windowClosed(WindowEvent e) {
 				networkHandler.shutdown();

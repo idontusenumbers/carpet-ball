@@ -7,7 +7,7 @@ public class GameState {
 	private Ball[] myBalls;
 	private Ball[] theirBalls;
     private Ball cueBall;
-    private boolean myTurn = true;
+    private boolean myTurn = false;
     private boolean inGame = false;
     private boolean settingUp = false;
     private boolean waiting = true;

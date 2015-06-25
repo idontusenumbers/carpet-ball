@@ -154,7 +154,7 @@ public class NetworkHandler implements BallListener, GameListener{
 
             System.out.println(socket.getRemoteSocketAddress().toString() + " connected");
             networkOut = new PrintWriter(socket.getOutputStream());
-            carpetBall.getState().setMyTurn(true);
+            carpetBall.getState().setSettingUp(true);
             startGame();
             listenForCommands(socket);
         }catch(Exception ex){
@@ -164,11 +164,7 @@ public class NetworkHandler implements BallListener, GameListener{
 
     private void startGame() {
 		GameState state = carpetBall.getState();
-		state.setInGame(true);
-        state.setSettingUp(true);
-        if (state.isSettingUp()){
-            System.out.println("FOUND IT in NWH");
-        }
+
     }
 
     private void listenForCommands(Socket socket) throws IOException {
@@ -178,6 +174,8 @@ public class NetworkHandler implements BallListener, GameListener{
 		Table table = carpetBall.getTable();
 
         while(socket.isConnected()) {
+            state.setWaiting(false);
+            state.setSettingUp(true);
             String command = s.nextLine();
 //            System.out.println("Received " + command);
             if(command.contentEquals("THROW")){
