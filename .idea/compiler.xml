@@ -22,28 +22,24 @@
         <sourceTestOutputDir name="target\generated-test-sources\test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <processorPath useClasspath="true" />
-        <module name="jbox2d-serialization" />
       </profile>
       <profile default="false" name="Annotation profile for jbox2d-library" enabled="true">
         <sourceOutputDir name="target\generated-sources\annotations" />
         <sourceTestOutputDir name="target\generated-test-sources\test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <processorPath useClasspath="true" />
-        <module name="jbox2d-library" />
       </profile>
       <profile default="false" name="Annotation profile for jbox2d-testbed" enabled="true">
         <sourceOutputDir name="target\generated-sources\annotations" />
         <sourceTestOutputDir name="target\generated-test-sources\test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <processorPath useClasspath="true" />
-        <module name="jbox2d-testbed" />
       </profile>
       <profile default="false" name="Annotation profile for jbox2d-testbed-jogl" enabled="true">
         <sourceOutputDir name="target\generated-sources\annotations" />
         <sourceTestOutputDir name="target\generated-test-sources\test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <processorPath useClasspath="true" />
-        <module name="jbox2d-testbed-jogl" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
@@ -55,4 +51,3 @@
     </bytecodeTargetLevel>
   </component>
 </project>
-
