@@ -1,4 +1,3 @@
-import java.awt.*;
 import java.awt.geom.Point2D;
 
 public class OurEngine extends Engine {
@@ -164,7 +163,7 @@ public class OurEngine extends Engine {
 	}
 
 
-	public void ballCollidedWithWall(Ball b, float speed, float angle) {
+	public void ballCollidedWithWall(Ball b) {
 	}
 
 	public void reflectY(Ball b) {

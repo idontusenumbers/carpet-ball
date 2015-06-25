@@ -43,7 +43,7 @@ public class CarpetBall {
 			public void ballImpacted(Ball a, Ball b, Point2D impactPoint) {
 
 			}
-			public void ballCollidedWithWall(Ball b, float speed, float angle) {
+			public void ballCollidedWithWall(Ball b) {
 			}
 		}, frame);
 
@@ -63,7 +63,7 @@ public class CarpetBall {
 			}
 
 			@Override
-			public void ballCollidedWithWall(Ball b, float speed, float angle) {
+			public void ballCollidedWithWall(Ball b) {
 			}
 		});
 

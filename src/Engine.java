@@ -28,7 +28,7 @@ public abstract class Engine implements BallListener {
 
 	public abstract void ballImpacted(Ball a, Ball b, Point2D impactPoint);
 
-	public abstract void ballCollidedWithWall(Ball b, float speed, float angle);
+	public abstract void ballCollidedWithWall(Ball b);
 	public BallListener getBallListener() {
 		return ballListener;
 	}

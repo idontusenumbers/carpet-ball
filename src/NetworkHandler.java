@@ -1,4 +1,3 @@
-import javax.swing.*;
 import java.io.*;
 import java.io.IOException;
 import java.net.*;
@@ -273,7 +272,7 @@ public class NetworkHandler implements BallListener, GameListener{
 
     }
 
-	public void ballCollidedWithWall(Ball b, float speed, float angle) {
+	public void ballCollidedWithWall(Ball b) {
 
 	}
 
