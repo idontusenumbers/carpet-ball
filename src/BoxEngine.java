@@ -27,6 +27,8 @@ import java.util.Map;
  */
 public class BoxEngine extends Engine {
 
+	private ControlHandler controlHandler;
+
 	public static final int SIXTIETH_OF_A_SECOND = 1000 / 60;
 	public static final int VELOCITY_ITERATIONS = 8;
 	public static final int POSITION_ITERATIONS = 3;
@@ -64,7 +66,7 @@ public class BoxEngine extends Engine {
 	private void setupSimulation() {
 		Vec2 gravity = new Vec2(0, 0);
 		world = new World(gravity);
-		world.setContactListener(getContacListener());
+		world.setContactListener(getContactListener());
 
 		// create table
 		float x = getTable().getWidth() / 2;
@@ -143,7 +145,7 @@ public class BoxEngine extends Engine {
 		Body body = ballToBody.get(b);
 
 		// TODO change from a fixed direction
-		body.applyLinearImpulse(new Vec2(50, 50), new Vec2(5, 5));
+		body.applyLinearImpulse(new Vec2(controlHandler.adjacent, controlHandler.opposite), new Vec2(5, 5));
 
 		//b.setAngle(angle);
 		//b.setSpeed(speed);
@@ -155,7 +157,7 @@ public class BoxEngine extends Engine {
 	}
 	public void ballImpacted(Ball a, Ball b, Point2D impactPoint) {}
 	public void ballCollidedWithWall(Ball b) {}
-	public ContactListener getContacListener() {
+	public ContactListener getContactListener() {
 		return new ContactListener() {
 			public void beginContact(Contact contact) {
 				WorldManifold worldManifold = new WorldManifold();

@@ -1,7 +1,9 @@
 import java.awt.event.*;
 import java.awt.geom.Point2D;
 
-public class ControlHandler implements MouseListener, MouseMotionListener, KeyListener {
+public class ControlHandler implements MouseListener, MouseMotionListener, KeyListener{
+	public float opposite;
+	public float adjacent;
     private Table table;
     private GameState state;
     private BallListener ballListener;
@@ -121,6 +123,8 @@ public class ControlHandler implements MouseListener, MouseMotionListener, KeyLi
                     angle += Math.PI;
                 if (x >= 0 && y < 0)
                     angle = (float) (2 * Math.PI - angle);
+				opposite = (float) (Math.sin(angle)*(velocity));
+				adjacent = (float) (Math.cos(angle)*(velocity));
             }
         }
     }

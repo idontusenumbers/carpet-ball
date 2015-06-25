@@ -12,6 +12,7 @@ public class CarpetBallComponent extends JComponent {
 	public static final int GUTTER_HEIGHT = 50;
 	BufferedImage[] balls = new BufferedImage[13];
 	private CarpetBall carpetBall;
+	private CarpetBallFrame carpetBallFrame;
 
 
 	public CarpetBallComponent(CarpetBall carpetBall) {
@@ -69,12 +70,6 @@ public class CarpetBallComponent extends JComponent {
 			g.setColor(Color.RED);
 			g.drawString("WAITING FOR PLAYER 2", 85, (barTwo - (int) table.getBarDistance()) / 2 + (int) table.getBarDistance() - 20);
 		} else {
-//			if (state.isNaming() && !state.isSettingUp() && !state.isMyTurn() && )
-//				g.setColor(Color.RED);
-//				//TODO MAKE SURE IS NAMING HAPPENS BEFORE IsInGaming == true
-//				g.drawString("ENTER YOUR", 46, (barTwo - (int) table.getBarDistance()) / 2 + (int) table.getBarDistance());
-//				g.drawString("NAME, PLEASE", 173, (barTwo - (int) table.getBarDistance()) / 2 + (int) table.getBarDistance());
-//
 
 			if (state.isMyTurn() && !state.isSettingUp()) {
 				g.setColor(Color.RED);
@@ -86,6 +81,18 @@ public class CarpetBallComponent extends JComponent {
 				g.drawString("SET", 95, (barTwo - (int) table.getBarDistance()) / 2 + (int) table.getBarDistance());
 				g.drawString("UP", 175, (barTwo - (int) table.getBarDistance()) / 2 + (int) table.getBarDistance());
 			}
+			if (state.isTheirTurn() && !state.isMyTurn()){
+				g.setColor(Color.RED);
+				g.drawString("THEIR", 95, (barTwo - (int) table.getBarDistance()) / 2 + (int) table.getBarDistance());
+				g.drawString("TURN", 175, (barTwo - (int) table.getBarDistance()) / 2 + (int) table.getBarDistance());
+			}
+			if (state.isEndOfGame()){
+				g.setColor(Color.RED);
+				g.drawString("THE", 95, (barTwo - (int) table.getBarDistance()) / 2 + (int) table.getBarDistance());
+				g.drawString("END", 175, (barTwo - (int) table.getBarDistance()) / 2 + (int) table.getBarDistance());
+				g.drawString("WINS", 85, (barTwo - (int) table.getBarDistance()) / 2 + (int) table.getBarDistance() - 20);
+			}
+
 		}
 
 		g.setColor(new Color(200, 165, 80));
