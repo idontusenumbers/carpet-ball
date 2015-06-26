@@ -1,41 +1,31 @@
-import java.util.ArrayList;
+import java.util.*;
 
 public enum GamePhase {
-    WAITING(new ArrayList<GamePhase>() {{
-        add(SETTING_UP);
-    }}),
+    WAITING,
+    SETTING_UP,
+    READY,
+    MY_TURN,
+    THEIR_TURN,
+    END_OF_GAME;
 
-    SETTING_UP(new ArrayList<GamePhase>() {{
-        add(READY);
-    }}),
+    static Map<GamePhase, List<GamePhase>> transitionMap;
 
-    READY(new ArrayList<GamePhase>() {{
-        add(MY_TURN);
-        add(THEIR_TURN);
-    }}),
 
-    MY_TURN(new ArrayList<GamePhase>() {{
-        add(THEIR_TURN);
-        add(END_OF_GAME);
-    }}),
-
-    THEIR_TURN(new ArrayList<GamePhase>() {{
-        add(MY_TURN);
-        add(END_OF_GAME);
-    }}),
-
-    END_OF_GAME(new ArrayList<GamePhase>() {{
-        add(SETTING_UP);
-    }});
-
-    private ArrayList<GamePhase> transitionList;
-
-    GamePhase(ArrayList<GamePhase> transitionList) {
-        this.transitionList = transitionList;
+    static {
+        transitionMap.put(WAITING, createPhaseList(SETTING_UP));
+        transitionMap.put(SETTING_UP, createPhaseList(READY));
+        transitionMap.put(READY, createPhaseList(MY_TURN, THEIR_TURN));
+        transitionMap.put(MY_TURN, createPhaseList(THEIR_TURN, END_OF_GAME));
+        transitionMap.put(THEIR_TURN, createPhaseList(MY_TURN, END_OF_GAME));
+        transitionMap.put(END_OF_GAME, createPhaseList(SETTING_UP));
     }
 
-    public ArrayList<GamePhase> validTransitions() {
-        return this.transitionList;
+    private static List<GamePhase> createPhaseList(GamePhase... phases) {
+        return Arrays.asList(phases);
+    }
+
+    public List<GamePhase> validTransitions() {
+        return transitionMap.get(this);
     }
 
 }
