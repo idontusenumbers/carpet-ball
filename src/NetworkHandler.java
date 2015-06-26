@@ -24,7 +24,7 @@ public class NetworkHandler implements BallListener, GameListener{
 
     public NetworkHandler(CarpetBall carpetBall, BallListener ballListener, GameListener gameListener) throws IOException {
 		this.carpetBall = carpetBall;
-
+        state = carpetBall.getState();
 		this.ballListener = ballListener;
 		this.gameListener = gameListener;
 
@@ -173,6 +173,7 @@ public class NetworkHandler implements BallListener, GameListener{
         Scanner s = new Scanner(socket.getInputStream());
 		GameState state = carpetBall.getState();
 		Table table = carpetBall.getTable();
+        Boolean opponentready = false;
 
         int counter = 0;
         if (socket.isConnected() && counter == 0){
@@ -219,23 +220,29 @@ public class NetworkHandler implements BallListener, GameListener{
 
 			}
             if (command.contentEquals("IAMREADY")){
+                System.out.println("ready recived");
+            }
+            if (command.contentEquals("IAMREADY")) {
                 System.out.println("Opponent is ready.");
-                if (state.getPhase() == GamePhase.READY){
-                    double highernumgoesfirst = Math.random();
-                    networkOut.println(highernumgoesfirst);
-                    double compare = s.nextDouble();
-                    if (compare > highernumgoesfirst){
-                        try {
-                            state.advancePhase(GamePhase.THEIR_TURN);
-                        } catch (GameState.InvalidStateException e) {
-                            e.printStackTrace();
-                        }
-                    } else {
-                        try {
-                            state.advancePhase(GamePhase.MY_TURN);
-                        } catch (GameState.InvalidStateException e) {
-                            e.printStackTrace();
-                        }
+                opponentready = true;
+            }
+            if (state.getPhase() == GamePhase.READY && opponentready){
+                double highernumgoesfirst = Math.random();
+                System.out.println("highnum"+highernumgoesfirst);
+                networkOut.println(highernumgoesfirst);
+                double compare = s.nextDouble();
+                System.out.println("recived to comp"+compare);
+                if (compare > highernumgoesfirst){
+                    try {
+                        state.advancePhase(GamePhase.THEIR_TURN);
+                    } catch (GameState.InvalidStateException e) {
+                        e.printStackTrace();
+                    }
+                } else {
+                    try {
+                        state.advancePhase(GamePhase.MY_TURN);
+                    } catch (GameState.InvalidStateException e) {
+                        e.printStackTrace();
                     }
                 }
             }
