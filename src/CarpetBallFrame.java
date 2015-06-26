@@ -9,7 +9,7 @@ import java.io.IOException;
 
 public class CarpetBallFrame extends JFrame implements GameListener {
 	final CarpetBallComponent component;
-	final GameState state = new GameState();
+	final GameState state;
 
 
 
@@ -37,7 +37,7 @@ public class CarpetBallFrame extends JFrame implements GameListener {
 		readyup = new JButton("READY UP");
 
 
-
+        state = carpetball.getState();
 
 
 		nameButton.addActionListener(new ActionListener() {
