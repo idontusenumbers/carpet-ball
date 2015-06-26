@@ -7,18 +7,19 @@ public class GameState {
     private Ball[] myBalls;
     private Ball[] theirBalls;
     private Ball cueBall;
-    private GamePhase phase;
+    private GamePhase phase = GamePhase.WAITING;
     private boolean opponentReady = false;
     private boolean myTurn = false;
     private boolean inGame = false;
     private boolean settingUp = false;
-    private boolean waiting = true;
+    private boolean waiting = false;
     private boolean ready = false;
     private boolean theirTurn = false;
     private boolean endOfGame = false;
 
 
-    private class InvalidStateException extends Exception {
+
+    public class InvalidStateException extends Exception {
 
         public InvalidStateException(String message) {
             super(message);
@@ -155,6 +156,8 @@ public class GameState {
     }
 
     public void advancePhase(GamePhase phase) throws InvalidStateException {
+        System.out.println("this phase = " + this.phase);
+        System.out.println("phase = " + phase);
         if(this.phase.validTransitions().contains(phase)) {
             this.phase = phase;
         } else {

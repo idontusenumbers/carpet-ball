@@ -66,33 +66,34 @@ public class CarpetBallComponent extends JComponent {
 		for (Ball ball : state.getAllBalls()) {
 			drawBall(g2, ball);
 		}
-		if (state.isWaiting()) {
+
+        if (carpetBall.getState().getPhase() == GamePhase.WAITING) {
 			g.setColor(Color.RED);
 			g.drawString("WAITING FOR PLAYER 2", 85, (barTwo - (int) table.getBarDistance()) / 2 + (int) table.getBarDistance() - 20);
 		}
 
-        if (state.isMyTurn()) {
+        if (carpetBall.getState().getPhase() == GamePhase.MY_TURN) {
             g.setColor(Color.RED);
             g.drawString("YOUR", 95, (barTwo - (int) table.getBarDistance()) / 2 + (int) table.getBarDistance());
             g.drawString("TURN", 175, (barTwo - (int) table.getBarDistance()) / 2 + (int) table.getBarDistance());
         }
-        if (state.isSettingUp()) {
+        if (carpetBall.getState().getPhase() == GamePhase.SETTING_UP) {
             g.setColor(Color.RED);
             g.drawString("SET", 95, (barTwo - (int) table.getBarDistance()) / 2 + (int) table.getBarDistance());
             g.drawString("UP", 175, (barTwo - (int) table.getBarDistance()) / 2 + (int) table.getBarDistance());
         }
-        if (state.isTheirTurn()){
+        if (carpetBall.getState().getPhase() == GamePhase.THEIR_TURN){
             g.setColor(Color.RED);
             g.drawString("THEIR", 95, (barTwo - (int) table.getBarDistance()) / 2 + (int) table.getBarDistance());
             g.drawString("TURN", 175, (barTwo - (int) table.getBarDistance()) / 2 + (int) table.getBarDistance());
         }
-        if (state.isEndOfGame()){
+        if (carpetBall.getState().getPhase() == GamePhase.END_OF_GAME){
             g.setColor(Color.RED);
             g.drawString("THE", 95, (barTwo - (int) table.getBarDistance()) / 2 + (int) table.getBarDistance());
             g.drawString("END", 175, (barTwo - (int) table.getBarDistance()) / 2 + (int) table.getBarDistance());
             g.drawString("WINS", 85, (barTwo - (int) table.getBarDistance()) / 2 + (int) table.getBarDistance() - 20);
         }
-        if (state.isReady()){
+        if (carpetBall.getState().getPhase() == GamePhase.READY){
             g.setColor(Color.RED);
             g.drawString("Please", 95, (barTwo - (int) table.getBarDistance()) / 2 + (int) table.getBarDistance());
             g.drawString("Wait", 175, (barTwo - (int) table.getBarDistance()) / 2 + (int) table.getBarDistance());

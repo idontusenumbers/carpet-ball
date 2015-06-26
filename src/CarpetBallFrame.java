@@ -5,6 +5,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
+import java.io.IOException;
 
 public class CarpetBallFrame extends JFrame implements GameListener {
 	final CarpetBallComponent component;
@@ -52,15 +53,19 @@ public class CarpetBallFrame extends JFrame implements GameListener {
 
 		readyup.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				state.setSettingUp(false);
-                state.setReady(true);
-				readyup.setVisible(false);
-                if (state.isSettingUp()) {
-                    System.out.println("set true");
+                try {
+                    state.advancePhase(GamePhase.READY);
+                } catch (GameState.InvalidStateException e1) {
+                    e1.printStackTrace();
                 }
-                if (!state.isSettingUp()) {
-                    System.out.println("set false");
+                try {
+
+                    carpetball.getNetworkHandler().sendReady();
+                    System.out.println("sent ready");
+                } catch (IOException e2) {
+                    e2.printStackTrace();
                 }
+                readyup.setVisible(false);
 //				nameButton.setVisible(true);
 			}
 		});
@@ -89,7 +94,7 @@ public class CarpetBallFrame extends JFrame implements GameListener {
 	public void addControlHandlerListeners(ControlHandler controlHandler) {
 		component.addMouseListener(controlHandler);
 		component.addMouseMotionListener(controlHandler);
-		component.addKeyListener(controlHandler);
+
 	}
 
 	@Override

@@ -14,6 +14,7 @@ public class NetworkHandler implements BallListener, GameListener{
 	private CarpetBall carpetBall;
 	private BallListener ballListener;
 	private GameListener gameListener;
+    public GameState state;
 
     MulticastSocket mcs;
     PrintWriter networkOut;
@@ -173,9 +174,20 @@ public class NetworkHandler implements BallListener, GameListener{
 		GameState state = carpetBall.getState();
 		Table table = carpetBall.getTable();
 
+        int counter = 0;
+        if (socket.isConnected() && counter == 0){
+            counter++;
+            try {
+                state.advancePhase(GamePhase.SETTING_UP);
+                if (carpetBall.getState().getPhase() == GamePhase.SETTING_UP){
+                    System.out.println("moving to set up");
+                }
+            } catch (GameState.InvalidStateException e) {
+                e.printStackTrace();
+            }
+        }
         while(socket.isConnected()) {
-            state.setWaiting(false);
-            state.setSettingUp(true);
+
             String command = s.nextLine();
 //            System.out.println("Received " + command);
             if(command.contentEquals("THROW")){
@@ -206,6 +218,27 @@ public class NetworkHandler implements BallListener, GameListener{
 				NetworkPlayerNameChanged(networkname);
 
 			}
+            if (command.contentEquals("IAMREADY")){
+                System.out.println("Opponent is ready.");
+                if (state.getPhase() == GamePhase.READY){
+                    double highernumgoesfirst = Math.random();
+                    networkOut.println(highernumgoesfirst);
+                    double compare = s.nextDouble();
+                    if (compare > highernumgoesfirst){
+                        try {
+                            state.advancePhase(GamePhase.THEIR_TURN);
+                        } catch (GameState.InvalidStateException e) {
+                            e.printStackTrace();
+                        }
+                    } else {
+                        try {
+                            state.advancePhase(GamePhase.MY_TURN);
+                        } catch (GameState.InvalidStateException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }
+            }
         }
     }
 
@@ -259,6 +292,12 @@ public class NetworkHandler implements BallListener, GameListener{
 		networkOut.println(getLocalPlayerName);
 		networkOut.flush();
 	}
+    public void sendReady() throws IOException {
+        if (state.getPhase() == GamePhase.READY){
+            networkOut.println("IAMREADY");
+        }
+
+    }
     public void ballRelocated(Ball b, Point2D p) {
 //        System.out.println("Sending RELOCATED");
         if (networkOut == null)

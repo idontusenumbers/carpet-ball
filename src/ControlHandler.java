@@ -6,12 +6,16 @@ public class ControlHandler implements MouseListener, MouseMotionListener, KeyLi
 	public float adjacent;
     private Table table;
     private GameState state;
+    private  CarpetBall carpetBall;
+    private Engine engine;
     private BallListener ballListener;
     double velocity = 0;
     float angle = 0;
     Ball activeBall;
 
     public ControlHandler(CarpetBall carpetBall, BallListener ballListener) {
+        this.carpetBall = carpetBall;
+        this.engine = carpetBall.getEngine();
         this.table = carpetBall.getTable();
         this.state = carpetBall.getState();
         this.ballListener = ballListener;
@@ -61,7 +65,11 @@ public class ControlHandler implements MouseListener, MouseMotionListener, KeyLi
                 cueBall.setSpeed((float) velocity);
                 cueBall.setAngle(angle);
                 ballListener.ballSentIntoMotion(cueBall, (float) velocity, angle);
-                state.setMyTurn(false);
+                try {
+                    state.advancePhase(GamePhase.THEIR_TURN);
+                } catch (GameState.InvalidStateException e1) {
+                    e1.printStackTrace();
+                }
             }
         }
     }
@@ -116,16 +124,17 @@ public class ControlHandler implements MouseListener, MouseMotionListener, KeyLi
                 double y = state.getCueBall().getLocation().getY() - mouseY;
 
 
-                angle = (float) (Math.atan(Math.abs(y)/Math.abs(x)));
-                if (x < 0 && y > 0)
+                angle = (float) (Math.atan(Math.abs(y) / Math.abs(x)));
+                if (x < 0 && y > 0) {
                     angle = (float) (Math.PI - angle);
-                if (x < 0 && y <= 0)
+                }
+                if (x < 0 && y <= 0){
                     angle += Math.PI;
-                if (x >= 0 && y < 0)
+                }
+                if (x >= 0 && y < 0) {
                     angle = (float) (2 * Math.PI - angle);
-				opposite = (float) (Math.sin(angle)*(velocity));
-				adjacent = (float) (Math.cos(angle)*(velocity));
-
+                }
+                engine.ballSentIntoMotion(activeBall, (float) velocity,angle);
             }
         }
     }
