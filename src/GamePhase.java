@@ -8,7 +8,7 @@ public enum GamePhase {
     THEIR_TURN,
     END_OF_GAME;
 
-    static Map<GamePhase, List<GamePhase>> transitionMap;
+    static Map<GamePhase, List<GamePhase>> transitionMap = new EnumMap<GamePhase, List<GamePhase>>(GamePhase.class);
 
 
     static {
