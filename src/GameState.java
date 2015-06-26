@@ -3,10 +3,11 @@ import java.util.ArrayList;
 import java.util.Collections;
 
 public class GameState {
-	public static final int NUMBER_OF_BALLS_PER_PLAYER = 6;
-	private Ball[] myBalls;
-	private Ball[] theirBalls;
+    public static final int NUMBER_OF_BALLS_PER_PLAYER = 6;
+    private Ball[] myBalls;
+    private Ball[] theirBalls;
     private Ball cueBall;
+    private GamePhase phase;
     private boolean myTurn = false;
     private boolean inGame = false;
     private boolean settingUp = false;
@@ -27,7 +28,9 @@ public class GameState {
 
     public GameState() {
     }
-    public void reset(Table table){
+
+    public void reset(Table table) {
+        this.phase = GamePhase.WAITING;
         float r = Ball.BALL_RADIUS;
 
         myBalls = new Ball[NUMBER_OF_BALLS_PER_PLAYER];
@@ -36,7 +39,7 @@ public class GameState {
         int number = 0;
         Point2D.Float location;
 
-        location = new Point2D.Float(table.getWidth()/2, table.getHeight()/2);
+        location = new Point2D.Float(table.getWidth() / 2, table.getHeight() / 2);
         cueBall = new Ball(number, location);
         number++;
 
@@ -49,13 +52,13 @@ public class GameState {
 
         for (int i = 0; i < theirBalls.length; i++) {
 //            location = new Point2D.Float(i * 2 * r + r, table.getHeight() - r - table.getGutterDepth());
-            location = new Point2D.Float(table.getWidth()-( i*2* r + r), r + table.getGutterDepth());
+            location = new Point2D.Float(table.getWidth() - (i * 2 * r + r), r + table.getGutterDepth());
             theirBalls[i] = new Ball(number, location);
             number++;
         }
     }
 
-    public Ball getBall(int ballNumber){
+    public Ball getBall(int ballNumber) {
         if (ballNumber == 0)
             return cueBall;
         for (Ball b : myBalls) {
@@ -68,18 +71,23 @@ public class GameState {
         }
         throw new RuntimeException("Could not find ball: " + ballNumber);
     }
+
     public boolean isSettingUp() {
         return settingUp;
     }
+
     public void setSettingUp(boolean settingUp) {
         this.settingUp = settingUp;
     }
+
     public Ball getCueBall() {
         return cueBall;
     }
+
     public Ball[] getMyBalls() {
         return myBalls;
     }
+
     public Ball[] getTheirBalls() {
         return theirBalls;
     }
@@ -90,11 +98,6 @@ public class GameState {
 
     public void setMyTurn(boolean myTurn) {
         this.myTurn = myTurn;
-        try {
-            ensureOnlyOneStateActive();
-        } catch (InvalidStateException e) {
-            e.printStackTrace();
-        }
     }
 
     public boolean isInGame() {
@@ -104,73 +107,57 @@ public class GameState {
     public void setInGame(boolean inGame) {
         this.inGame = inGame;
     }
-    public boolean isWaiting(){
+
+    public boolean isWaiting() {
         return waiting;
     }
+
     public boolean isReady() {
         return ready;
     }
+
     public boolean isTheirTurn() {
         return theirTurn;
     }
+
     public boolean isEndOfGame() {
         return endOfGame;
     }
+
     public void setWaiting(boolean waiting) {
         this.waiting = waiting;
-        try {
-            ensureOnlyOneStateActive();
-        } catch (InvalidStateException e) {
-            e.printStackTrace();
-        }
-        }
+    }
+
     public void setReady(boolean ready) {
         this.ready = ready;
-        try {
-            ensureOnlyOneStateActive();
-        } catch (InvalidStateException e) {
-            e.printStackTrace();
-        }
     }
+
     public void setTheirTurn(boolean theirTurn) {
         this.theirTurn = theirTurn;
-        try {
-            ensureOnlyOneStateActive();
-        } catch (InvalidStateException e) {
-            e.printStackTrace();
-        }
     }
+
     public void setEndOfGame(boolean endOfGame) {
         this.endOfGame = endOfGame;
-        try {
-            ensureOnlyOneStateActive();
-        } catch (InvalidStateException e) {
-            e.printStackTrace();
-        }
     }
 
 
-	public ArrayList<Ball> getAllBalls() {
-		ArrayList<Ball> result = new ArrayList<Ball>(myBalls.length + theirBalls.length +1);
-		Collections.addAll(result, myBalls);
-		Collections.addAll(result, theirBalls);
-		result.add(cueBall);
-		return result;
-	}
+    public ArrayList<Ball> getAllBalls() {
+        ArrayList<Ball> result = new ArrayList<Ball>(myBalls.length + theirBalls.length + 1);
+        Collections.addAll(result, myBalls);
+        Collections.addAll(result, theirBalls);
+        result.add(cueBall);
+        return result;
+    }
 
-    private void ensureOnlyOneStateActive() throws InvalidStateException {
-        int trueCount = 0;
-        if (waiting) trueCount++;
-        if (settingUp) trueCount++;
-        if (ready) trueCount++;
-        if (myTurn) trueCount++;
-        if (theirTurn) trueCount++;
-        if (endOfGame) trueCount++;
+    public GamePhase getPhase() {
+        return phase;
+    }
 
-        if (trueCount > 1) {
-            throw new InvalidStateException("Too many states are active!");
-        } else if (trueCount < 1) {
-            throw new InvalidStateException("Not enough states are active!");
+    public void advancePhase(GamePhase phase) throws InvalidStateException {
+        if(this.phase.validTransitions().contains(phase)) {
+            this.phase = phase;
+        } else {
+            throw new InvalidStateException("Invalid phase transition: " + this.phase + " to " + phase);
         }
 
     }

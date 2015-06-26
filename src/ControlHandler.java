@@ -125,6 +125,7 @@ public class ControlHandler implements MouseListener, MouseMotionListener, KeyLi
                     angle = (float) (2 * Math.PI - angle);
 				opposite = (float) (Math.sin(angle)*(velocity));
 				adjacent = (float) (Math.cos(angle)*(velocity));
+
             }
         }
     }
